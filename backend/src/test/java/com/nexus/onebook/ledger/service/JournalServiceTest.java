@@ -6,6 +6,9 @@ import com.nexus.onebook.ledger.exception.UnbalancedTransactionException;
 import com.nexus.onebook.ledger.model.*;
 import com.nexus.onebook.ledger.repository.JournalTransactionRepository;
 import com.nexus.onebook.ledger.repository.LedgerAccountRepository;
+import com.nexus.onebook.ledger.security.AuditLogService;
+import com.nexus.onebook.ledger.security.BlindIndexService;
+import com.nexus.onebook.ledger.security.FieldEncryptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +34,15 @@ class JournalServiceTest {
 
     @Mock
     private LedgerAccountRepository accountRepository;
+
+    @Mock
+    private FieldEncryptionService encryptionService;
+
+    @Mock
+    private BlindIndexService blindIndexService;
+
+    @Mock
+    private AuditLogService auditLogService;
 
     @InjectMocks
     private JournalService journalService;
@@ -52,6 +65,10 @@ class JournalServiceTest {
         creditAccount.setAccountName("Revenue");
         creditAccount.setAccountType(AccountType.REVENUE);
         creditAccount.setTenantId("tenant-1");
+
+        // Encryption stubs — passthrough for unit tests
+        lenient().when(encryptionService.encrypt(anyString())).thenAnswer(inv -> "ENC:" + inv.getArgument(0));
+        lenient().when(blindIndexService.generateBlindIndex(anyString())).thenReturn("blind-index-hash");
     }
 
     // --- validateBalance tests ---
