@@ -32,12 +32,12 @@
 
 **Goal:** Build the core accounting engine — the heart of the system — using a sector-agnostic data model.
 
-- [ ] Design the **Universal Secured Ledger** SQL schema with JSONB columns for industry-specific metadata (Patient ID, VIN, SKU, etc.).
-- [ ] Implement the **Double-Entry Accounting Engine** (every transaction creates balanced debit/credit entries).
-- [ ] Build master data management: Chart of Accounts, Ledger Groups, Cost Centers.
-- [ ] Implement multi-entity hierarchy support (Enterprise → Branch → Cost Center).
-- [ ] Create seed data and migration scripts for initial account structures.
-- [ ] Write comprehensive unit and integration tests for ledger integrity (balance assertions, orphan detection).
+- [x] Design the **Universal Secured Ledger** SQL schema with JSONB columns for industry-specific metadata (Patient ID, VIN, SKU, etc.).
+- [x] Implement the **Double-Entry Accounting Engine** (every transaction creates balanced debit/credit entries).
+- [x] Build master data management: Chart of Accounts, Ledger Groups, Cost Centers.
+- [x] Implement multi-entity hierarchy support (Enterprise → Branch → Cost Center).
+- [x] Create seed data and migration scripts for initial account structures.
+- [x] Write comprehensive unit and integration tests for ledger integrity (balance assertions, orphan detection).
 
 **Exit Criteria:** Ability to create accounts, post journal entries, and verify trial balance correctness through automated tests.
 
