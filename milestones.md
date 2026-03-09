@@ -10,12 +10,16 @@
 
 **Goal:** Establish the project skeleton, CI/CD pipeline, and foundational infrastructure so every subsequent milestone builds on solid ground.
 
-- [ ] Set up the monorepo structure (backend / frontend / shared libraries).
-- [ ] Bootstrap **Spring Boot 3.4+** (Java 21+) backend with Virtual Threads enabled.
-- [ ] Bootstrap **Angular 19+** frontend with Signals-based state management.
+- [x] Set up the monorepo structure (backend / frontend / shared libraries).
+- [x] Bootstrap **Spring Boot 3.4+** (Java 21+) backend with Virtual Threads enabled.
+- [x] Bootstrap **Angular 19+** frontend with Signals-based state management.
 - [ ] Provision **PostgreSQL 17+** with Row-Level Security (RLS) enabled.
-- [ ] Provision **Redis 7+** for session and cache management.
+  - [x] PostgreSQL 17 provisioned via Docker Compose and backend configured.
+  - [ ] Row-Level Security (RLS) policies not yet enabled.
+- [x] Provision **Redis 7+** for session and cache management.
 - [ ] Configure CI/CD pipelines (build, lint, test, deploy) and containerised local development (Docker Compose).
+  - [x] Docker Compose configured for local development (PostgreSQL 17 + Redis 7).
+  - [ ] CI/CD pipelines (GitHub Actions for build, lint, test, deploy) not yet created.
 - [ ] Define coding standards, branching strategy, and PR review workflows.
 
 **Exit Criteria:** A deployable "Hello World" stack where all four layers (Angular → Spring Boot → Redis → PostgreSQL) communicate end-to-end.
