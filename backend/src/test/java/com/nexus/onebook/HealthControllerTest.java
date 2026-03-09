@@ -1,5 +1,6 @@
 package com.nexus.onebook;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,18 +31,25 @@ class HealthControllerTest {
     @MockitoBean
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Test
-    void healthEndpointReturnsUpWhenAllComponentsUp() throws Exception {
-        Connection connection = mock(Connection.class);
-        Statement statement = mock(Statement.class);
-        when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.createStatement()).thenReturn(statement);
-        when(statement.execute("SELECT 1")).thenReturn(true);
+    private Connection dbConnection;
+    private Statement dbStatement;
+    private RedisConnection redisConnection;
 
-        RedisConnection redisConnection = mock(RedisConnection.class);
+    @BeforeEach
+    void setUp() throws Exception {
+        dbConnection = mock(Connection.class);
+        dbStatement = mock(Statement.class);
+        when(dataSource.getConnection()).thenReturn(dbConnection);
+        when(dbConnection.createStatement()).thenReturn(dbStatement);
+        when(dbStatement.execute("SELECT 1")).thenReturn(true);
+
+        redisConnection = mock(RedisConnection.class);
         when(redisConnectionFactory.getConnection()).thenReturn(redisConnection);
         when(redisConnection.ping()).thenReturn("PONG");
+    }
 
+    @Test
+    void healthEndpointReturnsUpWhenAllComponentsUp() throws Exception {
         mockMvc.perform(get("/api/health"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("UP"))
@@ -53,12 +61,6 @@ class HealthControllerTest {
 
     @Test
     void healthEndpointReturnsDegradedWhenRedisDown() throws Exception {
-        Connection connection = mock(Connection.class);
-        Statement statement = mock(Statement.class);
-        when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.createStatement()).thenReturn(statement);
-        when(statement.execute("SELECT 1")).thenReturn(true);
-
         when(redisConnectionFactory.getConnection()).thenThrow(new RuntimeException("Connection refused"));
 
         mockMvc.perform(get("/api/health"))
@@ -71,10 +73,6 @@ class HealthControllerTest {
     @Test
     void healthEndpointReturnsDegradedWhenPostgresqlDown() throws Exception {
         when(dataSource.getConnection()).thenThrow(new RuntimeException("Connection refused"));
-
-        RedisConnection redisConnection = mock(RedisConnection.class);
-        when(redisConnectionFactory.getConnection()).thenReturn(redisConnection);
-        when(redisConnection.ping()).thenReturn("PONG");
 
         mockMvc.perform(get("/api/health"))
                 .andExpect(status().isOk())
