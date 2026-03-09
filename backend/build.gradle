@@ -25,8 +25,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // PostgreSQL Driver
-    runtimeOnly 'org.postgresql:postgresql'
+    // PostgreSQL Driver — pinned to 42.7.7+ to fix CVE in channelBinding
+    runtimeOnly 'org.postgresql:postgresql:42.7.7'
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
