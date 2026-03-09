@@ -99,6 +99,9 @@
 - [ ] Implement the **Universal Mapper** — transforms any adapter output into the core Double-Entry format with JSONB industry tags.
 - [ ] Add validation, error handling, dead-letter queues, and retry policies for inbound events.
 - [ ] Write adapter-specific integration tests with mock external systems.
+- [ ] Build HRM/Payroll Connector: A specialized endpoint to ingest bulk salary disbursements with automated TDS and PF ledger posting.
+
+[ ] Build Inventory Event Listener: To capture 'Stock-In/Stock-Out' events from Pharmacy/Stores and update the 'Valuation of Inventory' in the General Ledger.
 
 **Exit Criteria:** Financial events from at least three different industry protocols are successfully ingested, transformed, and posted as balanced ledger entries.
 
@@ -114,6 +117,7 @@
 - [ ] Support multi-currency with real-time exchange rate integration.
 - [ ] Implement report export (PDF, Excel, CSV) and scheduled report generation.
 - [ ] Write compliance validation tests against known tax scenarios.
+- [ ] Implement Consolidated Cost-Center Reporting: Merge financial data from Pharmacy/Stores events with Payroll costs for true departmental Profit & Loss (P&L) analysis.
 
 **Exit Criteria:** A tenant can be configured for a specific country/tax regime, generate statutory reports, and pass validation against sample regulatory filings.
 
