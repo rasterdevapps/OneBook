@@ -38,6 +38,14 @@ spring:
       host: localhost
       port: 6379
 
+# Zero-Knowledge Security Layer (Milestone 3)
+onebook:
+  security:
+    encryption:
+      # 64-char hex = 256-bit master key. Override via ONEBOOK_SECURITY_ENCRYPTION_MASTER_KEY env var.
+      master-key: ${ONEBOOK_SECURITY_ENCRYPTION_MASTER_KEY:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+      key-version: 1
+
 # Actuator endpoints
 management:
   endpoints:

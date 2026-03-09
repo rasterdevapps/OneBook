@@ -14,4 +14,11 @@ public interface LedgerAccountRepository extends JpaRepository<LedgerAccount, Lo
 
     Optional<LedgerAccount> findByTenantIdAndCostCenterIdAndAccountCode(
             String tenantId, Long costCenterId, String accountCode);
+
+    /**
+     * Searches by blind index (HMAC-SHA256 hash of account name).
+     * Enables exact-match searches on encrypted fields without exposing plaintext.
+     */
+    List<LedgerAccount> findByTenantIdAndAccountNameBlindIndex(
+            String tenantId, String accountNameBlindIndex);
 }

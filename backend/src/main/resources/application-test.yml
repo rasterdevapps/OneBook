@@ -34,6 +34,13 @@ spring:
   flyway:
     enabled: false
 
+# Zero-Knowledge Security Layer — test key (NOT for production)
+onebook:
+  security:
+    encryption:
+      master-key: aa11bb22cc33dd44ee55ff6600112233aa11bb22cc33dd44ee55ff6600112233
+      key-version: 1
+
 management:
   endpoints:
     web:

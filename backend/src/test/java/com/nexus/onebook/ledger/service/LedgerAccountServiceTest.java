@@ -6,6 +6,9 @@ import com.nexus.onebook.ledger.model.CostCenter;
 import com.nexus.onebook.ledger.model.LedgerAccount;
 import com.nexus.onebook.ledger.repository.CostCenterRepository;
 import com.nexus.onebook.ledger.repository.LedgerAccountRepository;
+import com.nexus.onebook.ledger.security.AuditLogService;
+import com.nexus.onebook.ledger.security.BlindIndexService;
+import com.nexus.onebook.ledger.security.FieldEncryptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,6 +32,15 @@ class LedgerAccountServiceTest {
 
     @Mock
     private CostCenterRepository costCenterRepository;
+
+    @Mock
+    private FieldEncryptionService encryptionService;
+
+    @Mock
+    private BlindIndexService blindIndexService;
+
+    @Mock
+    private AuditLogService auditLogService;
 
     @InjectMocks
     private LedgerAccountService accountService;
@@ -41,6 +54,10 @@ class LedgerAccountServiceTest {
         costCenter.setTenantId("tenant-1");
         costCenter.setCode("CC-001");
         costCenter.setName("General");
+
+        // Encryption stubs — passthrough for unit tests
+        lenient().when(encryptionService.encrypt(anyString())).thenAnswer(inv -> "ENC:" + inv.getArgument(0));
+        lenient().when(blindIndexService.generateBlindIndex(anyString())).thenReturn("blind-index-hash");
     }
 
     @Test
