@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.TrialBalanceLine;
 import com.nexus.onebook.ledger.dto.TrialBalanceReport;
 import com.nexus.onebook.ledger.model.EntryType;
@@ -19,25 +20,48 @@ import java.util.Map;
  * Service for generating trial balance reports.
  * Aggregates posted journal entries by account to produce
  * a trial balance showing total debits and credits per account.
+ * Uses cache-aside pattern: check Redis first, fall back to DB.
  */
 @Service
 public class TrialBalanceService {
 
     private final JournalEntryRepository entryRepository;
+    private final WarmCacheService warmCacheService;
 
-    public TrialBalanceService(JournalEntryRepository entryRepository) {
+    public TrialBalanceService(JournalEntryRepository entryRepository,
+                               WarmCacheService warmCacheService) {
         this.entryRepository = entryRepository;
+        this.warmCacheService = warmCacheService;
     }
 
     /**
      * Generates a trial balance report for a given tenant.
-     * Only includes entries from posted transactions.
+     * Uses cache-aside: returns cached result if available, otherwise
+     * computes from DB and caches the result.
      *
      * @param tenantId the tenant identifier
      * @return a TrialBalanceReport with per-account totals and overall balance check
      */
     @Transactional(readOnly = true)
     public TrialBalanceReport generateTrialBalance(String tenantId) {
+        // Cache-aside: try Redis first
+        TrialBalanceReport cached = warmCacheService.getTrialBalance(tenantId);
+        if (cached != null) {
+            return cached;
+        }
+
+        TrialBalanceReport report = computeTrialBalance(tenantId);
+        warmCacheService.putTrialBalance(tenantId, report);
+        return report;
+    }
+
+    /**
+     * Computes the trial balance from posted journal entries (DB-only, no cache).
+     * This is extracted for use by both the cache-aside path and the warm-cache
+     * population logic.
+     */
+    @Transactional(readOnly = true)
+    public TrialBalanceReport computeTrialBalance(String tenantId) {
         List<JournalEntry> postedEntries = entryRepository.findPostedEntriesByTenantId(tenantId);
 
         // Aggregate by account

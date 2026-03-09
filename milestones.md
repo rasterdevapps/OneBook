@@ -61,16 +61,16 @@
 
 ## Milestone 4 — Redis "Warm Cache" & Performance Strategy
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Eliminate encryption-induced latency for active users by decrypting and caching their working set in Redis upon login.
 
-- [ ] Design the Active Session Cache strategy — on login, decrypt the user's current working set into Redis.
-- [ ] Implement cache population, invalidation, and eviction policies.
-- [ ] Integrate Virtual Threads (Project Loom) for handling high-concurrency API calls from external systems (HMS, ERP, DMS).
-- [ ] Benchmark and tune: target sub-100 ms response times for common ledger and report queries.
-- [ ] Implement cache-aside and write-through patterns to keep Redis and PostgreSQL in sync.
-- [ ] Load-test with simulated concurrent sessions to validate throughput goals.
+- [x] Design the Active Session Cache strategy — on login, decrypt the user's current working set into Redis.
+- [x] Implement cache population, invalidation, and eviction policies.
+- [x] Integrate Virtual Threads (Project Loom) for handling high-concurrency API calls from external systems (HMS, ERP, DMS).
+- [x] Benchmark and tune: target sub-100 ms response times for common ledger and report queries.
+- [x] Implement cache-aside and write-through patterns to keep Redis and PostgreSQL in sync.
+- [x] Load-test with simulated concurrent sessions to validate throughput goals.
 
 **Exit Criteria:** Authenticated users experience near-instant UI interactions; system sustains thousands of concurrent virtual-thread connections under load.
 
@@ -224,7 +224,7 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 | 1 | Foundation & Core Architecture | ✅ Complete | — |
 | 2 | Universal Ledger & Double-Entry Engine | ✅ Complete | 1 |
 | 3 | Zero-Knowledge Security Layer & Controls | ✅ Complete | 2 |
-| 4 | Redis Warm Cache & Performance | ⬜ Not Started | 3 |
+| 4 | Redis Warm Cache & Performance | ✅ Complete | 3 |
 | 5 | Keyboard Navigation & Command Palette | ⬜ Not Started | 1 |
 | 6 | Universal Ingestion, Integrations & Automation | ⬜ Not Started | 2 |
 | 7 | Reporting, Tax, Compliance & FAR | ⬜ Not Started | 2, 6 |

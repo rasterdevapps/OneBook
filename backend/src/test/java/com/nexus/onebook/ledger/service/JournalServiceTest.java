@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.JournalEntryRequest;
 import com.nexus.onebook.ledger.dto.JournalTransactionRequest;
 import com.nexus.onebook.ledger.exception.UnbalancedTransactionException;
@@ -43,6 +44,9 @@ class JournalServiceTest {
 
     @Mock
     private AuditLogService auditLogService;
+
+    @Mock
+    private WarmCacheService warmCacheService;
 
     @InjectMocks
     private JournalService journalService;

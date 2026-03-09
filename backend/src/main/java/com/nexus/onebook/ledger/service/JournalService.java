@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.JournalEntryRequest;
 import com.nexus.onebook.ledger.dto.JournalTransactionRequest;
 import com.nexus.onebook.ledger.exception.UnbalancedTransactionException;
@@ -18,8 +19,8 @@ import java.util.List;
 /**
  * Core double-entry accounting service.
  * Validates that sum(debits) == sum(credits) before any transaction is committed.
- * Integrates field-level encryption, blind indexing, and audit logging
- * as part of the Zero-Knowledge Security Layer.
+ * Integrates field-level encryption, blind indexing, audit logging,
+ * and Redis warm-cache invalidation on writes.
  */
 @Service
 public class JournalService {
@@ -29,17 +30,20 @@ public class JournalService {
     private final FieldEncryptionService encryptionService;
     private final BlindIndexService blindIndexService;
     private final AuditLogService auditLogService;
+    private final WarmCacheService warmCacheService;
 
     public JournalService(JournalTransactionRepository transactionRepository,
                           LedgerAccountRepository accountRepository,
                           FieldEncryptionService encryptionService,
                           BlindIndexService blindIndexService,
-                          AuditLogService auditLogService) {
+                          AuditLogService auditLogService,
+                          WarmCacheService warmCacheService) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
         this.encryptionService = encryptionService;
         this.blindIndexService = blindIndexService;
         this.auditLogService = auditLogService;
+        this.warmCacheService = warmCacheService;
     }
 
     /**
@@ -102,6 +106,9 @@ public class JournalService {
         // Audit trail: log the transaction creation
         auditLogService.logInsert(request.tenantId(), "journal_transactions", saved.getId(),
                 "{\"transactionUuid\":\"" + saved.getTransactionUuid() + "\"}");
+
+        // Cache invalidation: trial balance is now stale
+        warmCacheService.evictTrialBalance(request.tenantId());
 
         return saved;
     }

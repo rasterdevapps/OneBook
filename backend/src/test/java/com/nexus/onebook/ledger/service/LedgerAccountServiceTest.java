@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.LedgerAccountRequest;
 import com.nexus.onebook.ledger.model.AccountType;
 import com.nexus.onebook.ledger.model.CostCenter;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -42,6 +44,9 @@ class LedgerAccountServiceTest {
     @Mock
     private AuditLogService auditLogService;
 
+    @Mock
+    private WarmCacheService warmCacheService;
+
     @InjectMocks
     private LedgerAccountService accountService;
 
@@ -58,6 +63,10 @@ class LedgerAccountServiceTest {
         // Encryption stubs — passthrough for unit tests
         lenient().when(encryptionService.encrypt(anyString())).thenAnswer(inv -> "ENC:" + inv.getArgument(0));
         lenient().when(blindIndexService.generateBlindIndex(anyString())).thenReturn("blind-index-hash");
+
+        // Cache stubs — simulate cold cache (cache misses) for unit tests
+        lenient().when(warmCacheService.getAccountsByTenant(anyString())).thenReturn(null);
+        lenient().when(warmCacheService.getAccountById(anyLong())).thenReturn(null);
     }
 
     @Test
