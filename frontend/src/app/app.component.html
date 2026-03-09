@@ -1,0 +1,15 @@
+<main class="onebook-shell">
+  <header>
+    <h1>{{ title() }}</h1>
+    <p class="tagline">A modern nexus accounting software</p>
+  </header>
+
+  <section class="status-panel">
+    <p>{{ statusMessage() }}</p>
+    @if (threadInfo()) {
+      <p class="thread-info">Thread: {{ threadInfo() }}</p>
+    }
+  </section>
+
+  <router-outlet />
+</main>
