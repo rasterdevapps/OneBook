@@ -39,10 +39,12 @@ spring:
       port: 6379
 
 # Zero-Knowledge Security Layer (Milestone 3)
+# In production, set ONEBOOK_SECURITY_ENCRYPTION_MASTER_KEY env var to a
+# cryptographically random 64-char hex string (256 bits). The default below
+# is for local development ONLY and must never be used in production.
 onebook:
   security:
     encryption:
-      # 64-char hex = 256-bit master key. Override via ONEBOOK_SECURITY_ENCRYPTION_MASTER_KEY env var.
       master-key: ${ONEBOOK_SECURITY_ENCRYPTION_MASTER_KEY:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
       key-version: 1
 
