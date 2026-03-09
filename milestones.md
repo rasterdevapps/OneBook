@@ -47,11 +47,11 @@
 
 **Goal:** Ensure that sensitive financial data is unreadable at rest and by database administrators, while remaining fully searchable and performant.
 
-- [ ] Implement **Selective Field-Level Encryption (AES-256-GCM)** in the JVM layer for sensitive values and names before database persistence.
-- [ ] Build **Blind Indexing (HMAC-SHA256)** to enable fast, encrypted-field search without exposing plaintext.
-- [ ] Implement the **Hash-Chained Audit Trail** — each audit record cryptographically linked to its predecessor for tamper detection.
-- [ ] Design and implement key management (envelope encryption, key rotation strategy).
-- [ ] Add encryption/decryption integration tests and tamper-detection tests for the audit chain.
+- [x] Implement **Selective Field-Level Encryption (AES-256-GCM)** in the JVM layer for sensitive values and names before database persistence.
+- [x] Build **Blind Indexing (HMAC-SHA256)** to enable fast, encrypted-field search without exposing plaintext.
+- [x] Implement the **Hash-Chained Audit Trail** — each audit record cryptographically linked to its predecessor for tamper detection.
+- [x] Design and implement key management (envelope encryption, key rotation strategy).
+- [x] Add encryption/decryption integration tests and tamper-detection tests for the audit chain.
 
 **Exit Criteria:** A DBA with full database access cannot read sensitive ledger values; blind-index queries return correct results; any tampered audit row is detected.
 
