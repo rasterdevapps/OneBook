@@ -9,6 +9,10 @@
 -- 1. Helper function: returns the current tenant ID from the
 --    session variable 'app.current_tenant'. Every authenticated
 --    request must SET this variable before querying.
+--    Returns NULL when not set (second param = true). RLS policies
+--    using this function should treat NULL as "deny all" by comparing
+--    with tenant_id (NULL != NULL evaluates to false in SQL, so no
+--    rows are returned when the tenant context is missing).
 CREATE OR REPLACE FUNCTION current_tenant_id()
 RETURNS TEXT AS $$
 BEGIN

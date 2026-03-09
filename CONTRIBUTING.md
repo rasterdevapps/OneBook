@@ -56,7 +56,7 @@ We follow a **trunk-based development** model with short-lived feature branches:
 ### SQL
 
 - Migration files follow the Flyway naming convention: `V<version>__<description>.sql`.
-- Use lowercase for SQL keywords in migration scripts for readability.
+- Use uppercase for SQL keywords (`CREATE`, `SELECT`, `ALTER`, etc.) for readability.
 - All tenant-scoped tables must enable Row-Level Security (RLS).
 
 ### General
