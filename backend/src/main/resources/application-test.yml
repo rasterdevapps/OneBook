@@ -30,6 +30,10 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
 
+  # Disable Flyway for unit tests (uses H2 with create-drop)
+  flyway:
+    enabled: false
+
 management:
   endpoints:
     web:

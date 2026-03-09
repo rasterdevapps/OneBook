@@ -1,0 +1,98 @@
+# Contributing to OneBook
+
+Thank you for your interest in contributing to OneBook (Nexus Universal). This document outlines our coding standards, branching strategy, and PR review process.
+
+---
+
+## Branching Strategy
+
+We follow a **trunk-based development** model with short-lived feature branches:
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production-ready code. Always deployable. |
+| `feature/<description>` | New features (e.g., `feature/ledger-engine`). |
+| `fix/<description>` | Bug fixes (e.g., `fix/rls-policy-grant`). |
+| `chore/<description>` | Non-functional changes (e.g., `chore/update-deps`). |
+
+### Rules
+
+1. **Never commit directly to `main`.** All changes go through Pull Requests.
+2. **Keep branches short-lived** — merge within a few days.
+3. **Rebase on `main`** before opening a PR to avoid merge conflicts.
+
+---
+
+## Pull Request Workflow
+
+1. Create a branch from `main` using the naming convention above.
+2. Make your changes and ensure all tests pass locally.
+3. Open a PR against `main` with a clear title and description.
+4. At least **one approving review** is required before merging.
+5. CI must pass (build, test) before the PR can be merged.
+6. Use **Squash and Merge** to keep a clean commit history on `main`.
+
+---
+
+## Coding Standards
+
+### Java (Backend — Spring Boot)
+
+- **Java 21+** — use records, sealed classes, and pattern matching where appropriate.
+- Follow standard **Java naming conventions**: `camelCase` for methods/variables, `PascalCase` for classes, `UPPER_SNAKE_CASE` for constants.
+- Use `final` for variables that should not be reassigned.
+- All REST controllers live under `com.nexus.onebook` and use the `/api` prefix.
+- Write unit tests for every public method. Use `@WebMvcTest` for controller tests and `@SpringBootTest` with `@ActiveProfiles("test")` for integration tests.
+- Database migrations are managed by **Flyway** (`src/main/resources/db/migration/`). Never use `ddl-auto: create` or `update` in production profiles.
+
+### TypeScript / Angular (Frontend)
+
+- **Angular 19+** — use **Signals** (`signal()`, `computed()`) for reactive state management.
+- Follow the [Angular Style Guide](https://angular.dev/style-guide).
+- Use `strict` TypeScript compilation (already enforced via `tsconfig.json`).
+- Component selectors use the `app-` prefix.
+- Write unit tests using **Jasmine** with the Angular `TestBed`.
+
+### SQL
+
+- Migration files follow the Flyway naming convention: `V<version>__<description>.sql`.
+- Use lowercase for SQL keywords in migration scripts for readability.
+- All tenant-scoped tables must enable Row-Level Security (RLS).
+
+### General
+
+- Keep methods short and focused — prefer composition over inheritance.
+- Write self-documenting code; add comments only when the *why* is not obvious.
+- No secrets or credentials in source code — use environment variables.
+
+---
+
+## Local Development
+
+```bash
+# 1. Start infrastructure
+docker compose up -d
+
+# 2. Run backend
+cd backend && ./gradlew bootRun
+
+# 3. Run frontend (in a new terminal)
+cd frontend && npm install && npm start
+
+# 4. Run backend tests
+cd backend && ./gradlew test
+
+# 5. Run frontend tests
+cd frontend && npx ng test
+```
+
+---
+
+## Commit Messages
+
+Use clear, imperative-mood commit messages:
+
+- ✅ `Add ledger entry validation`
+- ✅ `Fix RLS policy for multi-tenant queries`
+- ❌ `Fixed stuff`
+- ❌ `WIP`
