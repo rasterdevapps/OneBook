@@ -9,6 +9,10 @@
     @if (threadInfo()) {
       <p class="thread-info">Thread: {{ threadInfo() }}</p>
     }
+    <div class="component-status">
+      <p>PostgreSQL: {{ postgresqlStatus() }}</p>
+      <p>Redis: {{ redisStatus() }}</p>
+    </div>
   </section>
 
   <router-outlet />
