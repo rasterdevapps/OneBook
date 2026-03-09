@@ -21,14 +21,12 @@ spring:
       ddl-auto: create-drop
     open-in-view: false
 
-  # Disable Redis for tests
+  # Redis — not available in test but WarmCacheService degrades gracefully
   data:
     redis:
       host: localhost
       port: 6379
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      timeout: 100ms
 
   # Disable Flyway for unit tests (uses H2 with create-drop)
   flyway:

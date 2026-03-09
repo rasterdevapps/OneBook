@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.LedgerAccountRequest;
 import com.nexus.onebook.ledger.model.AccountType;
 import com.nexus.onebook.ledger.model.CostCenter;
@@ -17,8 +18,8 @@ import java.util.List;
 /**
  * Service for Chart of Accounts management.
  * Handles creation and retrieval of ledger accounts.
- * Integrates field-level encryption, blind indexing, and audit logging
- * as part of the Zero-Knowledge Security Layer.
+ * Integrates field-level encryption, blind indexing, audit logging,
+ * and Redis warm-cache (cache-aside reads, write-through on create).
  */
 @Service
 public class LedgerAccountService {
@@ -28,17 +29,20 @@ public class LedgerAccountService {
     private final FieldEncryptionService encryptionService;
     private final BlindIndexService blindIndexService;
     private final AuditLogService auditLogService;
+    private final WarmCacheService warmCacheService;
 
     public LedgerAccountService(LedgerAccountRepository accountRepository,
                                 CostCenterRepository costCenterRepository,
                                 FieldEncryptionService encryptionService,
                                 BlindIndexService blindIndexService,
-                                AuditLogService auditLogService) {
+                                AuditLogService auditLogService,
+                                WarmCacheService warmCacheService) {
         this.accountRepository = accountRepository;
         this.costCenterRepository = costCenterRepository;
         this.encryptionService = encryptionService;
         this.blindIndexService = blindIndexService;
         this.auditLogService = auditLogService;
+        this.warmCacheService = warmCacheService;
     }
 
     /**
@@ -96,27 +100,49 @@ public class LedgerAccountService {
         auditLogService.logInsert(request.tenantId(), "ledger_accounts", saved.getId(),
                 "{\"accountCode\":\"" + saved.getAccountCode() + "\"}");
 
+        // Write-through: update Redis cache so subsequent reads hit warm cache
+        warmCacheService.putAccount(saved);
+        warmCacheService.evictAccountsByTenant(request.tenantId());
+
         return saved;
     }
 
     /**
      * Retrieves all ledger accounts for a given tenant.
+     * Uses cache-aside pattern: check Redis first, fall back to DB.
      */
     @Transactional(readOnly = true)
     public List<LedgerAccount> getAccountsByTenant(String tenantId) {
-        return accountRepository.findByTenantId(tenantId);
+        // Cache-aside: try Redis first
+        List<LedgerAccount> cached = warmCacheService.getAccountsByTenant(tenantId);
+        if (cached != null) {
+            return cached;
+        }
+
+        List<LedgerAccount> accounts = accountRepository.findByTenantId(tenantId);
+        warmCacheService.putAccountsByTenant(tenantId, accounts);
+        return accounts;
     }
 
     /**
      * Retrieves a ledger account by ID.
+     * Uses cache-aside pattern: check Redis first, fall back to DB.
      *
      * @throws IllegalArgumentException if the account is not found
      */
     @Transactional(readOnly = true)
     public LedgerAccount getAccount(Long accountId) {
-        return accountRepository.findById(accountId)
+        // Cache-aside: try Redis first
+        LedgerAccount cached = warmCacheService.getAccountById(accountId);
+        if (cached != null) {
+            return cached;
+        }
+
+        LedgerAccount account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Ledger account not found: " + accountId));
+        warmCacheService.putAccount(account);
+        return account;
     }
 
     /**

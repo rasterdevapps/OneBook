@@ -1,5 +1,6 @@
 package com.nexus.onebook.ledger.service;
 
+import com.nexus.onebook.ledger.cache.WarmCacheService;
 import com.nexus.onebook.ledger.dto.TrialBalanceLine;
 import com.nexus.onebook.ledger.dto.TrialBalanceReport;
 import com.nexus.onebook.ledger.model.*;
@@ -16,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +26,9 @@ class TrialBalanceServiceTest {
 
     @Mock
     private JournalEntryRepository entryRepository;
+
+    @Mock
+    private WarmCacheService warmCacheService;
 
     @InjectMocks
     private TrialBalanceService trialBalanceService;
@@ -54,6 +60,9 @@ class TrialBalanceServiceTest {
 
         postedTransaction = new JournalTransaction();
         postedTransaction.setPosted(true);
+
+        // Cache stub — simulate cold cache (cache miss) for unit tests
+        lenient().when(warmCacheService.getTrialBalance(anyString())).thenReturn(null);
     }
 
     @Test
