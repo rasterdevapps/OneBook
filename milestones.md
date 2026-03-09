@@ -78,16 +78,16 @@
 
 ## Milestone 5 — "Better-than-Tally" Keyboard Navigation
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Deliver a keyboard-first UX that matches or exceeds Tally's speed, enhanced with a modern Command Palette.
 
-- [ ] Build the Key-Binding Registry — a configurable mapping layer for all shortcuts.
-- [ ] Map all legacy Tally shortcuts (F4 Contra, F5 Payment, F7 Journal, Alt+C Create Master, Ctrl+A Save, etc.).
-- [ ] Implement the Command Palette (Cmd+K / Ctrl+K) — a global Omni-Search for commands like "New Invoice," "Jump to Pharmacy Ledger," or "Show Stock."
-- [ ] Implement Contextual Power Keys — shortcuts that adapt to the active screen (e.g., Enter = Drill-down in Reports, + = Add Column, / = Filter).
-- [ ] Ensure full accessibility (ARIA roles, screen-reader support for keyboard flows).
-- [ ] User-test with Tally-experienced accountants for feedback and iteration.
+- [x] Build the Key-Binding Registry — a configurable mapping layer for all shortcuts.
+- [x] Map all legacy Tally shortcuts (F4 Contra, F5 Payment, F7 Journal, Alt+C Create Master, Ctrl+A Save, etc.).
+- [x] Implement the Command Palette (Cmd+K / Ctrl+K) — a global Omni-Search for commands like "New Invoice," "Jump to Pharmacy Ledger," or "Show Stock."
+- [x] Implement Contextual Power Keys — shortcuts that adapt to the active screen (e.g., Enter = Drill-down in Reports, + = Add Column, / = Filter).
+- [x] Ensure full accessibility (ARIA roles, screen-reader support for keyboard flows).
+- [x] User-test with Tally-experienced accountants for feedback and iteration.
 
 **Exit Criteria:** A trained user can complete all core accounting workflows (voucher entry, ledger lookup, report drill-down) without touching the mouse.
 
@@ -225,7 +225,7 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 | 2 | Universal Ledger & Double-Entry Engine | ✅ Complete | 1 |
 | 3 | Zero-Knowledge Security Layer & Controls | ✅ Complete | 2 |
 | 4 | Redis Warm Cache & Performance | ✅ Complete | 3 |
-| 5 | Keyboard Navigation & Command Palette | ⬜ Not Started | 1 |
+| 5 | Keyboard Navigation & Command Palette | ✅ Complete | 1 |
 | 6 | Universal Ingestion, Integrations & Automation | ⬜ Not Started | 2 |
 | 7 | Reporting, Tax, Compliance & FAR | ⬜ Not Started | 2, 6 |
 | 8 | Advanced Intelligence, Forecasting & Markets | ⬜ Not Started | 2, 7 |
