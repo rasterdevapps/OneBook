@@ -25,6 +25,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // Database Migrations
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+
     // PostgreSQL Driver — pinned to 42.7.7+ to fix CVE in channelBinding
     runtimeOnly 'org.postgresql:postgresql:42.7.7'
 

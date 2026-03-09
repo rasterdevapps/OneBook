@@ -13,14 +13,16 @@
 - [x] Set up the monorepo structure (backend / frontend / shared libraries).
 - [x] Bootstrap **Spring Boot 3.4+** (Java 21+) backend with Virtual Threads enabled.
 - [x] Bootstrap **Angular 19+** frontend with Signals-based state management.
-- [ ] Provision **PostgreSQL 17+** with Row-Level Security (RLS) enabled.
+- [x] Provision **PostgreSQL 17+** with Row-Level Security (RLS) enabled.
   - [x] PostgreSQL 17 provisioned via Docker Compose and backend configured.
-  - [ ] Row-Level Security (RLS) policies not yet enabled.
+  - [x] Row-Level Security (RLS) infrastructure via Flyway migration (`V1__rls_infrastructure.sql`).
 - [x] Provision **Redis 7+** for session and cache management.
-- [ ] Configure CI/CD pipelines (build, lint, test, deploy) and containerised local development (Docker Compose).
+- [x] Configure CI/CD pipelines (build, lint, test, deploy) and containerised local development (Docker Compose).
   - [x] Docker Compose configured for local development (PostgreSQL 17 + Redis 7).
-  - [ ] CI/CD pipelines (GitHub Actions for build, lint, test, deploy) not yet created.
-- [ ] Define coding standards, branching strategy, and PR review workflows.
+  - [x] GitHub Actions CI pipeline (`.github/workflows/ci.yml`) — backend build/test, frontend build/test.
+- [x] Define coding standards, branching strategy, and PR review workflows.
+  - [x] `CONTRIBUTING.md` — branching strategy, PR workflow, Java/TypeScript/SQL coding standards.
+  - [x] `.editorconfig` — consistent formatting across editors.
 
 **Exit Criteria:** A deployable "Hello World" stack where all four layers (Angular → Spring Boot → Redis → PostgreSQL) communicate end-to-end.
 
