@@ -206,6 +206,10 @@ public class WarmCacheService {
     /**
      * Evicts all cached data for a tenant.
      * Called at logout or session expiry.
+     * <p>
+     * Individual account entries (by id) are left to expire naturally via TTL
+     * because their keys are not tenant-scoped and a {@code KEYS} scan would
+     * block Redis and accidentally affect other tenants.
      *
      * @param tenantId the tenant whose cache should be cleared
      */
@@ -215,12 +219,8 @@ public class WarmCacheService {
         evictTrialBalance(tenantId);
         try {
             redisTemplate.delete(CacheConstants.WARM_MARKER + tenantId);
-            var keys = redisTemplate.keys(CacheConstants.ACCOUNT_BY_ID + "*");
-            if (keys != null && !keys.isEmpty()) {
-                redisTemplate.delete(keys);
-            }
         } catch (Exception e) {
-            log.warn("Redis unavailable — skipping full eviction for tenant {}: {}", tenantId, e.getMessage());
+            log.warn("Redis unavailable — skipping warm marker eviction for tenant {}: {}", tenantId, e.getMessage());
         }
     }
 }

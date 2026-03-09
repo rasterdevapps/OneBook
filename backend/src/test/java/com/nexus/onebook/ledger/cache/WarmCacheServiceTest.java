@@ -14,7 +14,6 @@ import org.springframework.data.redis.core.ValueOperations;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -186,10 +185,6 @@ class WarmCacheServiceTest {
 
     @Test
     void evictAll_deletesAllTenantKeys() {
-        when(redisTemplate.keys(CacheConstants.ACCOUNT_BY_ID + "*"))
-                .thenReturn(Set.of(CacheConstants.ACCOUNT_BY_ID + "1",
-                        CacheConstants.ACCOUNT_BY_ID + "2"));
-
         warmCacheService.evictAll("tenant-1");
 
         verify(redisTemplate).delete(CacheConstants.ACCOUNTS_BY_TENANT + "tenant-1");
