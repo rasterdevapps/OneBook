@@ -6,6 +6,9 @@ import com.nexus.onebook.ledger.exception.UnbalancedTransactionException;
 import com.nexus.onebook.ledger.model.*;
 import com.nexus.onebook.ledger.repository.JournalTransactionRepository;
 import com.nexus.onebook.ledger.repository.LedgerAccountRepository;
+import com.nexus.onebook.ledger.security.AuditLogService;
+import com.nexus.onebook.ledger.security.BlindIndexService;
+import com.nexus.onebook.ledger.security.FieldEncryptionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,21 +18,34 @@ import java.util.List;
 /**
  * Core double-entry accounting service.
  * Validates that sum(debits) == sum(credits) before any transaction is committed.
+ * Integrates field-level encryption, blind indexing, and audit logging
+ * as part of the Zero-Knowledge Security Layer.
  */
 @Service
 public class JournalService {
 
     private final JournalTransactionRepository transactionRepository;
     private final LedgerAccountRepository accountRepository;
+    private final FieldEncryptionService encryptionService;
+    private final BlindIndexService blindIndexService;
+    private final AuditLogService auditLogService;
 
     public JournalService(JournalTransactionRepository transactionRepository,
-                          LedgerAccountRepository accountRepository) {
+                          LedgerAccountRepository accountRepository,
+                          FieldEncryptionService encryptionService,
+                          BlindIndexService blindIndexService,
+                          AuditLogService auditLogService) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
+        this.encryptionService = encryptionService;
+        this.blindIndexService = blindIndexService;
+        this.auditLogService = auditLogService;
     }
 
     /**
      * Creates and persists a balanced journal transaction.
+     * The transaction description is encrypted (AES-256-GCM) and a blind
+     * index (HMAC-SHA256) is generated for searchability.
      *
      * @param request the transaction request containing all debit/credit entries
      * @return the persisted JournalTransaction
@@ -51,6 +67,12 @@ public class JournalService {
         );
         if (request.metadata() != null) {
             transaction.setMetadata(request.metadata());
+        }
+
+        // Zero-Knowledge: encrypt description and generate blind index
+        if (request.description() != null) {
+            transaction.setDescriptionEncrypted(encryptionService.encrypt(request.description()));
+            transaction.setDescriptionBlindIndex(blindIndexService.generateBlindIndex(request.description()));
         }
 
         // 3. Build and attach each entry line
@@ -75,7 +97,13 @@ public class JournalService {
             transaction.addEntry(entry);
         }
 
-        return transactionRepository.save(transaction);
+        JournalTransaction saved = transactionRepository.save(transaction);
+
+        // Audit trail: log the transaction creation
+        auditLogService.logInsert(request.tenantId(), "journal_transactions", saved.getId(),
+                "{\"transactionUuid\":\"" + saved.getTransactionUuid() + "\"}");
+
+        return saved;
     }
 
     /**

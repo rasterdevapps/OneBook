@@ -32,6 +32,12 @@ public class JournalTransaction {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "description_encrypted")
+    private String descriptionEncrypted;
+
+    @Column(name = "description_blind_index", length = 64)
+    private String descriptionBlindIndex;
+
     @Column(name = "posted", nullable = false)
     private boolean posted = false;
 
@@ -82,6 +88,12 @@ public class JournalTransaction {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getDescriptionEncrypted() { return descriptionEncrypted; }
+    public void setDescriptionEncrypted(String descriptionEncrypted) { this.descriptionEncrypted = descriptionEncrypted; }
+
+    public String getDescriptionBlindIndex() { return descriptionBlindIndex; }
+    public void setDescriptionBlindIndex(String descriptionBlindIndex) { this.descriptionBlindIndex = descriptionBlindIndex; }
 
     public boolean isPosted() { return posted; }
     public void setPosted(boolean posted) { this.posted = posted; }

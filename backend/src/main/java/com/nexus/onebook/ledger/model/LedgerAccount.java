@@ -30,6 +30,12 @@ public class LedgerAccount {
     @Column(name = "account_name", nullable = false)
     private String accountName;
 
+    @Column(name = "account_name_encrypted")
+    private String accountNameEncrypted;
+
+    @Column(name = "account_name_blind_index", length = 64)
+    private String accountNameBlindIndex;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", nullable = false, length = 20)
     private AccountType accountType;
@@ -88,6 +94,12 @@ public class LedgerAccount {
 
     public String getAccountName() { return accountName; }
     public void setAccountName(String accountName) { this.accountName = accountName; }
+
+    public String getAccountNameEncrypted() { return accountNameEncrypted; }
+    public void setAccountNameEncrypted(String accountNameEncrypted) { this.accountNameEncrypted = accountNameEncrypted; }
+
+    public String getAccountNameBlindIndex() { return accountNameBlindIndex; }
+    public void setAccountNameBlindIndex(String accountNameBlindIndex) { this.accountNameBlindIndex = accountNameBlindIndex; }
 
     public AccountType getAccountType() { return accountType; }
     public void setAccountType(AccountType accountType) { this.accountType = accountType; }

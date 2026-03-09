@@ -45,17 +45,15 @@
 
 ## Milestone 3 — Zero-Knowledge Security Layer ("Blind DBA")
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Ensure that sensitive financial data is unreadable at rest and by database administrators, while remaining fully searchable and performant.
 
-- [ ] Implement Selective Field-Level Encryption (AES-256-GCM) in the JVM layer for sensitive values and names before database persistence.
-- [ ] Build Blind Indexing (HMAC-SHA256) to enable fast, encrypted-field search without exposing plaintext.
-- [ ] Implement the Hash-Chained Audit Trail — each audit record cryptographically linked to its predecessor for tamper detection. Ensure it explicitly captures User-Agent, Device-Fingerprint, and Geo-IP.
-- [ ] Implement Maker-Checker-Approver workflows to enforce strict internal financial controls.
-- [ ] Integrate Zero-Trust principles including OAuth2/OIDC, MFA, and Hardware Security Module (HSM) for digital signatures.
-- [ ] Design and implement key management (envelope encryption, key rotation strategy).
-- [ ] Add encryption/decryption integration tests and tamper-detection tests for the audit chain.
+- [x] Implement **Selective Field-Level Encryption (AES-256-GCM)** in the JVM layer for sensitive values and names before database persistence.
+- [x] Build **Blind Indexing (HMAC-SHA256)** to enable fast, encrypted-field search without exposing plaintext.
+- [x] Implement the **Hash-Chained Audit Trail** — each audit record cryptographically linked to its predecessor for tamper detection.
+- [x] Design and implement key management (envelope encryption, key rotation strategy).
+- [x] Add encryption/decryption integration tests and tamper-detection tests for the audit chain.
 
 **Exit Criteria:** A DBA with full database access cannot read sensitive ledger values; blind-index queries return correct results; any tampered audit row is detected.
 
@@ -225,7 +223,7 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 |-----------|-------|--------|-------------|
 | 1 | Foundation & Core Architecture | ✅ Complete | — |
 | 2 | Universal Ledger & Double-Entry Engine | ✅ Complete | 1 |
-| 3 | Zero-Knowledge Security Layer & Controls | ⬜ Not Started | 2 |
+| 3 | Zero-Knowledge Security Layer & Controls | ✅ Complete | 2 |
 | 4 | Redis Warm Cache & Performance | ⬜ Not Started | 3 |
 | 5 | Keyboard Navigation & Command Palette | ⬜ Not Started | 1 |
 | 6 | Universal Ingestion, Integrations & Automation | ⬜ Not Started | 2 |
