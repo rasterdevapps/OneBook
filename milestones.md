@@ -153,6 +153,31 @@
 
 ---
 
+## 🤖 Subagent Operations (Nexus Universal)
+
+To maintain 2026-grade performance and zero-trust context management, the following delegation rules are active:
+
+### 1. Specialist Roles
+- **@Architect**: Handles Milestone 1 & 9. Focus: Project skeleton, Monorepo structure, and Documentation.
+- **@LedgerExpert**: Handles Milestone 2 & 7. Focus: SQL Schema, Double-Entry logic, and Tax/Compliance.
+- **@SecurityWarden**: Handles Milestone 3 & 10. Focus: AES-256-GCM, HMAC-SHA256 Blind Indexing, and RLS policies.
+- **@PerfEngineer**: Handles Milestone 4. Focus: Redis Warm Cache, Virtual Threads (Loom), and Benchmarking.
+- **@UXSpecialist**: Handles Milestone 5. Focus: Angular 19 Signals, Keyboard Registry, and Tally-matching shortcuts.
+- **@IntegrationBot**: Handles Milestone 6 & 8. Focus: HL7/DMS Adapters and AI Ingestion logic.
+
+### 2. Delegation Protocol (The "3-File Rule")
+**Trigger:** If a user request requires reading/analyzing **3 or more files** across different layers (e.g., Angular + Spring Boot + SQL).
+
+**Action:** 1. **Spawn Subagent:** Use the `/research` or `@specialist` command.
+2. **Isolate:** The subagent investigates the raw code.
+3. **Distill:** Subagent returns ONLY the "Interface" or "Summary" to the Main Session.
+4. **Result:** Keep the Main Session context < 5,000 tokens at all times.
+
+### 3. Context Pruning
+- After a Milestone is "Exit Criteria Met," summarize the final state into `PROJECT_STATE.md` and clear the subagent history to reclaim tokens.
+
+----
+
 ## Summary Timeline
 
 | Milestone | Theme | Dependencies |
