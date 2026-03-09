@@ -2,7 +2,9 @@
 
 ---
 
-## Milestone 1 — Foundation & Core Architecture
+## Milestone 1 — Foundation & Core Architecture ✅
+
+**Status:** ✅ Complete
 
 **Goal:** Establish the project skeleton, CI/CD pipeline, and foundational infrastructure so every subsequent milestone builds on solid ground.
 
@@ -24,7 +26,9 @@
 
 ---
 
-## Milestone 2 — Universal Ledger & Double-Entry Engine
+## Milestone 2 — Universal Ledger & Double-Entry Engine ✅
+
+**Status:** ✅ Complete
 
 **Goal:** Build the core accounting engine — the heart of the system — using a sector-agnostic data model.
 
@@ -40,6 +44,8 @@
 ---
 
 ## Milestone 3 — Zero-Knowledge Security Layer ("Blind DBA")
+
+**Status:** ⬜ Not Started
 
 **Goal:** Ensure that sensitive financial data is unreadable at rest and by database administrators, while remaining fully searchable and performant.
 
@@ -57,6 +63,8 @@
 
 ## Milestone 4 — Redis "Warm Cache" & Performance Strategy
 
+**Status:** ⬜ Not Started
+
 **Goal:** Eliminate encryption-induced latency for active users by decrypting and caching their working set in Redis upon login.
 
 - [ ] Design the Active Session Cache strategy — on login, decrypt the user's current working set into Redis.
@@ -72,6 +80,8 @@
 
 ## Milestone 5 — "Better-than-Tally" Keyboard Navigation
 
+**Status:** ⬜ Not Started
+
 **Goal:** Deliver a keyboard-first UX that matches or exceeds Tally's speed, enhanced with a modern Command Palette.
 
 - [ ] Build the Key-Binding Registry — a configurable mapping layer for all shortcuts.
@@ -86,6 +96,8 @@
 ---
 
 ## Milestone 6 — Sector-Agnostic Universal Ingestion Layer & Automation
+
+**Status:** ⬜ Not Started
 
 **Goal:** Allow any industry system to feed financial events into Nexus Universal through a standardised adapter pattern, alongside smart workflow automation.
 
@@ -107,6 +119,8 @@
 
 ## Milestone 7 — Reporting, Tax Compliance & Multi-Locale Support
 
+**Status:** ⬜ Not Started
+
 **Goal:** Deliver configurable financial reports, localized compliance, and enterprise-grade consolidation.
 
 - [ ] Build core financial reports: Trial Balance, Profit & Loss, Balance Sheet, Cash Flow Statement.
@@ -124,6 +138,8 @@
 
 ## Milestone 8 — Advanced Intelligence & AI Features
 
+**Status:** ⬜ Not Started
+
 **Goal:** Add predictive analytics and market integrations to transform Nexus Universal into a decision-support platform.
 
 - [ ] Implement Predictive Cash Flow Forecasting using historical ledger data.
@@ -140,6 +156,8 @@
 
 ## Milestone 9 — Architecture Documentation & Deliverables
 
+**Status:** ⬜ Not Started
+
 **Goal:** Produce the formal technical deliverables outlined in the project vision.
 
 - [ ] Create the Architecture Diagram (Mermaid.js) illustrating: External Adapters → Encryption Layer → Redis Cache → PostgreSQL.
@@ -152,6 +170,8 @@
 ---
 
 ## Milestone 10 — Hardening, Audit & Production Readiness
+
+**Status:** ⬜ Not Started
 
 **Goal:** Prepare the system for production deployment with enterprise-grade reliability and security posture.
 
@@ -201,15 +221,15 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 
 ## Summary Timeline
 
-| Milestone | Theme | Dependencies |
-|-----------|-------|-------------|
-| 1 | Foundation & Core Architecture | — |
-| 2 | Universal Ledger & Double-Entry Engine | 1 |
-| 3 | Zero-Knowledge Security Layer & Controls | 2 |
-| 4 | Redis Warm Cache & Performance | 3 |
-| 5 | Keyboard Navigation & Command Palette | 1 |
-| 6 | Universal Ingestion, Integrations & Automation | 2 |
-| 7 | Reporting, Tax, Compliance & FAR | 2, 6 |
-| 8 | Advanced Intelligence, Forecasting & Markets | 2, 7 |
-| 9 | Architecture Documentation & Deliverables | 1–8 |
-| 10 | Hardening, Auditor Portal & Prod Readiness | 1–9 |
+| Milestone | Theme | Status | Dependencies |
+|-----------|-------|--------|-------------|
+| 1 | Foundation & Core Architecture | ✅ Complete | — |
+| 2 | Universal Ledger & Double-Entry Engine | ✅ Complete | 1 |
+| 3 | Zero-Knowledge Security Layer & Controls | ⬜ Not Started | 2 |
+| 4 | Redis Warm Cache & Performance | ⬜ Not Started | 3 |
+| 5 | Keyboard Navigation & Command Palette | ⬜ Not Started | 1 |
+| 6 | Universal Ingestion, Integrations & Automation | ⬜ Not Started | 2 |
+| 7 | Reporting, Tax, Compliance & FAR | ⬜ Not Started | 2, 6 |
+| 8 | Advanced Intelligence, Forecasting & Markets | ⬜ Not Started | 2, 7 |
+| 9 | Architecture Documentation & Deliverables | ⬜ Not Started | 1–8 |
+| 10 | Hardening, Auditor Portal & Prod Readiness | ⬜ Not Started | 1–9 |
