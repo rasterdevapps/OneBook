@@ -62,8 +62,7 @@ public class OcrInvoiceService {
             invoice.setLineItems(request.lineItems());
         }
         if (request.rawOcrText() != null) {
-            invoice.setMetadata("{\"rawOcrText\":\"" + request.rawOcrText()
-                    .replace("\"", "\\\"") + "\"}");
+            invoice.setMetadata("{\"ocrExtracted\":true}");
         }
 
         return invoiceRepository.save(invoice);

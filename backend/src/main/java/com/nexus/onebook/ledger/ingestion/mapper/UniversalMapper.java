@@ -3,6 +3,7 @@ package com.nexus.onebook.ledger.ingestion.mapper;
 import com.nexus.onebook.ledger.dto.JournalEntryRequest;
 import com.nexus.onebook.ledger.dto.JournalTransactionRequest;
 import com.nexus.onebook.ledger.ingestion.model.FinancialEvent;
+import com.nexus.onebook.ledger.model.LedgerAccount;
 import com.nexus.onebook.ledger.repository.LedgerAccountRepository;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +77,7 @@ public class UniversalMapper {
     private Long resolveAccountId(String tenantId, String accountCode) {
         return accountRepository
                 .findByTenantIdAndAccountCode(tenantId, accountCode)
-                .map(account -> account.getId())
+                .map(LedgerAccount::getId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Ledger account not found for tenant=" + tenantId
                                 + ", accountCode=" + accountCode));
