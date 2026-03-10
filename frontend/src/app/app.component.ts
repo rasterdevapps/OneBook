@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { CommandPaletteComponent } from './keyboard/components/command-palette/command-palette.component';
 import { KeyboardNavigationService } from './keyboard/services/keyboard-navigation.service';
+import { LanguageSwitcherComponent } from './i18n/components/language-switcher/language-switcher.component';
 
 interface HealthResponse {
   status: string;
@@ -16,7 +17,7 @@ interface HealthResponse {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommandPaletteComponent],
+  imports: [RouterOutlet, CommandPaletteComponent, LanguageSwitcherComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

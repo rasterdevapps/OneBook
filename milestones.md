@@ -117,18 +117,18 @@
 
 ## Milestone 7 — Reporting, Tax Compliance & Multi-Locale Support
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Deliver configurable financial reports, localized compliance, and enterprise-grade consolidation.
 
-- [ ] Build core financial reports: Trial Balance, Profit & Loss, Balance Sheet, Cash Flow Statement.
-- [ ] Implement Dynamic UI i18n/L10n using Angular Transloco for real-time language switching, date formats, and localized currency display ($ vs ₹).
-- [ ] Implement the Feature Entitlement Engine to toggle locale-specific modules per tenant.
-- [ ] Enhance Compliance Engine with automated e-Invoicing and e-Way bill generation.
-- [ ] Implement Automated Reconciliation via real-time bank feeds using Open Banking APIs.
-- [ ] Build Intercompany Accounting & Consolidation: Automate the elimination of intercompany transactions across global branches.
-- [ ] Develop the Fixed Asset Register (FAR): Track physical assets, compute automated monthly depreciation, and handle impairment/disposal.
-- [ ] Establish a Headless API approach ensuring the backend can seamlessly serve a future Flutter/Native mobile app.
+- [x] Build core financial reports: Trial Balance, Profit & Loss, Balance Sheet, Cash Flow Statement.
+- [x] Implement Dynamic UI i18n/L10n using Angular Transloco for real-time language switching, date formats, and localized currency display ($ vs ₹).
+- [x] Implement the Feature Entitlement Engine to toggle locale-specific modules per tenant.
+- [x] Enhance Compliance Engine with automated e-Invoicing and e-Way bill generation.
+- [x] Implement Automated Reconciliation via real-time bank feeds using Open Banking APIs.
+- [x] Build Intercompany Accounting & Consolidation: Automate the elimination of intercompany transactions across global branches.
+- [x] Develop the Fixed Asset Register (FAR): Track physical assets, compute automated monthly depreciation, and handle impairment/disposal.
+- [x] Establish a Headless API approach ensuring the backend can seamlessly serve a future Flutter/Native mobile app.
 
 **Exit Criteria:** A tenant can be configured for a specific country/tax regime, auto-generate e-invoices, and run global consolidated reports across multiple branches.
 
