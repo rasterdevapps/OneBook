@@ -1,7 +1,9 @@
 package com.nexus.onebook.ledger.service;
 
 import com.nexus.onebook.ledger.dto.HoldingValuation;
+import com.nexus.onebook.ledger.dto.InvestmentHoldingRequest;
 import com.nexus.onebook.ledger.dto.MarketValuation;
+import com.nexus.onebook.ledger.model.HoldingType;
 import com.nexus.onebook.ledger.model.InvestmentHolding;
 import com.nexus.onebook.ledger.repository.InvestmentHoldingRepository;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,27 @@ public class MarkToMarketService {
                 gainLossPercent,
                 LocalDate.now(),
                 valuations);
+    }
+
+    @Transactional
+    public InvestmentHolding createHolding(InvestmentHoldingRequest request) {
+        InvestmentHolding holding = new InvestmentHolding(
+                request.tenantId(),
+                request.symbol(),
+                request.holdingName(),
+                HoldingType.valueOf(request.holdingType()),
+                request.quantity(),
+                request.costBasis());
+
+        holding.setMarketValue(BigDecimal.ZERO);
+        holding.setUnrealizedGainLoss(BigDecimal.ZERO);
+
+        return holdingRepository.save(holding);
+    }
+
+    @Transactional(readOnly = true)
+    public List<InvestmentHolding> getHoldingsByTenant(String tenantId) {
+        return holdingRepository.findByTenantId(tenantId);
     }
 
     @Transactional
