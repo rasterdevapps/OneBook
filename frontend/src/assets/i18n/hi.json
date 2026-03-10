@@ -1,0 +1,65 @@
+{
+  "app": {
+    "title": "वनबुक",
+    "subtitle": "सार्वभौमिक लेखांकन मंच"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "ledger": "खाता बही",
+    "journal": "जर्नल",
+    "reports": "रिपोर्ट",
+    "compliance": "कर अनुपालन",
+    "assets": "अचल संपत्ति",
+    "reconciliation": "बैंक मिलान",
+    "settings": "सेटिंग्स"
+  },
+  "reports": {
+    "trialBalance": "तलपट",
+    "profitAndLoss": "लाभ और हानि",
+    "balanceSheet": "तुलन पत्र",
+    "cashFlow": "नकदी प्रवाह विवरण",
+    "consolidated": "समेकित रिपोर्ट"
+  },
+  "compliance": {
+    "eInvoice": "ई-चालान",
+    "eWayBill": "ई-वे बिल",
+    "gstReturns": "जीएसटी रिटर्न",
+    "generateInvoice": "चालान बनाएं",
+    "cancelInvoice": "चालान रद्द करें"
+  },
+  "assets": {
+    "register": "अचल संपत्ति रजिस्टर",
+    "depreciation": "मूल्यह्रास अनुसूची",
+    "dispose": "संपत्ति निपटान",
+    "status": {
+      "active": "सक्रिय",
+      "disposed": "निपटान",
+      "impaired": "क्षतिग्रस्त"
+    }
+  },
+  "common": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "create": "बनाएं",
+    "search": "खोजें",
+    "loading": "लोड हो रहा है...",
+    "noData": "कोई डेटा उपलब्ध नहीं",
+    "amount": "राशि",
+    "date": "तारीख",
+    "status": "स्थिति",
+    "description": "विवरण",
+    "currency": "मुद्रा",
+    "language": "भाषा"
+  },
+  "currency": {
+    "symbol": "₹",
+    "code": "INR",
+    "format": "{{symbol}}{{amount}}"
+  },
+  "locale": {
+    "dateFormat": "dd/MM/yyyy",
+    "numberFormat": "hi-IN"
+  }
+}

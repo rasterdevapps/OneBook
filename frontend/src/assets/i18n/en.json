@@ -1,0 +1,65 @@
+{
+  "app": {
+    "title": "OneBook",
+    "subtitle": "Universal Accounting Platform"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "ledger": "Ledger",
+    "journal": "Journal",
+    "reports": "Reports",
+    "compliance": "Tax Compliance",
+    "assets": "Fixed Assets",
+    "reconciliation": "Bank Reconciliation",
+    "settings": "Settings"
+  },
+  "reports": {
+    "trialBalance": "Trial Balance",
+    "profitAndLoss": "Profit & Loss",
+    "balanceSheet": "Balance Sheet",
+    "cashFlow": "Cash Flow Statement",
+    "consolidated": "Consolidated Report"
+  },
+  "compliance": {
+    "eInvoice": "e-Invoice",
+    "eWayBill": "e-Way Bill",
+    "gstReturns": "GST Returns",
+    "generateInvoice": "Generate Invoice",
+    "cancelInvoice": "Cancel Invoice"
+  },
+  "assets": {
+    "register": "Fixed Asset Register",
+    "depreciation": "Depreciation Schedule",
+    "dispose": "Dispose Asset",
+    "status": {
+      "active": "Active",
+      "disposed": "Disposed",
+      "impaired": "Impaired"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "amount": "Amount",
+    "date": "Date",
+    "status": "Status",
+    "description": "Description",
+    "currency": "Currency",
+    "language": "Language"
+  },
+  "currency": {
+    "symbol": "$",
+    "code": "USD",
+    "format": "{{symbol}}{{amount}}"
+  },
+  "locale": {
+    "dateFormat": "MM/dd/yyyy",
+    "numberFormat": "en-US"
+  }
+}
