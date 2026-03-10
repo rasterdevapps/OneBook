@@ -95,21 +95,21 @@
 
 ## Milestone 6 — Sector-Agnostic Universal Ingestion Layer & Automation
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Allow any industry system to feed financial events into Nexus Universal through a standardised adapter pattern, alongside smart workflow automation.
 
-- [ ] Design and implement the Financial Event Gateway — a pluggable adapter interface for external data ingestion.
-- [ ] Build reference adapters:
-  - [ ] HL7 adapter for Healthcare systems.
-  - [ ] DMS adapter for Automotive dealer management.
-  - [ ] ISO 20022 adapter for Banking and direct bank reconciliations.
-  - [ ] REST/Webhook adapter for generic SaaS integrations.
-- [ ] Implement the Universal Mapper — transforms any adapter output into the core Double-Entry format with JSONB industry tags.
-- [ ] AP/AR Automation with OCR: Implement an AI module to read emailed PDF invoices, extract line items/totals, and auto-draft journal entries.
-- [ ] Automated 3-Way Matching: Build the logic to automatically verify that the Purchase Order, Goods Receipt, and Vendor Invoice match before allowing payment.
-- [ ] Corporate Card API Integration: Sync transactions instantly from corporate cards (Ramp/Brex equivalents).
-- [ ] Build HRM/Payroll Connector & Inventory Event Listener (Stock-In/Stock-Out).
+- [x] Design and implement the Financial Event Gateway — a pluggable adapter interface for external data ingestion.
+- [x] Build reference adapters:
+  - [x] HL7 adapter for Healthcare systems.
+  - [x] DMS adapter for Automotive dealer management.
+  - [x] ISO 20022 adapter for Banking and direct bank reconciliations.
+  - [x] REST/Webhook adapter for generic SaaS integrations.
+- [x] Implement the Universal Mapper — transforms any adapter output into the core Double-Entry format with JSONB industry tags.
+- [x] AP/AR Automation with OCR: Implement an AI module to read emailed PDF invoices, extract line items/totals, and auto-draft journal entries.
+- [x] Automated 3-Way Matching: Build the logic to automatically verify that the Purchase Order, Goods Receipt, and Vendor Invoice match before allowing payment.
+- [x] Corporate Card API Integration: Sync transactions instantly from corporate cards (Ramp/Brex equivalents).
+- [x] Build HRM/Payroll Connector & Inventory Event Listener (Stock-In/Stock-Out).
 
 **Exit Criteria:** Financial events from multiple industry protocols and card providers are successfully ingested, transformed, and posted; invoices are parsed via OCR successfully.
 
@@ -226,7 +226,7 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 | 3 | Zero-Knowledge Security Layer & Controls | ✅ Complete | 2 |
 | 4 | Redis Warm Cache & Performance | ✅ Complete | 3 |
 | 5 | Keyboard Navigation & Command Palette | ✅ Complete | 1 |
-| 6 | Universal Ingestion, Integrations & Automation | ⬜ Not Started | 2 |
+| 6 | Universal Ingestion, Integrations & Automation | ✅ Complete | 2 |
 | 7 | Reporting, Tax, Compliance & FAR | ⬜ Not Started | 2, 6 |
 | 8 | Advanced Intelligence, Forecasting & Markets | ⬜ Not Started | 2, 7 |
 | 9 | Architecture Documentation & Deliverables | ⬜ Not Started | 1–8 |
