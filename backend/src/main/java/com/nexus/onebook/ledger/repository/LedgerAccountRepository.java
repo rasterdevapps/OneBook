@@ -12,6 +12,8 @@ public interface LedgerAccountRepository extends JpaRepository<LedgerAccount, Lo
 
     List<LedgerAccount> findByTenantId(String tenantId);
 
+    Optional<LedgerAccount> findByTenantIdAndAccountCode(String tenantId, String accountCode);
+
     Optional<LedgerAccount> findByTenantIdAndCostCenterIdAndAccountCode(
             String tenantId, Long costCenterId, String accountCode);
 

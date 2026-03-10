@@ -1,0 +1,137 @@
+package com.nexus.onebook.ledger.ingestion.controller;
+
+import com.nexus.onebook.ledger.ingestion.automation.OcrInvoiceService;
+import com.nexus.onebook.ledger.ingestion.automation.ThreeWayMatchingService;
+import com.nexus.onebook.ledger.ingestion.connector.CorporateCardService;
+import com.nexus.onebook.ledger.ingestion.connector.HrmPayrollConnector;
+import com.nexus.onebook.ledger.ingestion.connector.InventoryEventListener;
+import com.nexus.onebook.ledger.ingestion.dto.*;
+import com.nexus.onebook.ledger.ingestion.gateway.AdapterRegistry;
+import com.nexus.onebook.ledger.ingestion.gateway.FinancialEventGateway;
+import com.nexus.onebook.ledger.ingestion.model.AdapterType;
+import com.nexus.onebook.ledger.ingestion.model.CardTransaction;
+import com.nexus.onebook.ledger.ingestion.model.FinancialEvent;
+import com.nexus.onebook.ledger.ingestion.model.VendorInvoice;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * REST controller for the Universal Ingestion Layer.
+ * Provides endpoints for financial event ingestion, OCR invoice processing,
+ * 3-way matching, corporate card sync, and connector event handling.
+ */
+@RestController
+@RequestMapping("/api/ingestion")
+public class IngestionController {
+
+    private final FinancialEventGateway gateway;
+    private final AdapterRegistry adapterRegistry;
+    private final OcrInvoiceService ocrInvoiceService;
+    private final ThreeWayMatchingService matchingService;
+    private final CorporateCardService corporateCardService;
+    private final HrmPayrollConnector hrmPayrollConnector;
+    private final InventoryEventListener inventoryEventListener;
+
+    public IngestionController(FinancialEventGateway gateway,
+                               AdapterRegistry adapterRegistry,
+                               OcrInvoiceService ocrInvoiceService,
+                               ThreeWayMatchingService matchingService,
+                               CorporateCardService corporateCardService,
+                               HrmPayrollConnector hrmPayrollConnector,
+                               InventoryEventListener inventoryEventListener) {
+        this.gateway = gateway;
+        this.adapterRegistry = adapterRegistry;
+        this.ocrInvoiceService = ocrInvoiceService;
+        this.matchingService = matchingService;
+        this.corporateCardService = corporateCardService;
+        this.hrmPayrollConnector = hrmPayrollConnector;
+        this.inventoryEventListener = inventoryEventListener;
+    }
+
+    // --- Financial Event Gateway ---
+
+    @PostMapping("/events")
+    public ResponseEntity<FinancialEventResponse> ingestEvent(
+            @Valid @RequestBody FinancialEventRequest request) {
+        AdapterType type = AdapterType.valueOf(request.adapterType());
+        FinancialEvent event = gateway.ingest(request.tenantId(), type, request.payload());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new FinancialEventResponse(event.getEventUuid(), event.getStatus(),
+                        event.getErrorMessage() != null ? event.getErrorMessage() : "Event processed"));
+    }
+
+    @PostMapping("/events/validate")
+    public ResponseEntity<FinancialEventResponse> validateEvent(
+            @Valid @RequestBody FinancialEventRequest request) {
+        AdapterType type = AdapterType.valueOf(request.adapterType());
+        FinancialEvent event = gateway.ingestValidateOnly(request.tenantId(), type, request.payload());
+        return ResponseEntity.ok(
+                new FinancialEventResponse(event.getEventUuid(), event.getStatus(), "Validation passed"));
+    }
+
+    @GetMapping("/adapters")
+    public ResponseEntity<List<AdapterType>> listAdapters() {
+        return ResponseEntity.ok(adapterRegistry.getRegisteredTypes());
+    }
+
+    // --- OCR Invoice Processing ---
+
+    @PostMapping("/invoices/ocr")
+    public ResponseEntity<VendorInvoice> processOcrInvoice(
+            @Valid @RequestBody OcrInvoiceRequest request) {
+        VendorInvoice invoice = ocrInvoiceService.processOcrInvoice(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
+    }
+
+    // --- 3-Way Matching ---
+
+    @PostMapping("/match/{tenantId}/{poNumber}")
+    public ResponseEntity<ThreeWayMatchResult> performThreeWayMatch(
+            @PathVariable String tenantId, @PathVariable String poNumber) {
+        ThreeWayMatchResult result = matchingService.match(tenantId, poNumber);
+        return ResponseEntity.ok(result);
+    }
+
+    // --- Corporate Card ---
+
+    @PostMapping("/cards/sync")
+    public ResponseEntity<CardTransaction> syncCardTransaction(
+            @Valid @RequestBody CardTransactionRequest request) {
+        CardTransaction txn = corporateCardService.syncTransaction(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(txn);
+    }
+
+    @GetMapping("/cards/unposted/{tenantId}")
+    public ResponseEntity<List<CardTransaction>> getUnpostedCardTransactions(
+            @PathVariable String tenantId) {
+        return ResponseEntity.ok(corporateCardService.getUnpostedTransactions(tenantId));
+    }
+
+    // --- HRM/Payroll Connector ---
+
+    @PostMapping("/payroll")
+    public ResponseEntity<FinancialEventResponse> processPayrollEvent(
+            @Valid @RequestBody FinancialEventRequest request) {
+        FinancialEvent event = hrmPayrollConnector.processPayrollEvent(
+                request.tenantId(), request.payload());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new FinancialEventResponse(event.getEventUuid(), event.getStatus(),
+                        "Payroll event processed"));
+    }
+
+    // --- Inventory Event Listener ---
+
+    @PostMapping("/inventory")
+    public ResponseEntity<FinancialEventResponse> processInventoryEvent(
+            @Valid @RequestBody FinancialEventRequest request) {
+        FinancialEvent event = inventoryEventListener.processInventoryEvent(
+                request.tenantId(), request.payload());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new FinancialEventResponse(event.getEventUuid(), event.getStatus(),
+                        "Inventory event processed"));
+    }
+}
