@@ -5,6 +5,11 @@
     <app-language-switcher />
   </header>
 
+  <nav class="main-nav">
+    <a routerLink="/">Home</a>
+    <a routerLink="/ai">AI Insights</a>
+  </nav>
+
   <section class="status-panel">
     <p>{{ statusMessage() }}</p>
     @if (threadInfo()) {
