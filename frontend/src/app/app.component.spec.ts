@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { provideTransloco } from '@jsverse/transloco';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -9,7 +10,18 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideTransloco({
+          config: {
+            availableLangs: ['en', 'hi'],
+            defaultLang: 'en',
+            reRenderOnLangChange: true,
+            prodMode: true,
+          }
+        })
+      ]
     }).compileComponents();
     httpTesting = TestBed.inject(HttpTestingController);
   });
