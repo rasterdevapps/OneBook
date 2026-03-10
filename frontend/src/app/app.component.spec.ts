@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { AppComponent } from './app.component';
 
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]),
         provideTransloco({
           config: {
             availableLangs: ['en', 'hi'],
