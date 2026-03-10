@@ -1,6 +1,8 @@
 import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
+import { CommandPaletteComponent } from './keyboard/components/command-palette/command-palette.component';
+import { KeyboardNavigationService } from './keyboard/services/keyboard-navigation.service';
 
 interface HealthResponse {
   status: string;
@@ -14,12 +16,15 @@ interface HealthResponse {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommandPaletteComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   private http = inject(HttpClient);
+
+  // Inject to eagerly initialize the global keyboard listener
+  private keyboardNav = inject(KeyboardNavigationService);
 
   title = signal('OneBook');
   backendStatus = signal('Checking...');
