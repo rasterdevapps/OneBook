@@ -154,14 +154,21 @@
 
 ## Milestone 9 — Architecture Documentation & Deliverables
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Produce the formal technical deliverables outlined in the project vision.
 
-- [ ] Create the Architecture Diagram (Mermaid.js) illustrating: External Adapters → Encryption Layer → Redis Cache → PostgreSQL.
-- [ ] Document the Key-Binding Registry technical design — legacy Tally keys vs. modern Command Palette logic, conflict resolution, and extensibility.
-- [ ] Publish the Universal Secured Ledger SQL Schema documentation.
-- [ ] Write developer onboarding guides, API documentation, and operational runbooks.
+- [x] Create the Architecture Diagram (Mermaid.js) illustrating: External Adapters → Encryption Layer → Redis Cache → PostgreSQL.
+  - Enhanced `architecture.md` with detailed Mermaid.js diagram (data flow, security, cache, deployment).
+  - Published comprehensive diagrams in `docs/architecture-diagram.md`.
+- [x] Document the Key-Binding Registry technical design — legacy Tally keys vs. modern Command Palette logic, conflict resolution, and extensibility.
+  - Published `docs/key-binding-registry.md` covering all 17 Tally shortcuts, Command Palette architecture, conflict resolution strategy, contextual bindings, and extensibility APIs.
+- [x] Publish the Universal Secured Ledger SQL Schema documentation.
+  - Published `docs/sql-schema.md` documenting all 8 Flyway migrations (V1–V8), 21 tables, RLS policies, ER diagrams, balanced transaction trigger, and zero-knowledge encryption.
+- [x] Write developer onboarding guides, API documentation, and operational runbooks.
+  - Published `docs/developer-guide.md` — developer onboarding, setup, coding standards, workflows.
+  - Published `docs/api-documentation.md` — REST API reference for all 15 controllers.
+  - Published `docs/operational-runbook.md` — deployment, monitoring, troubleshooting, backup procedures.
 
 **Exit Criteria:** All architectural deliverables are published, reviewed, and approved.
 
@@ -229,5 +236,5 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 | 6 | Universal Ingestion, Integrations & Automation | ✅ Complete | 2 |
 | 7 | Reporting, Tax, Compliance & FAR | ✅ Complete | 2, 6 |
 | 8 | Advanced Intelligence, Forecasting & Markets | ✅ Complete | 2, 7 |
-| 9 | Architecture Documentation & Deliverables | ⬜ Not Started | 1–8 |
+| 9 | Architecture Documentation & Deliverables | ✅ Complete | 1–8 |
 | 10 | Hardening, Auditor Portal & Prod Readiness | ⬜ Not Started | 1–9 |

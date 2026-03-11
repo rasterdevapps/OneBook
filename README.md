@@ -17,9 +17,21 @@ A sector-agnostic, Zero-Trust, High-Performance Accounting OS.
 OneBook/
 ├── backend/        # Spring Boot 3.4+ API (Gradle)
 ├── frontend/       # Angular 19+ SPA
+├── docs/           # Architecture documentation
 ├── docker-compose.yml
 └── milestones.md
 ```
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Architecture Diagram](docs/architecture-diagram.md) | Mermaid.js system, data flow, security, and deployment diagrams |
+| [Key-Binding Registry](docs/key-binding-registry.md) | Keyboard navigation design (Tally shortcuts, Command Palette, extensibility) |
+| [SQL Schema](docs/sql-schema.md) | Universal Secured Ledger schema documentation |
+| [API Documentation](docs/api-documentation.md) | REST API reference for all endpoints |
+| [Developer Guide](docs/developer-guide.md) | Onboarding, setup, coding standards |
+| [Operational Runbook](docs/operational-runbook.md) | Deployment, monitoring, troubleshooting |
 
 ## Quick Start
 
