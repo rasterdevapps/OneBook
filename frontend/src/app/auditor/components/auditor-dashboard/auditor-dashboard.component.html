@@ -1,0 +1,124 @@
+<div class="auditor-dashboard">
+  <h2>External Auditor Portal</h2>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="loading">Loading audit data...</p>
+  }
+
+  <div class="dashboard-grid">
+    <!-- Security Audit Report -->
+    @if (securityReport(); as report) {
+      <div class="security-card">
+        <h3>Security Audit Report</h3>
+        <div class="security-summary">
+          <div class="metric">
+            <span class="label">Total Checks</span>
+            <span class="value">{{ report.totalChecks }}</span>
+          </div>
+          <div class="metric">
+            <span class="label">Passed</span>
+            <span class="value positive">{{ report.passedChecks }}</span>
+          </div>
+          <div class="metric">
+            <span class="label">Failed</span>
+            <span class="value" [class.negative]="report.failedChecks > 0">{{ report.failedChecks }}</span>
+          </div>
+        </div>
+        <div class="status-indicators">
+          <div class="status-item">
+            <span class="dot" [style.background-color]="report.encryptionVerified ? '#22c55e' : '#ef4444'"></span>
+            Encryption Verified
+          </div>
+          <div class="status-item">
+            <span class="dot" [style.background-color]="report.keyManagementVerified ? '#22c55e' : '#ef4444'"></span>
+            Key Management
+          </div>
+          <div class="status-item">
+            <span class="dot" [style.background-color]="report.auditChainIntact ? '#22c55e' : '#ef4444'"></span>
+            Audit Chain Intact
+          </div>
+        </div>
+        <ul class="findings-list">
+          @for (finding of report.findings; track finding) {
+            <li [class.pass]="finding.startsWith('PASS')" [class.fail]="finding.startsWith('FAIL')">
+              {{ finding }}
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Sample Requests -->
+    <div class="requests-card">
+      <h3>Sample Requests</h3>
+      @if (sampleRequests().length === 0) {
+        <p class="empty-state">No sample requests submitted.</p>
+      } @else {
+        <ul class="request-list">
+          @for (req of sampleRequests(); track req.id) {
+            <li class="request-item">
+              <div class="request-header">
+                <span class="auditor">{{ req.auditorName }}</span>
+                <span class="status-badge" [style.background-color]="statusColor(req.status)">
+                  {{ req.status }}
+                </span>
+              </div>
+              <p class="description">{{ req.requestDescription }}</p>
+              <p class="meta">{{ req.tableName }} · {{ req.sampleSize }} samples</p>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Audit Comments -->
+    <div class="comments-card">
+      <h3>Audit Comments <span class="badge">{{ unresolvedCount() }} unresolved</span></h3>
+      @if (comments().length === 0) {
+        <p class="empty-state">No audit comments.</p>
+      } @else {
+        <ul class="comment-list">
+          @for (comment of comments(); track comment.id) {
+            <li class="comment-item" [class.resolved]="comment.resolved">
+              <div class="comment-header">
+                <span class="auditor">{{ comment.auditorName }}</span>
+                <span class="resolved-badge" [class.is-resolved]="comment.resolved">
+                  {{ comment.resolved ? 'Resolved' : 'Open' }}
+                </span>
+              </div>
+              <p class="comment-text">{{ comment.commentText }}</p>
+              <p class="meta">{{ comment.tableName }} #{{ comment.recordId }}</p>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Approval Workflows -->
+    <div class="workflows-card">
+      <h3>Approval Workflows <span class="badge">{{ pendingWorkflowCount() }} pending</span></h3>
+      @if (workflows().length === 0) {
+        <p class="empty-state">No approval workflows.</p>
+      } @else {
+        <ul class="workflow-list">
+          @for (workflow of workflows(); track workflow.id) {
+            <li class="workflow-item">
+              <div class="workflow-header">
+                <span class="workflow-name">{{ workflow.workflowName }}</span>
+                <span class="status-badge" [style.background-color]="statusColor(workflow.status)">
+                  {{ workflow.status }}
+                </span>
+              </div>
+              <p class="description">{{ workflow.description }}</p>
+              <p class="meta">{{ workflow.auditorName }}</p>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </div>
+</div>
