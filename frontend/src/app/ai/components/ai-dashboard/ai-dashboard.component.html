@@ -1,0 +1,73 @@
+<div class="ai-dashboard">
+  <h2>AI Insights Dashboard</h2>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="loading">Loading AI insights...</p>
+  }
+
+  <div class="dashboard-grid">
+    <!-- Cash Flow Forecast -->
+    @if (forecast(); as f) {
+      <app-forecast-chart [forecast]="f" />
+    }
+
+    <!-- Anomaly Alerts -->
+    <app-anomaly-alert [anomalies]="anomalies()" />
+
+    <!-- Market Sentiment -->
+    <div class="sentiment-card">
+      <h3>Market Sentiment</h3>
+      @if (sentiments().length === 0) {
+        <p class="empty-state">No sentiment data available.</p>
+      } @else {
+        <ul class="sentiment-list">
+          @for (item of sentiments(); track item.symbol + item.publishedDate) {
+            <li class="sentiment-item">
+              <div class="sentiment-header">
+                <span class="symbol">{{ item.symbol }}</span>
+                <span class="score-badge" [style.background-color]="sentimentColor(item.sentimentScore)">
+                  {{ item.sentimentScore }}
+                </span>
+              </div>
+              <p class="headline">{{ item.headline }}</p>
+              <p class="source">{{ item.source }} · {{ item.publishedDate }}</p>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Portfolio Valuation -->
+    @if (valuation(); as v) {
+      <div class="valuation-card">
+        <h3>Portfolio Valuation</h3>
+        <div class="valuation-grid">
+          <div class="valuation-item">
+            <span class="label">Total Holdings</span>
+            <span class="value">{{ v.totalHoldings }}</span>
+          </div>
+          <div class="valuation-item">
+            <span class="label">Cost Basis</span>
+            <span class="value">{{ v.totalCostBasis | currency }}</span>
+          </div>
+          <div class="valuation-item">
+            <span class="label">Market Value</span>
+            <span class="value">{{ v.totalMarketValue | currency }}</span>
+          </div>
+          <div class="valuation-item">
+            <span class="label">Unrealized G/L</span>
+            <span class="value" [class.positive]="v.totalUnrealizedGainLoss >= 0"
+                  [class.negative]="v.totalUnrealizedGainLoss < 0">
+              {{ v.totalUnrealizedGainLoss | currency }} ({{ v.gainLossPercent | number:'1.1-1' }}%)
+            </span>
+          </div>
+        </div>
+        <p class="valuation-date">As of {{ v.valuationDate }}</p>
+      </div>
+    }
+  </div>
+</div>

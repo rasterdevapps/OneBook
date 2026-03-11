@@ -1,0 +1,35 @@
+<div class="anomaly-card">
+  <h3>Anomaly Alerts</h3>
+
+  @if (anomalies().length === 0) {
+    <p class="empty-state">No anomalies detected.</p>
+  } @else {
+    <table class="anomaly-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Confidence</th>
+          <th>Severity</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (anomaly of anomalies(); track anomaly.transactionId) {
+          <tr>
+            <td>{{ anomaly.anomalyType }}</td>
+            <td>{{ anomaly.description }}</td>
+            <td>{{ anomaly.amount | currency }}</td>
+            <td>{{ anomaly.confidenceScore | number:'1.0-0' }}%</td>
+            <td>
+              <span class="severity-badge"
+                    [style.background-color]="severityColor(anomaly.severity)">
+                {{ anomaly.severity }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

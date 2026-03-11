@@ -1,6 +1,6 @@
 import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommandPaletteComponent } from './keyboard/components/command-palette/command-palette.component';
 import { KeyboardNavigationService } from './keyboard/services/keyboard-navigation.service';
 import { LanguageSwitcherComponent } from './i18n/components/language-switcher/language-switcher.component';
@@ -17,7 +17,7 @@ interface HealthResponse {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommandPaletteComponent, LanguageSwitcherComponent],
+  imports: [RouterOutlet, RouterLink, CommandPaletteComponent, LanguageSwitcherComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -136,17 +136,17 @@
 
 ## Milestone 8 — Advanced Intelligence & AI Features
 
-**Status:** ⬜ Not Started
+**Status:** ✅ Complete
 
 **Goal:** Add predictive analytics and market integrations to transform Nexus Universal into a decision-support platform.
 
-- [ ] Implement Predictive Cash Flow Forecasting using historical ledger data.
-- [ ] Build AI-driven Scenario Modeling ("What-If" analysis) to simulate financial impacts of external factors (sales drops, interest hikes).
-- [ ] Build Mark-to-Market (MTM) Valuation engine for share-market investment portfolios.
-- [ ] Automate accounting for Corporate Actions (Stock Splits, Dividends, Bonus Issues) via financial APIs.
-- [ ] Create a Market Sentiment Overlay on the CFO dashboard to display relevant market news.
-- [ ] Add anomaly detection for unusual transactions (fraud indicators, duplicate entries).
-- [ ] Implement Digital Asset & Crypto Ledger tracking for Mark-to-Market valuations of stablecoins/crypto.
+- [x] Implement Predictive Cash Flow Forecasting using historical ledger data.
+- [x] Build AI-driven Scenario Modeling ("What-If" analysis) to simulate financial impacts of external factors (sales drops, interest hikes).
+- [x] Build Mark-to-Market (MTM) Valuation engine for share-market investment portfolios.
+- [x] Automate accounting for Corporate Actions (Stock Splits, Dividends, Bonus Issues) via financial APIs.
+- [x] Create a Market Sentiment Overlay on the CFO dashboard to display relevant market news.
+- [x] Add anomaly detection for unusual transactions (fraud indicators, duplicate entries).
+- [x] Implement Digital Asset & Crypto Ledger tracking for Mark-to-Market valuations of stablecoins/crypto.
 
 **Exit Criteria:** The system generates accurate 30/60/90-day cash flow forecasts; MTM valuations reconcile with market APIs; stock splits are handled automatically.
 
@@ -227,7 +227,7 @@ After a Milestone is "Exit Criteria Met," summarize the final state into `PROJEC
 | 4 | Redis Warm Cache & Performance | ✅ Complete | 3 |
 | 5 | Keyboard Navigation & Command Palette | ✅ Complete | 1 |
 | 6 | Universal Ingestion, Integrations & Automation | ✅ Complete | 2 |
-| 7 | Reporting, Tax, Compliance & FAR | ⬜ Not Started | 2, 6 |
-| 8 | Advanced Intelligence, Forecasting & Markets | ⬜ Not Started | 2, 7 |
+| 7 | Reporting, Tax, Compliance & FAR | ✅ Complete | 2, 6 |
+| 8 | Advanced Intelligence, Forecasting & Markets | ✅ Complete | 2, 7 |
 | 9 | Architecture Documentation & Deliverables | ⬜ Not Started | 1–8 |
 | 10 | Hardening, Auditor Portal & Prod Readiness | ⬜ Not Started | 1–9 |

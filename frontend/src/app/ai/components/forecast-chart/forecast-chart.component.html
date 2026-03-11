@@ -1,0 +1,32 @@
+<div class="forecast-card">
+  <h3>Cash Flow Forecast</h3>
+  <p class="current-position">
+    Current Position: <strong>{{ forecast().currentCashPosition | currency }}</strong>
+  </p>
+
+  <div class="forecast-grid">
+    <div class="forecast-item">
+      <span class="label">30-Day</span>
+      <span class="value">{{ forecast().forecast30Day | currency }}</span>
+    </div>
+    <div class="forecast-item">
+      <span class="label">60-Day</span>
+      <span class="value">{{ forecast().forecast60Day | currency }}</span>
+    </div>
+    <div class="forecast-item">
+      <span class="label">90-Day</span>
+      <span class="value">{{ forecast().forecast90Day | currency }}</span>
+    </div>
+  </div>
+
+  <div class="flow-summary">
+    <p>Avg Daily Inflow: <strong>{{ forecast().avgDailyInflow | currency }}</strong></p>
+    <p>Avg Daily Outflow: <strong>{{ forecast().avgDailyOutflow | currency }}</strong></p>
+  </div>
+
+  <div class="risk-badge" [style.background-color]="riskColor()">
+    Risk: {{ forecast().riskLevel }}
+  </div>
+
+  <p class="generated-date">Generated: {{ forecast().generatedDate }}</p>
+</div>

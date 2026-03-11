@@ -1,0 +1,75 @@
+.forecast-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    color: #1f2937;
+  }
+}
+
+.current-position {
+  font-size: 16px;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.forecast-item {
+  text-align: center;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+
+  .label {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .value {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+}
+
+.flow-summary {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #374151;
+
+  p {
+    margin: 4px 0;
+  }
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.generated-date {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #9ca3af;
+}
