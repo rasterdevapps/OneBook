@@ -93,13 +93,14 @@ public class SecurityAuditService {
 
     private boolean verifyKeyManagement(List<String> findings) {
         try {
-            byte[] dek = keyManagementService.generateDataEncryptionKey();
-            if (dek == null || dek.length == 0) {
-                findings.add("FAIL: Key generation produced empty key");
+            javax.crypto.SecretKey key = keyManagementService.getCurrentEncryptionKey();
+            if (key == null) {
+                findings.add("FAIL: Key derivation produced null key");
                 return false;
             }
-            if (dek.length < 16) {
-                findings.add("FAIL: Generated key is too short (" + dek.length + " bytes)");
+            byte[] encoded = key.getEncoded();
+            if (encoded == null || encoded.length < 16) {
+                findings.add("FAIL: Derived key is too short");
                 return false;
             }
             findings.add("PASS: Key management system is operational");
@@ -145,13 +146,13 @@ public class SecurityAuditService {
 
     private boolean verifyKeyDerivation(List<String> findings) {
         try {
-            byte[] key1 = keyManagementService.generateDataEncryptionKey();
-            byte[] key2 = keyManagementService.generateDataEncryptionKey();
-            if (java.util.Arrays.equals(key1, key2)) {
-                findings.add("FAIL: Key derivation produces identical keys");
+            javax.crypto.SecretKey key1 = keyManagementService.getEncryptionKey(1);
+            javax.crypto.SecretKey key2 = keyManagementService.getEncryptionKey(2);
+            if (java.util.Arrays.equals(key1.getEncoded(), key2.getEncoded())) {
+                findings.add("FAIL: Key derivation produces identical keys for different versions");
                 return false;
             }
-            findings.add("PASS: Key derivation produces unique keys");
+            findings.add("PASS: Key derivation produces unique keys per version");
             return true;
         } catch (Exception e) {
             findings.add("FAIL: Key derivation verification error: " + e.getMessage());
