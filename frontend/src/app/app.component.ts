@@ -1,8 +1,9 @@
 import { Component, signal, computed, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommandPaletteComponent } from './keyboard/components/command-palette/command-palette.component';
 import { KeyboardNavigationService } from './keyboard/services/keyboard-navigation.service';
+import { CommandBootstrapService } from './keyboard/services/command-bootstrap.service';
 import { LanguageSwitcherComponent } from './i18n/components/language-switcher/language-switcher.component';
 
 interface HealthResponse {
@@ -17,27 +18,33 @@ interface HealthResponse {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, CommandPaletteComponent, LanguageSwitcherComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommandPaletteComponent, LanguageSwitcherComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   private http = inject(HttpClient);
-
-  // Inject to eagerly initialize the global keyboard listener
   private keyboardNav = inject(KeyboardNavigationService);
+  private commandBootstrap = inject(CommandBootstrapService);
 
   title = signal('OneBook');
   backendStatus = signal('Checking...');
   threadInfo = signal('');
   postgresqlStatus = signal('Checking...');
   redisStatus = signal('Checking...');
+  sidebarCollapsed = signal(false);
 
   statusMessage = computed(() =>
     `${this.title()} — Backend: ${this.backendStatus()}`
   );
 
+  statusClass = computed(() =>
+    this.backendStatus() === 'UP' ? 'online' : 'offline'
+  );
+
   ngOnInit(): void {
+    this.commandBootstrap.bootstrap();
+
     this.http.get<HealthResponse>('/api/health')
       .subscribe({
         next: (res) => {
@@ -49,10 +56,14 @@ export class AppComponent implements OnInit {
           }
         },
         error: () => {
-          this.backendStatus.set('Unavailable');
-          this.postgresqlStatus.set('Unavailable');
-          this.redisStatus.set('Unavailable');
+          this.backendStatus.set('Offline');
+          this.postgresqlStatus.set('Offline');
+          this.redisStatus.set('Offline');
         }
       });
+  }
+
+  toggleSidebar(): void {
+    this.sidebarCollapsed.update(v => !v);
   }
 }

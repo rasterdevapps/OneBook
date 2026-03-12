@@ -1,0 +1,169 @@
+<div class="voucher-shell">
+  <!-- ─── Header bar (Tally-style) ─── -->
+  <div class="voucher-header">
+    <span class="voucher-type-badge">F4</span>
+    <h2>Contra Voucher</h2>
+    <div class="header-actions">
+      @if (mode() === 'list') {
+        <button class="btn btn-primary" (click)="startCreate()">
+          <kbd>C</kbd> Create
+        </button>
+      }
+      @if (mode() === 'form') {
+        <button class="btn btn-secondary" (click)="backToList()">
+          <kbd>Esc</kbd> Back
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ─── LIST VIEW ─── -->
+  @if (mode() === 'list') {
+    <div class="voucher-list">
+      @if (vouchers().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">📒</div>
+          <p>No contra vouchers yet.</p>
+          <p class="hint">Press <kbd>C</kbd> to create your first contra voucher.</p>
+        </div>
+      } @else {
+        <table class="voucher-table">
+          <thead>
+            <tr>
+              <th class="col-vno">Vch No.</th>
+              <th class="col-date">Date</th>
+              <th class="col-debit">Debit (To)</th>
+              <th class="col-credit">Credit (By)</th>
+              <th class="col-amount">Amount (₹)</th>
+              <th class="col-narration">Narration</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (v of vouchers(); track v.uuid) {
+              <tr [class.selected]="selectedUuid() === v.uuid"
+                  (click)="selectVoucher(v.uuid)">
+                <td class="col-vno">{{ v.voucherNumber }}</td>
+                <td class="col-date">{{ v.date }}</td>
+                <td class="col-debit">{{ v.debitAccountName }}</td>
+                <td class="col-credit">{{ v.creditAccountName }}</td>
+                <td class="col-amount">{{ v.amount | number:'1.2-2' }}</td>
+                <td class="col-narration">{{ v.narration }}</td>
+                <td class="col-actions">
+                  <button class="btn-icon" title="Edit" (click)="startEdit(v); $event.stopPropagation()">✏️</button>
+                  <button class="btn-icon" title="Delete" (click)="deleteVoucher(v.uuid); $event.stopPropagation()">🗑️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="total-label">Total</td>
+              <td class="col-amount total-value">{{ totalAmount() | number:'1.2-2' }}</td>
+              <td colspan="2"></td>
+            </tr>
+          </tfoot>
+        </table>
+      }
+    </div>
+  }
+
+  <!-- ─── CREATE / EDIT FORM ─── -->
+  @if (mode() === 'form') {
+    <div class="voucher-form">
+      <div class="form-title-bar">
+        {{ editing() ? 'Edit' : 'Create' }} Contra Voucher
+        @if (editing()) {
+          <span class="edit-badge">{{ editingVoucherNumber() }}</span>
+        }
+      </div>
+
+      <div class="form-body">
+        <!-- Row 1: Date & Voucher Number -->
+        <div class="form-row">
+          <label>Date</label>
+          <input #dateInput type="date" [value]="formDate()"
+                 (input)="formDate.set(dateInput.value)"
+                 class="input" />
+        </div>
+
+        <!-- Row 2: Debit Account (To) -->
+        <div class="form-row">
+          <label>Account <span class="dr-tag">Dr</span> (To)</label>
+          <select #drSelect [value]="formDebitAccountId()"
+                  (change)="formDebitAccountId.set(+drSelect.value)"
+                  class="input">
+            <option value="0" disabled>— Select account —</option>
+            @for (a of cashBankAccounts(); track a.id) {
+              <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Row 3: Credit Account (By) -->
+        <div class="form-row">
+          <label>Account <span class="cr-tag">Cr</span> (By)</label>
+          <select #crSelect [value]="formCreditAccountId()"
+                  (change)="formCreditAccountId.set(+crSelect.value)"
+                  class="input">
+            <option value="0" disabled>— Select account —</option>
+            @for (a of cashBankAccounts(); track a.id) {
+              <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Row 4: Amount -->
+        <div class="form-row">
+          <label>Amount (₹)</label>
+          <input #amtInput type="number" step="0.01" min="0"
+                 [value]="formAmount()"
+                 (input)="formAmount.set(+amtInput.value)"
+                 class="input amount-input" placeholder="0.00" />
+        </div>
+
+        <!-- Row 5: Narration -->
+        <div class="form-row">
+          <label>Narration</label>
+          <textarea #narrInput rows="2"
+                    [value]="formNarration()"
+                    (input)="formNarration.set(narrInput.value)"
+                    class="input" placeholder="e.g. Cash deposited to bank"></textarea>
+        </div>
+
+        @if (formError()) {
+          <div class="form-error">⚠ {{ formError() }}</div>
+        }
+      </div>
+
+      <div class="form-footer">
+        <div class="form-hint">
+          @if (!editing()) {
+            Press <kbd>Ctrl+Enter</kbd> to save &amp; create another
+          }
+        </div>
+        <div class="form-buttons">
+          <button class="btn btn-secondary" (click)="backToList()">Cancel</button>
+          <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : (editing() ? 'Update' : 'Save') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ─── Footer shortcut hints ─── -->
+  <div class="voucher-footer">
+    @if (mode() === 'list') {
+      <span><kbd>C</kbd> Create</span>
+      <span><kbd>Enter</kbd> Edit selected</span>
+      <span><kbd>Del</kbd> Delete selected</span>
+    }
+    @if (mode() === 'form') {
+      <span><kbd>Esc</kbd> Cancel</span>
+      <span><kbd>Ctrl+S</kbd> Save</span>
+    }
+    <span class="spacer"></span>
+    <span class="voucher-count">{{ vouchers().length }} voucher(s)</span>
+  </div>
+</div>

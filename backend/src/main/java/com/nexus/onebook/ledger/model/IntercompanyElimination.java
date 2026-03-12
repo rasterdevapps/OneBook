@@ -37,7 +37,7 @@ public class IntercompanyElimination {
     @Column(name = "elimination_date")
     private LocalDate eliminationDate;
 
-    @Column(name = "metadata", columnDefinition = "text")
+    @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -4,6 +4,15 @@
 -- Sets up the foundational RLS mechanism for multi-tenant
 -- data isolation. All future tables holding tenant-scoped data
 -- should enable RLS and attach the onebook_tenant_isolation policy.
+--
+-- PREREQUISITES (run once as a PostgreSQL superuser before first migration):
+--   CREATE EXTENSION IF NOT EXISTS pgcrypto;       -- needed for gen_random_uuid() on PG < 13
+--   DO $$ BEGIN
+--     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'onebook_app') THEN
+--       CREATE ROLE onebook_app NOLOGIN;
+--     END IF;
+--   END $$;
+--   GRANT onebook_app TO onebook;                  -- the application db user
 -- ============================================================
 
 -- 1. Helper function: returns the current tenant ID from the
@@ -20,16 +29,3 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STABLE;
 
--- 2. Application role used by the Spring Boot service.
---    RLS policies are enforced for non-superuser roles.
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'onebook_app') THEN
-        CREATE ROLE onebook_app NOLOGIN;
-    END IF;
-END
-$$;
-
--- Grant the application role to the current user so Spring Boot
--- connections can SET ROLE onebook_app when needed.
-GRANT onebook_app TO CURRENT_USER;

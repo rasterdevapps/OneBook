@@ -43,7 +43,7 @@ public class BankFeedTransaction {
     @Column(name = "source", length = 20)
     private BankFeedSource source = BankFeedSource.MANUAL;
 
-    @Column(name = "metadata", columnDefinition = "text")
+    @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 
     @Column(name = "created_at", nullable = false, updatable = false)

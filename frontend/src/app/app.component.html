@@ -1,27 +1,127 @@
-<main class="onebook-shell">
-  <header>
-    <h1>{{ title() }}</h1>
-    <p class="tagline">A modern nexus accounting software</p>
-    <app-language-switcher />
-  </header>
-
-  <nav class="main-nav">
-    <a routerLink="/">Home</a>
-    <a routerLink="/ai">AI Insights</a>
-  </nav>
-
-  <section class="status-panel">
-    <p>{{ statusMessage() }}</p>
-    @if (threadInfo()) {
-      <p class="thread-info">Thread: {{ threadInfo() }}</p>
-    }
-    <div class="component-status">
-      <p>PostgreSQL: {{ postgresqlStatus() }}</p>
-      <p>Redis: {{ redisStatus() }}</p>
+<div class="app-layout" [class.sidebar-collapsed]="sidebarCollapsed()">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">📒</span>
+        @if (!sidebarCollapsed()) {
+          <span class="logo-text">{{ title() }}</span>
+        }
+      </div>
+      <button class="toggle-btn" (click)="toggleSidebar()">{{ sidebarCollapsed() ? '▶' : '◀' }}</button>
     </div>
-  </section>
 
-  <router-outlet />
+    <nav class="sidebar-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <span class="nav-icon">🏠</span>
+        @if (!sidebarCollapsed()) { <span>Dashboard</span> }
+      </a>
+
+      @if (!sidebarCollapsed()) { <div class="nav-section">Accounting</div> }
+      <a routerLink="/voucher/sales" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📄</span>
+        @if (!sidebarCollapsed()) { <span>Sales <kbd>F8</kbd></span> }
+      </a>
+      <a routerLink="/voucher/purchase" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🛒</span>
+        @if (!sidebarCollapsed()) { <span>Purchase <kbd>F9</kbd></span> }
+      </a>
+      <a routerLink="/voucher/payment" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💸</span>
+        @if (!sidebarCollapsed()) { <span>Payment <kbd>F5</kbd></span> }
+      </a>
+      <a routerLink="/voucher/receipt" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💰</span>
+        @if (!sidebarCollapsed()) { <span>Receipt <kbd>F6</kbd></span> }
+      </a>
+      <a routerLink="/voucher/contra" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔄</span>
+        @if (!sidebarCollapsed()) { <span>Contra <kbd>F4</kbd></span> }
+      </a>
+      <a routerLink="/voucher/journal" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📝</span>
+        @if (!sidebarCollapsed()) { <span>Journal <kbd>F7</kbd></span> }
+      </a>
+      <a routerLink="/ledger" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📖</span>
+        @if (!sidebarCollapsed()) { <span>Ledger</span> }
+      </a>
+
+      @if (!sidebarCollapsed()) { <div class="nav-section">Reports</div> }
+      <a routerLink="/reports/trial-balance" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📊</span>
+        @if (!sidebarCollapsed()) { <span>Trial Balance</span> }
+      </a>
+      <a routerLink="/reports/profit-loss" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        @if (!sidebarCollapsed()) { <span>Profit &amp; Loss</span> }
+      </a>
+      <a routerLink="/reports/balance-sheet" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📋</span>
+        @if (!sidebarCollapsed()) { <span>Balance Sheet</span> }
+      </a>
+      <a routerLink="/reports/cash-flow" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">💧</span>
+        @if (!sidebarCollapsed()) { <span>Cash Flow</span> }
+      </a>
+
+      @if (!sidebarCollapsed()) { <div class="nav-section">Management</div> }
+      <a routerLink="/inventory" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📦</span>
+        @if (!sidebarCollapsed()) { <span>Inventory</span> }
+      </a>
+      <a routerLink="/gst" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏛️</span>
+        @if (!sidebarCollapsed()) { <span>GST &amp; Tax</span> }
+      </a>
+      <a routerLink="/banking" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🏦</span>
+        @if (!sidebarCollapsed()) { <span>Banking</span> }
+      </a>
+      <a routerLink="/master/create" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        @if (!sidebarCollapsed()) { <span>Masters</span> }
+      </a>
+
+      @if (!sidebarCollapsed()) { <div class="nav-section">Intelligence</div> }
+      <a routerLink="/ai" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🤖</span>
+        @if (!sidebarCollapsed()) { <span>AI Insights</span> }
+      </a>
+      <a routerLink="/auditor" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🔍</span>
+        @if (!sidebarCollapsed()) { <span>Auditor Portal</span> }
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      @if (!sidebarCollapsed()) {
+        <div class="status-indicator" [class]="statusClass()">
+          <span class="dot"></span>
+          <span>{{ backendStatus() }}</span>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <span class="breadcrumb">OneBook Enterprise</span>
+      </div>
+      <div class="top-bar-right">
+        <app-language-switcher />
+        <button class="cmd-hint" title="Command Palette (Ctrl+K)">
+          <kbd>Ctrl+K</kbd> Command Palette
+        </button>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <router-outlet />
+    </div>
+  </main>
 
   <app-command-palette />
-</main>
+</div>

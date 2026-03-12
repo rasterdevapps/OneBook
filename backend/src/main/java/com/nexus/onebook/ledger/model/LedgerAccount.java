@@ -47,7 +47,7 @@ public class LedgerAccount {
     @Column(name = "is_active", nullable = false)
     private boolean active = true;
 
-    @Column(name = "metadata", columnDefinition = "text")
+    @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 
     @Column(name = "created_at", nullable = false, updatable = false)

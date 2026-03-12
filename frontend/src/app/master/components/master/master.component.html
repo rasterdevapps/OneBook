@@ -1,0 +1,238 @@
+<div class="master-shell">
+  <!-- ─── Header ─── -->
+  <div class="master-header">
+    <span class="master-badge">⚙️</span>
+    <h2>Chart of Accounts</h2>
+    <div class="header-tabs">
+      <button class="tab" [class.active]="tab() === 'accounts'" (click)="tab.set('accounts')">Ledger Accounts</button>
+      <button class="tab" [class.active]="tab() === 'groups'" (click)="tab.set('groups')">Account Groups</button>
+    </div>
+    <div class="header-actions">
+      @if (mode() === 'list') {
+        <button class="btn btn-primary" (click)="startCreate()">
+          <kbd>C</kbd> Create
+        </button>
+      }
+      @if (mode() === 'form') {
+        <button class="btn btn-back" (click)="backToList()">
+          <kbd>Esc</kbd> Back
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ═══════════ ACCOUNTS TAB ═══════════ -->
+  @if (tab() === 'accounts') {
+
+    <!-- ── LIST ── -->
+    @if (mode() === 'list') {
+      <div class="filter-bar">
+        <input #searchInput type="text" class="search-input"
+               placeholder="Search accounts…"
+               [value]="searchTerm()"
+               (input)="searchTerm.set(searchInput.value)" />
+        <select #groupFilter class="filter-select"
+                [value]="filterGroupId()"
+                (change)="filterGroupId.set(+groupFilter.value)">
+          <option [value]="0">All Groups</option>
+          @for (g of groups(); track g.id) {
+            <option [value]="g.id">{{ g.name }}</option>
+          }
+        </select>
+        <span class="result-count">{{ filteredAccounts().length }} account(s)</span>
+      </div>
+
+      <div class="master-list">
+        <table class="master-table">
+          <thead>
+            <tr>
+              <th class="col-code">Code</th>
+              <th class="col-name">Account Name</th>
+              <th class="col-group">Under Group</th>
+              <th class="col-type">Type</th>
+              <th class="col-balance">Opening Bal</th>
+              <th class="col-status">Status</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of filteredAccounts(); track a.id) {
+              <tr [class.selected]="selectedId() === a.id"
+                  [class.inactive]="!a.active"
+                  (click)="selectedId.set(a.id)">
+                <td class="col-code">{{ a.accountCode }}</td>
+                <td class="col-name">{{ a.accountName }}</td>
+                <td class="col-group">{{ a.groupName }}</td>
+                <td class="col-type"><span class="type-chip" [attr.data-type]="a.accountType">{{ a.accountType }}</span></td>
+                <td class="col-balance" [class.dr]="a.openingBalance > 0" [class.cr]="a.openingBalance < 0">
+                  @if (a.openingBalance !== 0) {
+                    {{ abs(a.openingBalance) | number:'1.2-2' }}
+                    <span class="bal-tag">{{ a.openingBalance > 0 ? 'Dr' : 'Cr' }}</span>
+                  } @else { — }
+                </td>
+                <td class="col-status">
+                  <span class="status-dot" [class.active]="a.active"></span>
+                  {{ a.active ? 'Active' : 'Inactive' }}
+                </td>
+                <td class="col-actions">
+                  <button class="btn-icon" title="Edit" (click)="editAccount(a); $event.stopPropagation()">✏️</button>
+                  <button class="btn-icon" title="Delete" (click)="deleteAccount(a.id); $event.stopPropagation()">🗑️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (filteredAccounts().length === 0) {
+          <div class="empty-state">
+            <p>No accounts match your search.</p>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ── CREATE / EDIT ACCOUNT FORM ── -->
+    @if (mode() === 'form') {
+      <div class="master-form">
+        <div class="form-title-bar">
+          {{ editingAccount() ? 'Alter' : 'Create' }} Ledger Account
+          @if (editingAccount()) {
+            <span class="edit-badge">{{ editingAccount()!.accountCode }}</span>
+          }
+        </div>
+
+        <div class="form-body">
+          <div class="form-row">
+            <label>Account Name <span class="req">*</span></label>
+            <input #nameInput type="text" class="input"
+                   [value]="fName()"
+                   (input)="fName.set(nameInput.value)"
+                   placeholder="e.g. Cash, Bank — SBI" />
+          </div>
+
+          <div class="form-row">
+            <label>Account Code <span class="req">*</span></label>
+            <input #codeInput type="text" class="input"
+                   [value]="fCode()"
+                   (input)="fCode.set(codeInput.value)"
+                   placeholder="e.g. CASH, SBI-CA" />
+          </div>
+
+          <div class="form-row">
+            <label>Under Group <span class="req">*</span></label>
+            <select #groupSelect class="input"
+                    [value]="fGroupId()"
+                    (change)="onGroupChange(+groupSelect.value)">
+              <option value="0" disabled>— Select group —</option>
+              @for (g of groups(); track g.id) {
+                <option [value]="g.id">{{ g.name }} ({{ g.nature }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label>Account Type</label>
+            <input type="text" class="input readonly" [value]="fType()" readonly />
+            <span class="hint">Auto-set based on group selection</span>
+          </div>
+
+          <div class="form-row">
+            <label>Opening Balance</label>
+            <div class="balance-row">
+              <input #balInput type="number" step="0.01" class="input amount-input"
+                     [value]="abs(fBalance())"
+                     (input)="updateBalance(+balInput.value)"
+                     placeholder="0.00" />
+              <select #balDir class="input bal-dir"
+                      [value]="fBalanceDir()"
+                      (change)="fBalanceDir.set(balDir.value)">
+                <option value="Dr">Dr</option>
+                <option value="Cr">Cr</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Mailing Name</label>
+            <input #mailInput type="text" class="input"
+                   [value]="fMailingName()"
+                   (input)="fMailingName.set(mailInput.value)"
+                   placeholder="(optional)" />
+          </div>
+
+          <div class="form-row">
+            <label>Address</label>
+            <textarea #addrInput rows="2" class="input"
+                      [value]="fAddress()"
+                      (input)="fAddress.set(addrInput.value)"
+                      placeholder="(optional)"></textarea>
+          </div>
+
+          @if (formError()) {
+            <div class="form-error">⚠ {{ formError() }}</div>
+          }
+        </div>
+
+        <div class="form-footer">
+          <div class="form-hint">
+            Press <kbd>Ctrl+S</kbd> to save
+          </div>
+          <div class="form-buttons">
+            <button class="btn btn-secondary" (click)="backToList()">Cancel</button>
+            <button class="btn btn-primary" (click)="saveAccount()">
+              {{ editingAccount() ? 'Update' : 'Save' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- ═══════════ GROUPS TAB ═══════════ -->
+  @if (tab() === 'groups') {
+    <div class="master-list">
+      <table class="master-table">
+        <thead>
+          <tr>
+            <th class="col-name">Group Name</th>
+            <th class="col-group">Parent Group</th>
+            <th class="col-type">Nature</th>
+            <th>Primary</th>
+            <th>Gross Profit</th>
+            <th>Accounts</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (g of groups(); track g.id) {
+            <tr [class.primary-row]="g.isPrimary">
+              <td class="col-name">
+                @if (!g.isPrimary) { <span class="indent">↳</span> }
+                {{ g.name }}
+              </td>
+              <td class="col-group">{{ parentName(g.parentId) }}</td>
+              <td><span class="nature-chip" [attr.data-nature]="g.nature">{{ g.nature }}</span></td>
+              <td>{{ g.isPrimary ? '✓' : '' }}</td>
+              <td>{{ g.affectsGrossProfit ? '✓' : '' }}</td>
+              <td class="col-count">{{ accountCountForGroup(g.id) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- ─── Footer ─── -->
+  <div class="master-footer">
+    @if (mode() === 'list') {
+      <span><kbd>C</kbd> Create</span>
+      <span><kbd>Enter</kbd> Edit</span>
+      <span><kbd>Del</kbd> Delete</span>
+    }
+    @if (mode() === 'form') {
+      <span><kbd>Esc</kbd> Cancel</span>
+      <span><kbd>Ctrl+S</kbd> Save</span>
+    }
+    <span class="spacer"></span>
+    <span class="count">{{ accounts().length }} accounts · {{ groups().length }} groups</span>
+  </div>
+</div>

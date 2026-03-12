@@ -48,7 +48,7 @@ public class EInvoice {
     @JoinColumn(name = "journal_transaction_id")
     private JournalTransaction journalTransaction;
 
-    @Column(name = "metadata", columnDefinition = "text")
+    @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -29,7 +29,7 @@ public class CostCenter {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "metadata", columnDefinition = "text")
+    @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 
     @Column(name = "created_at", nullable = false, updatable = false)

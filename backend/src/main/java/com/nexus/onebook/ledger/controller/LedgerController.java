@@ -2,7 +2,9 @@ package com.nexus.onebook.ledger.controller;
 
 import com.nexus.onebook.ledger.dto.LedgerAccountRequest;
 import com.nexus.onebook.ledger.dto.TrialBalanceReport;
+import com.nexus.onebook.ledger.model.CostCenter;
 import com.nexus.onebook.ledger.model.LedgerAccount;
+import com.nexus.onebook.ledger.repository.CostCenterRepository;
 import com.nexus.onebook.ledger.service.LedgerAccountService;
 import com.nexus.onebook.ledger.service.TrialBalanceService;
 import jakarta.validation.Valid;
@@ -21,11 +23,14 @@ public class LedgerController {
 
     private final LedgerAccountService accountService;
     private final TrialBalanceService trialBalanceService;
+    private final CostCenterRepository costCenterRepository;
 
     public LedgerController(LedgerAccountService accountService,
-                            TrialBalanceService trialBalanceService) {
+                            TrialBalanceService trialBalanceService,
+                            CostCenterRepository costCenterRepository) {
         this.accountService = accountService;
         this.trialBalanceService = trialBalanceService;
+        this.costCenterRepository = costCenterRepository;
     }
 
     @PostMapping("/accounts")
@@ -47,5 +52,10 @@ public class LedgerController {
     @GetMapping("/trial-balance")
     public ResponseEntity<TrialBalanceReport> getTrialBalance(@RequestParam String tenantId) {
         return ResponseEntity.ok(trialBalanceService.generateTrialBalance(tenantId));
+    }
+
+    @GetMapping("/cost-centers")
+    public ResponseEntity<List<CostCenter>> getCostCenters(@RequestParam String tenantId) {
+        return ResponseEntity.ok(costCenterRepository.findByTenantId(tenantId));
     }
 }

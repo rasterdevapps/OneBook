@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,6 +33,12 @@ public class JournalController {
             @Valid @RequestBody JournalTransactionRequest request) {
         JournalTransaction transaction = journalService.createTransaction(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<JournalTransaction>> getTransactionsByTenant(
+            @RequestParam String tenantId) {
+        return ResponseEntity.ok(transactionRepository.findByTenantId(tenantId));
     }
 
     @GetMapping("/transactions/{uuid}")
