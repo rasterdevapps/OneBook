@@ -31,7 +31,7 @@ public class JournalEntry {
     private JournalTransaction transaction;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id", nullable = false)
     private LedgerAccount account;
 

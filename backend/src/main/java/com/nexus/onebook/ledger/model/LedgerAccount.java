@@ -24,7 +24,7 @@ public class LedgerAccount {
     private String tenantId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cost_center_id", nullable = false)
     private CostCenter costCenter;
 

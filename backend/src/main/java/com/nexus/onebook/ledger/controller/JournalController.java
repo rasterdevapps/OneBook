@@ -2,7 +2,6 @@ package com.nexus.onebook.ledger.controller;
 
 import com.nexus.onebook.ledger.dto.JournalTransactionRequest;
 import com.nexus.onebook.ledger.model.JournalTransaction;
-import com.nexus.onebook.ledger.repository.JournalTransactionRepository;
 import com.nexus.onebook.ledger.service.JournalService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,12 +19,9 @@ import java.util.UUID;
 public class JournalController {
 
     private final JournalService journalService;
-    private final JournalTransactionRepository transactionRepository;
 
-    public JournalController(JournalService journalService,
-                             JournalTransactionRepository transactionRepository) {
+    public JournalController(JournalService journalService) {
         this.journalService = journalService;
-        this.transactionRepository = transactionRepository;
     }
 
     @PostMapping("/transactions")
@@ -38,12 +34,12 @@ public class JournalController {
     @GetMapping("/transactions")
     public ResponseEntity<List<JournalTransaction>> getTransactionsByTenant(
             @RequestParam String tenantId) {
-        return ResponseEntity.ok(transactionRepository.findByTenantId(tenantId));
+        return ResponseEntity.ok(journalService.getTransactionsByTenant(tenantId));
     }
 
     @GetMapping("/transactions/{uuid}")
     public ResponseEntity<JournalTransaction> getTransaction(@PathVariable UUID uuid) {
-        JournalTransaction transaction = transactionRepository.findByTransactionUuid(uuid)
+        JournalTransaction transaction = journalService.getTransactionByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Transaction not found: " + uuid));
         return ResponseEntity.ok(transaction);

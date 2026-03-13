@@ -3,7 +3,6 @@ package com.nexus.onebook.ledger.controller;
 import com.nexus.onebook.ledger.exception.GlobalExceptionHandler;
 import com.nexus.onebook.ledger.exception.UnbalancedTransactionException;
 import com.nexus.onebook.ledger.model.JournalTransaction;
-import com.nexus.onebook.ledger.repository.JournalTransactionRepository;
 import com.nexus.onebook.ledger.service.JournalService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +32,6 @@ class JournalControllerTest {
     @MockitoBean
     private JournalService journalService;
 
-    @MockitoBean
-    private JournalTransactionRepository transactionRepository;
 
     @Test
     void createTransaction_validRequest_returns201() throws Exception {
@@ -124,7 +121,7 @@ class JournalControllerTest {
                 "tenant-1", LocalDate.of(2026, 3, 9), "Test");
         transaction.setTransactionUuid(uuid);
 
-        when(transactionRepository.findByTransactionUuid(uuid))
+        when(journalService.getTransactionByUuid(uuid))
                 .thenReturn(Optional.of(transaction));
 
         mockMvc.perform(get("/api/journal/transactions/{uuid}", uuid))
@@ -135,7 +132,7 @@ class JournalControllerTest {
     @Test
     void getTransaction_notFound_returns400() throws Exception {
         UUID uuid = UUID.randomUUID();
-        when(transactionRepository.findByTransactionUuid(uuid))
+        when(journalService.getTransactionByUuid(uuid))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/journal/transactions/{uuid}", uuid))

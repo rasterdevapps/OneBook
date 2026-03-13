@@ -2,6 +2,8 @@ package com.nexus.onebook.ledger.repository;
 
 import com.nexus.onebook.ledger.model.JournalTransaction;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +13,9 @@ import java.util.UUID;
 @Repository
 public interface JournalTransactionRepository extends JpaRepository<JournalTransaction, Long> {
 
-    Optional<JournalTransaction> findByTransactionUuid(UUID transactionUuid);
+    @Query("SELECT DISTINCT t FROM JournalTransaction t LEFT JOIN FETCH t.entries WHERE t.transactionUuid = :uuid")
+    Optional<JournalTransaction> findByTransactionUuid(@Param("uuid") UUID uuid);
 
-    List<JournalTransaction> findByTenantId(String tenantId);
+    @Query("SELECT DISTINCT t FROM JournalTransaction t LEFT JOIN FETCH t.entries WHERE t.tenantId = :tenantId")
+    List<JournalTransaction> findByTenantId(@Param("tenantId") String tenantId);
 }

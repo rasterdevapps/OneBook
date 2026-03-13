@@ -20,7 +20,7 @@ public class Branch {
     @Column(name = "tenant_id", nullable = false)
     private String tenantId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "enterprise_id", nullable = false)
     private Enterprise enterprise;
 
