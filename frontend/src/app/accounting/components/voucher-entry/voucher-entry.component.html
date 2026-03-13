@@ -1,16 +1,16 @@
 <div class="voucher-shell">
-  <!-- ─── Header bar (Tally-style) ─── -->
+  <!-- ─── Header bar ─── -->
   <div class="voucher-header">
     <span class="voucher-type-badge">{{ typeConfig().fKey }}</span>
     <h2>{{ typeConfig().label }} Voucher</h2>
     <div class="header-actions">
       @if (mode() === 'list') {
-        <button class="btn btn-primary" (click)="startCreate()">
+        <button class="nx-btn nx-btn--emerald" (click)="startCreate()">
           <kbd>C</kbd> Create
         </button>
       }
       @if (mode() === 'form') {
-        <button class="btn btn-secondary" (click)="backToList()">
+        <button class="nx-btn" (click)="backToList()">
           <kbd>Esc</kbd> Back
         </button>
       }
@@ -47,7 +47,7 @@
                 <td class="col-date">{{ v.date }}</td>
                 <td class="col-debit">{{ v.debitAccountName }}</td>
                 <td class="col-credit">{{ v.creditAccountName }}</td>
-                <td class="col-amount">{{ v.amount | number:'1.2-2' }}</td>
+                <td class="col-amount nx-number">{{ v.amount | number:'1.2-2' }}</td>
                 <td class="col-narration">{{ v.narration }}</td>
                 <td class="col-actions">
                   <button class="btn-icon" title="Edit" (click)="startEdit(v); $event.stopPropagation()">✏️</button>
@@ -59,7 +59,7 @@
           <tfoot>
             <tr>
               <td colspan="4" class="total-label">Total</td>
-              <td class="col-amount total-value">{{ totalAmount() | number:'1.2-2' }}</td>
+              <td class="col-amount total-value nx-number">{{ totalAmount() | number:'1.2-2' }}</td>
               <td colspan="2"></td>
             </tr>
           </tfoot>
@@ -68,85 +68,159 @@
     </div>
   }
 
-  <!-- ─── CREATE / EDIT FORM ─── -->
+  <!-- ─── SPLIT-SCREEN CREATE / EDIT FORM ─── -->
   @if (mode() === 'form') {
-    <div class="voucher-form">
-      <div class="form-title-bar">
-        {{ editing() ? 'Edit' : 'Create' }} {{ typeConfig().label }} Voucher
-        @if (editing()) {
-          <span class="edit-badge">{{ editingVoucherNumber() }}</span>
-        }
-      </div>
-
-      <div class="form-body">
-        <!-- Row 1: Date & Voucher Number -->
-        <div class="form-row">
-          <label>Date</label>
-          <input #dateInput type="date" [value]="formDate()"
-                 (input)="formDate.set(dateInput.value)"
-                 class="input" />
-        </div>
-
-        <!-- Row 2: Debit Account (To) -->
-        <div class="form-row">
-          <label>Account <span class="dr-tag">Dr</span> (To)</label>
-          <select #drSelect [value]="formDebitAccountId()"
-                  (change)="formDebitAccountId.set(+drSelect.value)"
-                  class="input">
-            <option value="0" disabled>— Select account —</option>
-            @for (a of debitAccounts(); track a.id) {
-              <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
-            }
-          </select>
-        </div>
-
-        <!-- Row 3: Credit Account (By) -->
-        <div class="form-row">
-          <label>Account <span class="cr-tag">Cr</span> (By)</label>
-          <select #crSelect [value]="formCreditAccountId()"
-                  (change)="formCreditAccountId.set(+crSelect.value)"
-                  class="input">
-            <option value="0" disabled>— Select account —</option>
-            @for (a of creditAccounts(); track a.id) {
-              <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
-            }
-          </select>
-        </div>
-
-        <!-- Row 4: Amount -->
-        <div class="form-row">
-          <label>Amount (₹)</label>
-          <input #amtInput type="number" step="0.01" min="0"
-                 [value]="formAmount()"
-                 (input)="formAmount.set(+amtInput.value)"
-                 class="input amount-input" placeholder="0.00" />
-        </div>
-
-        <!-- Row 5: Narration -->
-        <div class="form-row">
-          <label>Narration</label>
-          <textarea #narrInput rows="2"
-                    [value]="formNarration()"
-                    (input)="formNarration.set(narrInput.value)"
-                    class="input" placeholder="e.g. {{ typeConfig().label }} transaction narration"></textarea>
-        </div>
-
-        @if (formError()) {
-          <div class="form-error">⚠ {{ formError() }}</div>
-        }
-      </div>
-
-      <div class="form-footer">
-        <div class="form-hint">
-          @if (!editing()) {
-            Press <kbd>Ctrl+Enter</kbd> to save &amp; create another
+    <div class="voucher-split">
+      <!-- Left: Form Entry -->
+      <div class="voucher-form">
+        <div class="form-title-bar">
+          {{ editing() ? 'Edit' : 'Create' }} {{ typeConfig().label }} Voucher
+          @if (editing()) {
+            <span class="edit-badge">{{ editingVoucherNumber() }}</span>
           }
         </div>
-        <div class="form-buttons">
-          <button class="btn btn-secondary" (click)="backToList()">Cancel</button>
-          <button class="btn btn-primary" (click)="save()" [disabled]="saving()">
-            {{ saving() ? 'Saving…' : (editing() ? 'Update' : 'Save') }}
-          </button>
+
+        <div class="form-body">
+          <div class="form-row">
+            <label>Date</label>
+            <input #dateInput type="date" [value]="formDate()"
+                   (input)="formDate.set(dateInput.value)"
+                   class="input" />
+          </div>
+
+          <div class="form-row">
+            <label>Account <span class="dr-tag">Dr</span> (To)</label>
+            <select #drSelect [value]="formDebitAccountId()"
+                    (change)="formDebitAccountId.set(+drSelect.value)"
+                    class="input">
+              <option value="0" disabled>— Select account —</option>
+              @for (a of debitAccounts(); track a.id) {
+                <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label>Account <span class="cr-tag">Cr</span> (By)</label>
+            <select #crSelect [value]="formCreditAccountId()"
+                    (change)="formCreditAccountId.set(+crSelect.value)"
+                    class="input">
+              <option value="0" disabled>— Select account —</option>
+              @for (a of creditAccounts(); track a.id) {
+                <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label>Amount (₹)</label>
+            <input #amtInput type="number" step="0.01" min="0"
+                   [value]="formAmount()"
+                   (input)="formAmount.set(+amtInput.value)"
+                   class="input amount-input" placeholder="0.00" />
+          </div>
+
+          <div class="form-row">
+            <label>Narration</label>
+            <textarea #narrInput rows="2"
+                      [value]="formNarration()"
+                      (input)="formNarration.set(narrInput.value)"
+                      class="input" placeholder="e.g. {{ typeConfig().label }} transaction narration"></textarea>
+          </div>
+
+          @if (formError()) {
+            <div class="form-error">⚠ {{ formError() }}</div>
+          }
+        </div>
+
+        <div class="form-footer">
+          <div class="form-hint">
+            @if (!editing()) {
+              Press <kbd>Ctrl+Enter</kbd> to save &amp; create another
+            }
+          </div>
+          <div class="form-buttons">
+            <button class="nx-btn" (click)="backToList()">Cancel</button>
+            <button class="nx-btn nx-btn--emerald" (click)="save()" [disabled]="saving()">
+              {{ saving() ? 'Saving…' : (editing() ? 'Update' : 'Save') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Live Ledger Preview -->
+      <div class="ledger-preview nx-glass">
+        <div class="preview-header">
+          <span class="preview-icon">📖</span>
+          <h3>Live Ledger Preview</h3>
+        </div>
+        <div class="preview-table-wrap">
+          <table class="preview-table">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th class="col-dr">Debit (Dr)</th>
+                <th class="col-cr">Credit (Cr)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="dr-row">
+                <td>
+                  @if (formDebitAccountId()) {
+                    <span class="preview-account">{{ getAccountName(formDebitAccountId(), 'debit') }}</span>
+                  } @else {
+                    <span class="preview-placeholder">Select debit account...</span>
+                  }
+                </td>
+                <td class="col-dr nx-number">
+                  @if (formAmount() > 0) {
+                    ₹{{ formAmount() | number:'1.2-2' }}
+                  }
+                </td>
+                <td class="col-cr">—</td>
+              </tr>
+              <tr class="cr-row">
+                <td>
+                  @if (formCreditAccountId()) {
+                    <span class="preview-account">&nbsp;&nbsp;To {{ getAccountName(formCreditAccountId(), 'credit') }}</span>
+                  } @else {
+                    <span class="preview-placeholder">&nbsp;&nbsp;Select credit account...</span>
+                  }
+                </td>
+                <td class="col-dr">—</td>
+                <td class="col-cr nx-number">
+                  @if (formAmount() > 0) {
+                    ₹{{ formAmount() | number:'1.2-2' }}
+                  }
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="preview-total-label">Total</td>
+                <td class="col-dr nx-number preview-total">
+                  @if (formAmount() > 0) { ₹{{ formAmount() | number:'1.2-2' }} }
+                </td>
+                <td class="col-cr nx-number preview-total">
+                  @if (formAmount() > 0) { ₹{{ formAmount() | number:'1.2-2' }} }
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        @if (formNarration()) {
+          <div class="preview-narration">
+            <span class="narr-label">Narration:</span> {{ formNarration() }}
+          </div>
+        }
+
+        <div class="preview-status">
+          @if (formAmount() > 0 && formDebitAccountId() && formCreditAccountId()) {
+            <span class="status-balanced">✓ Balanced — Ready to post</span>
+          } @else {
+            <span class="status-incomplete">○ Incomplete entry</span>
+          }
         </div>
       </div>
     </div>
@@ -162,6 +236,8 @@
     @if (mode() === 'form') {
       <span><kbd>Esc</kbd> Cancel</span>
       <span><kbd>Ctrl+S</kbd> Save</span>
+      <span><kbd>Ctrl+A</kbd> Contra</span>
+      <span><kbd>Alt+C</kbd> Create Master</span>
     }
     <span class="spacer"></span>
     <span class="voucher-count">{{ vouchers().length }} voucher(s)</span>

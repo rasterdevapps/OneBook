@@ -1,5 +1,11 @@
 <div class="ai-dashboard">
-  <h2>AI Insights Dashboard</h2>
+  <div class="ai-header">
+    <div class="ai-title">
+      <span class="ai-icon">🤖</span>
+      <h2>AI Insights Dashboard</h2>
+    </div>
+    <span class="ai-badge">Powered by AI</span>
+  </div>
 
   @if (error()) {
     <div class="error-banner">{{ error() }}</div>
@@ -19,7 +25,7 @@
     <app-anomaly-alert [anomalies]="anomalies()" />
 
     <!-- Market Sentiment -->
-    <div class="sentiment-card">
+    <div class="sentiment-card nx-bento-tile">
       <h3>Market Sentiment</h3>
       @if (sentiments().length === 0) {
         <p class="empty-state">No sentiment data available.</p>
@@ -43,24 +49,24 @@
 
     <!-- Portfolio Valuation -->
     @if (valuation(); as v) {
-      <div class="valuation-card">
+      <div class="valuation-card nx-bento-tile">
         <h3>Portfolio Valuation</h3>
         <div class="valuation-grid">
           <div class="valuation-item">
             <span class="label">Total Holdings</span>
-            <span class="value">{{ v.totalHoldings }}</span>
+            <span class="value nx-number">{{ v.totalHoldings }}</span>
           </div>
           <div class="valuation-item">
             <span class="label">Cost Basis</span>
-            <span class="value">{{ v.totalCostBasis | currency }}</span>
+            <span class="value nx-number">{{ v.totalCostBasis | currency }}</span>
           </div>
           <div class="valuation-item">
             <span class="label">Market Value</span>
-            <span class="value">{{ v.totalMarketValue | currency }}</span>
+            <span class="value nx-number">{{ v.totalMarketValue | currency }}</span>
           </div>
           <div class="valuation-item">
             <span class="label">Unrealized G/L</span>
-            <span class="value" [class.positive]="v.totalUnrealizedGainLoss >= 0"
+            <span class="value nx-number" [class.positive]="v.totalUnrealizedGainLoss >= 0"
                   [class.negative]="v.totalUnrealizedGainLoss < 0">
               {{ v.totalUnrealizedGainLoss | currency }} ({{ v.gainLossPercent | number:'1.1-1' }}%)
             </span>

@@ -1,17 +1,17 @@
 .app-layout {
   display: flex;
   min-height: 100vh;
-  background: #f5f6fa;
+  background: var(--nx-bg-primary);
 }
 
 /* ─── Sidebar ─── */
 .sidebar {
   width: 240px;
-  background: #0d1b3e;
-  color: #c8d6e5;
+  background: var(--nx-bg-secondary);
+  color: var(--nx-text-secondary);
   display: flex;
   flex-direction: column;
-  transition: width 0.2s ease;
+  transition: width var(--nx-transition-normal);
   position: fixed;
   top: 0;
   left: 0;
@@ -19,6 +19,7 @@
   z-index: 100;
   overflow-y: auto;
   overflow-x: hidden;
+  border-right: 1px solid var(--nx-border);
 }
 
 .sidebar-collapsed .sidebar {
@@ -30,7 +31,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--nx-border);
 }
 
 .logo {
@@ -43,18 +44,22 @@
 .logo-text {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--nx-text-primary);
   white-space: nowrap;
+  background: linear-gradient(135deg, var(--nx-emerald), var(--nx-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .toggle-btn {
   background: none;
   border: none;
-  color: #8395a7;
+  color: var(--nx-text-muted);
   cursor: pointer;
   font-size: 0.8rem;
   padding: 4px;
-  &:hover { color: #fff; }
+  &:hover { color: var(--nx-text-primary); }
 }
 
 .sidebar-nav {
@@ -67,7 +72,7 @@
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #576574;
+  color: var(--nx-text-muted);
   font-weight: 600;
 }
 
@@ -76,21 +81,22 @@
   align-items: center;
   gap: 10px;
   padding: 9px 16px;
-  color: #c8d6e5;
+  color: var(--nx-text-secondary);
   text-decoration: none;
   font-size: 0.88rem;
-  transition: all 0.12s;
+  transition: all var(--nx-transition-fast);
   white-space: nowrap;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--nx-text-primary);
+    text-decoration: none;
   }
 
   &.active {
-    background: rgba(21, 101, 192, 0.3);
-    color: #fff;
-    border-left: 3px solid #1565c0;
+    background: var(--nx-emerald-dim);
+    color: var(--nx-emerald);
+    border-left: 3px solid var(--nx-emerald);
   }
 
   .nav-icon {
@@ -102,17 +108,13 @@
 
   kbd {
     font-size: 0.65rem;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1px 5px;
-    border-radius: 3px;
     margin-left: 4px;
-    font-family: inherit;
   }
 }
 
 .sidebar-footer {
   padding: 12px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--nx-border);
 }
 
 .status-indicator {
@@ -128,7 +130,10 @@
     background: #e74c3c;
   }
 
-  &.online .dot { background: #2ecc71; }
+  &.online .dot {
+    background: var(--nx-emerald);
+    box-shadow: 0 0 6px var(--nx-emerald-glow);
+  }
   &.offline .dot { background: #e74c3c; }
 }
 
@@ -136,7 +141,7 @@
 .main-content {
   flex: 1;
   margin-left: 240px;
-  transition: margin-left 0.2s ease;
+  transition: margin-left var(--nx-transition-normal);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -151,8 +156,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background: var(--nx-bg-secondary);
+  border-bottom: 1px solid var(--nx-border);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -162,7 +167,7 @@
   .breadcrumb {
     font-size: 0.92rem;
     font-weight: 600;
-    color: #1a237e;
+    color: var(--nx-text-primary);
   }
 }
 
@@ -173,33 +178,30 @@
 }
 
 .cmd-hint {
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-sm);
   padding: 6px 12px;
   font-size: 0.78rem;
-  color: #666;
+  color: var(--nx-text-secondary);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all var(--nx-transition-fast);
+  font-family: var(--nx-font-primary);
 
   &:hover {
-    background: #e3f2fd;
-    border-color: #1565c0;
+    background: var(--nx-emerald-dim);
+    border-color: var(--nx-emerald);
+    color: var(--nx-emerald);
   }
 
   kbd {
-    background: #e0e0e0;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 0.72rem;
     margin-right: 4px;
-    font-family: inherit;
   }
 }
 
 .content-area {
   flex: 1;
-  padding: 24px;
+  padding: 0;
 }
 
 /* ─── Responsive ─── */

@@ -1,0 +1,150 @@
+<div class="omni-dashboard">
+  <!-- Floating Command Palette Hint -->
+  <div class="cmd-palette-hint nx-glass">
+    <span class="cmd-icon">⌘</span>
+    <span class="cmd-text">Press <kbd>Ctrl+K</kbd> to open Command Palette — Search anything, navigate anywhere</span>
+  </div>
+
+  <!-- Bento Grid -->
+  <div class="bento-grid">
+    <!-- ✨ AI Cash Flow Summary -->
+    <div class="bento-tile tile-cashflow">
+      <div class="tile-header">
+        <div class="tile-title">
+          <span class="tile-icon">✨</span>
+          <h3>AI Cash Flow Summary</h3>
+        </div>
+        <span class="tile-badge badge-emerald">Live</span>
+      </div>
+
+      <div class="cashflow-balance">
+        <span class="balance-label">Current Balance</span>
+        <span class="balance-value nx-number">₹{{ cashFlowSummary().currentBalance | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="sparkline-container">
+        <svg class="sparkline" viewBox="0 0 120 40" preserveAspectRatio="none">
+          @for (point of cashFlowSummary().sparkline; track $index) {
+            <circle
+              [attr.cx]="$index * (120 / (cashFlowSummary().sparkline.length - 1))"
+              [attr.cy]="40 - (point / 100) * 40"
+              r="1.5"
+              fill="var(--nx-emerald)"
+              opacity="0.8" />
+            @if ($index > 0) {
+              <line
+                [attr.x1]="($index - 1) * (120 / (cashFlowSummary().sparkline.length - 1))"
+                [attr.y1]="40 - (cashFlowSummary().sparkline[$index - 1] / 100) * 40"
+                [attr.x2]="$index * (120 / (cashFlowSummary().sparkline.length - 1))"
+                [attr.y2]="40 - (point / 100) * 40"
+                stroke="var(--nx-emerald)"
+                stroke-width="1.5"
+                opacity="0.6" />
+            }
+          }
+        </svg>
+      </div>
+
+      <div class="cashflow-metrics">
+        <div class="metric">
+          <span class="metric-label">30d Inflow</span>
+          <span class="metric-value positive nx-number">+₹{{ cashFlowSummary().inflow30d | number:'1.0-0' }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">30d Outflow</span>
+          <span class="metric-value negative nx-number">-₹{{ cashFlowSummary().outflow30d | number:'1.0-0' }}</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Net Change</span>
+          <span class="metric-value positive nx-number">+₹{{ cashFlowSummary().netChange | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔒 Audit Log Chain -->
+    <div class="bento-tile tile-audit">
+      <div class="tile-header">
+        <div class="tile-title">
+          <span class="tile-icon">🔒</span>
+          <h3>Audit Log Chain</h3>
+        </div>
+        <span class="tile-badge badge-purple">Hash-Linked</span>
+      </div>
+
+      <div class="audit-chain">
+        @for (entry of auditEntries(); track entry.hash) {
+          <div class="audit-entry">
+            <div class="chain-link">
+              <span class="chain-dot"></span>
+              @if (!$last) {
+                <span class="chain-line"></span>
+              }
+            </div>
+            <div class="entry-content">
+              <div class="entry-header">
+                <code class="entry-hash">{{ entry.hash }}</code>
+                @if (entry.verified) {
+                  <span class="verified-badge">✓ Verified</span>
+                }
+              </div>
+              <p class="entry-action">{{ entry.action }}</p>
+              <span class="entry-time">{{ entry.timestamp }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- 📈 Universal Ingestion Status -->
+    <div class="bento-tile tile-ingestion">
+      <div class="tile-header">
+        <div class="tile-title">
+          <span class="tile-icon">📈</span>
+          <h3>Universal Ingestion</h3>
+        </div>
+        <span class="tile-badge badge-emerald">All Connected</span>
+      </div>
+
+      <div class="ingestion-grid">
+        @for (source of ingestionSources(); track source.name) {
+          <div class="ingestion-source" [class.syncing]="source.status === 'syncing'">
+            <div class="source-icon">{{ source.icon }}</div>
+            <div class="source-info">
+              <span class="source-name">{{ source.name }}</span>
+              <span class="source-records nx-number">{{ source.records | number }} records</span>
+            </div>
+            <div class="source-status">
+              <span class="status-dot" [class.active]="source.status === 'active'" [class.syncing]="source.status === 'syncing'"></span>
+              <span class="source-sync">{{ source.lastSync }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- ⚡ Quick Actions -->
+    <div class="bento-tile tile-shortcuts">
+      <div class="tile-header">
+        <div class="tile-title">
+          <span class="tile-icon">⚡</span>
+          <h3>Quick Actions</h3>
+        </div>
+      </div>
+
+      <div class="shortcut-grid">
+        @for (s of shortcuts; track s.key) {
+          <a [routerLink]="s.route" class="shortcut-btn">
+            <kbd>{{ s.key }}</kbd>
+            <span>{{ s.label }}</span>
+          </a>
+        }
+      </div>
+
+      <div class="shortcut-hint">
+        <kbd>Ctrl+K</kbd> Command Palette &nbsp;·&nbsp;
+        <kbd>Alt+C</kbd> Create Master &nbsp;·&nbsp;
+        <kbd>Ctrl+S</kbd> Save
+      </div>
+    </div>
+  </div>
+</div>

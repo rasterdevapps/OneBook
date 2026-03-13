@@ -1,0 +1,363 @@
+/* ─── Nexus Universal — Share Market Valuation Center ─── */
+
+.market-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 56px);
+  background: #0a0e17;
+  color: #e8eaed;
+}
+
+/* ── Header ── */
+.market-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #0d1117;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.market-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .market-icon { font-size: 1.4rem; }
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #e8eaed;
+  }
+}
+
+.market-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--nx-emerald);
+  animation: nx-pulse-emerald 2s ease-in-out infinite;
+  padding: 3px 10px;
+  border: 1px solid var(--nx-emerald);
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.market-time {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 0.88rem;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  color: #6b7280;
+  gap: 12px;
+}
+
+.loading-pulse {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--nx-emerald);
+  animation: nx-pulse-emerald 1.5s ease-in-out infinite;
+}
+
+/* ── Bento Grid ── */
+.market-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px 24px;
+}
+
+.bento-tile {
+  background: rgba(15, 20, 30, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.tile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e8eaed;
+  }
+}
+
+.tile-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-amber {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--nx-amber);
+  border: 1px solid var(--nx-amber);
+}
+
+.badge-emerald {
+  background: rgba(0, 230, 138, 0.1);
+  color: var(--nx-emerald);
+  border: 1px solid var(--nx-emerald);
+}
+
+/* ── Chart Tile ── */
+.tile-chart {
+  grid-column: span 2;
+  border-color: rgba(0, 230, 138, 0.12);
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #6b7280;
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    &.neon-green {
+      background: var(--nx-emerald);
+      box-shadow: 0 0 6px var(--nx-emerald-glow);
+    }
+  }
+}
+
+.chart-container {
+  height: 160px;
+  padding: 8px 0;
+
+  .market-chart {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ── Investment Ledger ── */
+.portfolio-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.port-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e8eaed;
+
+    &.highlight { color: var(--nx-emerald); }
+    &.gain { color: var(--nx-emerald); }
+    &.loss { color: #ef4444; }
+  }
+}
+
+/* ── MTM Table ── */
+.mtm-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .num-col { text-align: right; }
+
+  .symbol-cell {
+    font-weight: 700;
+    color: #e8eaed;
+    letter-spacing: 0.5px;
+  }
+
+  .gain { color: var(--nx-emerald); }
+  .loss { color: #ef4444; }
+}
+
+/* ── AI Suggestions ── */
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.suggestion-card {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.suggestion-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.suggestion-symbol {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #e8eaed;
+  letter-spacing: 0.5px;
+}
+
+.action-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.suggestion-reason {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.confidence-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.confidence-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.confidence-label {
+  font-size: 0.72rem;
+  color: #6b7280;
+}
+
+/* ── Sentiment Feed ── */
+.tile-sentiment {
+  grid-column: span 2;
+}
+
+.sentiment-feed {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.sentiment-item {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.sentiment-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.sentiment-symbol {
+  font-weight: 700;
+  color: #e8eaed;
+}
+
+.sentiment-score {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sentiment-headline {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0 0 4px;
+}
+
+.sentiment-source {
+  font-size: 0.72rem;
+  color: #4b5563;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .market-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .tile-chart,
+  .tile-sentiment {
+    grid-column: span 1;
+  }
+}

@@ -1,0 +1,180 @@
+<div class="market-screen">
+  <!-- Header -->
+  <div class="market-header">
+    <div class="market-title">
+      <span class="market-icon">📈</span>
+      <h2>Share Market Valuation Center</h2>
+    </div>
+    <div class="market-badges">
+      <span class="live-badge">● LIVE</span>
+      <span class="market-time">Market Hours</span>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="error-banner">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="loading-pulse"></div>
+      <p>Loading market data...</p>
+    </div>
+  }
+
+  <div class="market-bento">
+    <!-- Real-time Chart -->
+    <div class="bento-tile tile-chart">
+      <div class="tile-header">
+        <h3>Portfolio Performance</h3>
+        <div class="chart-legend">
+          <span class="legend-dot neon-green"></span>
+          <span>NAV Trend</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <svg class="market-chart" viewBox="0 0 240 80" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          <line x1="0" y1="20" x2="240" y2="20" stroke="rgba(255,255,255,0.04)" />
+          <line x1="0" y1="40" x2="240" y2="40" stroke="rgba(255,255,255,0.04)" />
+          <line x1="0" y1="60" x2="240" y2="60" stroke="rgba(255,255,255,0.04)" />
+
+          <!-- Area fill -->
+          <defs>
+            <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--nx-emerald)" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="var(--nx-emerald)" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Area path -->
+          @if (chartData().length > 0) {
+            <polygon
+              [attr.points]="'0,80 ' + chartDataPoints() + ' 240,80'"
+              fill="url(#chartGrad)" />
+            <polyline
+              [attr.points]="chartDataPoints()"
+              fill="none"
+              stroke="var(--nx-emerald)"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+              filter="drop-shadow(0 0 4px var(--nx-emerald-glow))" />
+          }
+        </svg>
+      </div>
+    </div>
+
+    <!-- Investment Ledger -->
+    <div class="bento-tile tile-ledger">
+      <div class="tile-header">
+        <h3>Investment Ledger</h3>
+      </div>
+
+      @if (valuation(); as v) {
+        <div class="portfolio-summary">
+          <div class="port-stat">
+            <span class="stat-label">Holdings</span>
+            <span class="stat-value nx-number">{{ v.totalHoldings }}</span>
+          </div>
+          <div class="port-stat">
+            <span class="stat-label">Cost Basis</span>
+            <span class="stat-value nx-number">{{ v.totalCostBasis | currency:'INR':'symbol':'1.0-0' }}</span>
+          </div>
+          <div class="port-stat">
+            <span class="stat-label">Market Value</span>
+            <span class="stat-value nx-number highlight">{{ v.totalMarketValue | currency:'INR':'symbol':'1.0-0' }}</span>
+          </div>
+          <div class="port-stat">
+            <span class="stat-label">Unrealized G/L</span>
+            <span class="stat-value nx-number"
+                  [class.gain]="v.totalUnrealizedGainLoss >= 0"
+                  [class.loss]="v.totalUnrealizedGainLoss < 0">
+              {{ v.totalUnrealizedGainLoss | currency:'INR':'symbol':'1.0-0' }}
+              ({{ v.gainLossPercent | number:'1.1-1' }}%)
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Mark-to-Market Adjustments -->
+    <div class="bento-tile tile-mtm">
+      <div class="tile-header">
+        <h3>Mark-to-Market (MTM) Adjustment</h3>
+        <span class="tile-badge badge-amber">Real-time</span>
+      </div>
+
+      <table class="mtm-table">
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th class="num-col">Cost Basis</th>
+            <th class="num-col">Market Value</th>
+            <th class="num-col">MTM Adjustment</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of mtmAdjustments(); track item.symbol) {
+            <tr>
+              <td class="symbol-cell">{{ item.symbol }}</td>
+              <td class="num-col nx-number">₹{{ item.costBasis | number:'1.0-0' }}</td>
+              <td class="num-col nx-number">₹{{ item.marketValue | number:'1.0-0' }}</td>
+              <td class="num-col nx-number" [class.gain]="item.type === 'gain'" [class.loss]="item.type === 'loss'">
+                {{ item.type === 'gain' ? '+' : '' }}₹{{ item.adjustment | number:'1.0-0' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AI Buy/Sell Suggester -->
+    <div class="bento-tile tile-ai-suggest">
+      <div class="tile-header">
+        <h3>AI Buy/Sell Suggester</h3>
+        <span class="tile-badge badge-emerald">AI Powered</span>
+      </div>
+
+      <div class="suggestion-list">
+        @for (s of aiSuggestions(); track s.symbol) {
+          <div class="suggestion-card">
+            <div class="suggestion-top">
+              <span class="suggestion-symbol">{{ s.symbol }}</span>
+              <span class="action-badge" [style.color]="actionColor(s.action)" [style.border-color]="actionColor(s.action)">
+                {{ s.action }}
+              </span>
+            </div>
+            <p class="suggestion-reason">{{ s.reason }}</p>
+            <div class="confidence-bar">
+              <div class="confidence-fill" [style.width.%]="s.confidence" [style.background]="actionColor(s.action)"></div>
+            </div>
+            <span class="confidence-label nx-number">{{ s.confidence }}% confidence</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Market Sentiment -->
+    @if (sentiments().length > 0) {
+      <div class="bento-tile tile-sentiment">
+        <div class="tile-header">
+          <h3>Market Sentiment Feed</h3>
+        </div>
+        <div class="sentiment-feed">
+          @for (item of sentiments(); track item.symbol + item.publishedDate) {
+            <div class="sentiment-item">
+              <div class="sentiment-top">
+                <span class="sentiment-symbol">{{ item.symbol }}</span>
+                <span class="sentiment-score" [style.color]="sentimentColor(item.sentimentScore)">
+                  {{ item.sentimentScore }}
+                </span>
+              </div>
+              <p class="sentiment-headline">{{ item.headline }}</p>
+              <span class="sentiment-source">{{ item.source }} · {{ item.publishedDate }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

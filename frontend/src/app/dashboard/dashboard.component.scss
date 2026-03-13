@@ -1,0 +1,381 @@
+/* ─── Omni-Command Dashboard ─── */
+
+.omni-dashboard {
+  padding: var(--nx-gap-lg);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Floating CMD Palette Hint ── */
+.cmd-palette-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin-bottom: var(--nx-gap-lg);
+  border-radius: var(--nx-radius-md);
+
+  .cmd-icon {
+    font-size: 1.2rem;
+    color: var(--nx-emerald);
+  }
+
+  .cmd-text {
+    font-size: 0.85rem;
+    color: var(--nx-text-secondary);
+  }
+}
+
+/* ── Bento Grid ── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--nx-gap-lg);
+}
+
+.bento-tile {
+  background: var(--nx-glass-bg);
+  backdrop-filter: blur(var(--nx-glass-blur));
+  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
+  border: 1px solid var(--nx-glass-border);
+  border-radius: var(--nx-radius-lg);
+  padding: var(--nx-gap-lg);
+  transition: border-color var(--nx-transition-normal), box-shadow var(--nx-transition-normal);
+
+  &:hover {
+    border-color: var(--nx-border-glow);
+    box-shadow: var(--nx-shadow-md);
+  }
+}
+
+/* ── Tile Header ── */
+.tile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tile-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .tile-icon { font-size: 1.2rem; }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
+  }
+}
+
+.tile-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-emerald {
+  background: var(--nx-emerald-dim);
+  color: var(--nx-emerald);
+  border: 1px solid var(--nx-emerald);
+}
+
+.badge-purple {
+  background: var(--nx-purple-dim);
+  color: var(--nx-purple);
+  border: 1px solid var(--nx-purple);
+}
+
+/* ── Cash Flow Tile ── */
+.tile-cashflow {
+  border-color: rgba(0, 230, 138, 0.15);
+}
+
+.cashflow-balance {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+
+  .balance-label {
+    font-size: 0.78rem;
+    color: var(--nx-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .balance-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--nx-emerald);
+  }
+}
+
+.sparkline-container {
+  height: 60px;
+  margin-bottom: 16px;
+  padding: 8px 0;
+
+  .sparkline {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 4px var(--nx-emerald-glow));
+  }
+}
+
+.cashflow-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .metric-label {
+    font-size: 0.72rem;
+    color: var(--nx-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    &.positive { color: var(--nx-emerald); }
+    &.negative { color: #ef4444; }
+  }
+}
+
+/* ── Audit Log Tile ── */
+.tile-audit {
+  border-color: rgba(168, 85, 247, 0.15);
+}
+
+.audit-chain {
+  display: flex;
+  flex-direction: column;
+}
+
+.audit-entry {
+  display: flex;
+  gap: 12px;
+}
+
+.chain-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 16px;
+  flex-shrink: 0;
+
+  .chain-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--nx-purple);
+    box-shadow: 0 0 6px var(--nx-purple-glow);
+    flex-shrink: 0;
+  }
+
+  .chain-line {
+    width: 2px;
+    flex: 1;
+    background: rgba(168, 85, 247, 0.25);
+    margin: 2px 0;
+  }
+}
+
+.entry-content {
+  flex: 1;
+  padding-bottom: 16px;
+}
+
+.entry-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.entry-hash {
+  font-family: var(--nx-font-mono);
+  font-size: 0.72rem;
+  color: var(--nx-purple);
+  background: var(--nx-purple-dim);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.verified-badge {
+  font-size: 0.68rem;
+  color: var(--nx-emerald);
+  font-weight: 600;
+}
+
+.entry-action {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--nx-text-primary);
+}
+
+.entry-time {
+  font-size: 0.72rem;
+  color: var(--nx-text-muted);
+}
+
+/* ── Ingestion Tile ── */
+.tile-ingestion {
+  border-color: rgba(0, 230, 138, 0.15);
+}
+
+.ingestion-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ingestion-source {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  transition: border-color var(--nx-transition-fast);
+
+  &:hover {
+    border-color: var(--nx-border-glow);
+  }
+
+  &.syncing {
+    animation: nx-pulse-emerald 2s ease-in-out infinite;
+  }
+}
+
+.source-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nx-bg-surface);
+  border-radius: var(--nx-radius-sm);
+}
+
+.source-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .source-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
+  }
+
+  .source-records {
+    font-size: 0.75rem;
+    color: var(--nx-text-muted);
+  }
+}
+
+.source-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nx-text-muted);
+
+    &.active {
+      background: var(--nx-emerald);
+      box-shadow: 0 0 6px var(--nx-emerald-glow);
+    }
+
+    &.syncing {
+      background: var(--nx-amber);
+      animation: nx-pulse-amber 1.5s ease-in-out infinite;
+    }
+  }
+
+  .source-sync {
+    font-size: 0.75rem;
+    color: var(--nx-text-muted);
+  }
+}
+
+/* ── Quick Actions Tile ── */
+.tile-shortcuts {
+  grid-column: 1 / -1;
+}
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.shortcut-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  color: var(--nx-text-primary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--nx-transition-fast);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--nx-emerald-dim);
+    border-color: var(--nx-emerald);
+    color: var(--nx-emerald);
+    text-decoration: none;
+  }
+
+  kbd {
+    font-size: 0.85rem;
+    padding: 2px 10px;
+  }
+}
+
+.shortcut-hint {
+  font-size: 0.78rem;
+  color: var(--nx-text-muted);
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--nx-border);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shortcut-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
