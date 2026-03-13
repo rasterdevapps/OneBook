@@ -26,7 +26,7 @@ check_ownership() {
     # Remove leading ./
     path=${path#./}
     
-    # Search in agent instruction files (must contain hyphen: architect-md, ledger-expert.md, etc.)
+    # Search in agent instruction files (must contain hyphen: architect.md, ledger-expert.md, etc.)
     # This excludes README.md, INDEX.md, MAINTENANCE.md, IMPLEMENTATION_SUMMARY.md
     for agent_file in "$AGENTS_DIR"/*-*.md; do
         if [ -f "$agent_file" ]; then
