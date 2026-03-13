@@ -1,5 +1,5 @@
 <div class="app-layout" [class.sidebar-collapsed]="sidebarCollapsed()">
-  <!-- Sidebar -->
+  <!-- Sidebar (Limitless Dark Sidebar) -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -20,27 +20,27 @@
       @if (!sidebarCollapsed()) { <div class="nav-section">Accounting</div> }
       <a routerLink="/voucher/sales" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">📄</span>
-        @if (!sidebarCollapsed()) { <span>Sales <kbd>F8</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Sales</span> <kbd>F8</kbd> }
       </a>
       <a routerLink="/voucher/purchase" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">🛒</span>
-        @if (!sidebarCollapsed()) { <span>Purchase <kbd>F9</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Purchase</span> <kbd>F9</kbd> }
       </a>
       <a routerLink="/voucher/payment" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">💸</span>
-        @if (!sidebarCollapsed()) { <span>Payment <kbd>F5</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Payment</span> <kbd>F5</kbd> }
       </a>
       <a routerLink="/voucher/receipt" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">💰</span>
-        @if (!sidebarCollapsed()) { <span>Receipt <kbd>F6</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Receipt</span> <kbd>F6</kbd> }
       </a>
       <a routerLink="/voucher/contra" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">🔄</span>
-        @if (!sidebarCollapsed()) { <span>Contra <kbd>F4</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Contra</span> <kbd>F4</kbd> }
       </a>
       <a routerLink="/voucher/journal" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">📝</span>
-        @if (!sidebarCollapsed()) { <span>Journal <kbd>F7</kbd></span> }
+        @if (!sidebarCollapsed()) { <span>Journal</span> <kbd>F7</kbd> }
       </a>
       <a routerLink="/ledger" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">📖</span>
@@ -118,6 +118,7 @@
 
   <!-- Main Content -->
   <main class="main-content">
+    <!-- Navbar (Limitless White Navbar) -->
     <header class="top-bar">
       <div class="top-bar-left">
         <span class="breadcrumb">Nexus Universal</span>
@@ -129,6 +130,11 @@
         </button>
       </div>
     </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>{{ title() }}</h1>
+    </div>
 
     <div class="content-area">
       <router-outlet />

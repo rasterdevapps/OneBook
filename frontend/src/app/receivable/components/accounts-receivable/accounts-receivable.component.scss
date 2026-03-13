@@ -109,7 +109,7 @@
   transition: all var(--nx-transition-fast);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--nx-bg-card-hover);
     border-color: var(--nx-border-glow);
   }
 
@@ -158,10 +158,10 @@
   cursor: pointer;
   transition: background var(--nx-transition-fast);
 
-  &:hover { background: rgba(255, 255, 255, 0.03); }
+  &:hover { background: var(--nx-bg-card-hover); }
 
   &.expanded {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--nx-bg-surface);
     border-bottom: none;
   }
 

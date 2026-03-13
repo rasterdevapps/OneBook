@@ -1,4 +1,4 @@
-/* ─── Omni-Command Dashboard ─── */
+/* ─── Limitless-Style Dashboard ─── */
 
 .omni-dashboard {
   padding: var(--nx-gap-lg);
@@ -6,22 +6,25 @@
   margin: 0 auto;
 }
 
-/* ── Floating CMD Palette Hint ── */
+/* ── Command Palette Hint ── */
 .cmd-palette-hint {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 20px;
+  padding: 10px 16px;
   margin-bottom: var(--nx-gap-lg);
   border-radius: var(--nx-radius-md);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  box-shadow: var(--nx-shadow-sm);
 
   .cmd-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--nx-emerald);
   }
 
   .cmd-text {
-    font-size: 0.85rem;
+    font-size: 0.8125rem;
     color: var(--nx-text-secondary);
   }
 }
@@ -34,16 +37,14 @@
 }
 
 .bento-tile {
-  background: var(--nx-glass-bg);
-  backdrop-filter: blur(var(--nx-glass-blur));
-  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
-  border: 1px solid var(--nx-glass-border);
-  border-radius: var(--nx-radius-lg);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
   padding: var(--nx-gap-lg);
-  transition: border-color var(--nx-transition-normal), box-shadow var(--nx-transition-normal);
+  box-shadow: var(--nx-shadow-sm);
+  transition: box-shadow var(--nx-transition-normal);
 
   &:hover {
-    border-color: var(--nx-border-glow);
     box-shadow: var(--nx-shadow-md);
   }
 }
@@ -53,7 +54,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--nx-border);
 }
 
 .tile-title {
@@ -61,40 +64,40 @@
   align-items: center;
   gap: 8px;
 
-  .tile-icon { font-size: 1.2rem; }
+  .tile-icon { font-size: 1.1rem; }
 
   h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--nx-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
 }
 
 .tile-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 12px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: var(--nx-radius-sm);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .badge-emerald {
-  background: var(--nx-emerald-dim);
-  color: var(--nx-emerald);
-  border: 1px solid var(--nx-emerald);
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--nx-success);
 }
 
 .badge-purple {
   background: var(--nx-purple-dim);
   color: var(--nx-purple);
-  border: 1px solid var(--nx-purple);
 }
 
 /* ── Cash Flow Tile ── */
 .tile-cashflow {
-  border-color: rgba(0, 230, 138, 0.15);
+  border-top: 2px solid var(--nx-emerald);
 }
 
 .cashflow-balance {
@@ -104,28 +107,27 @@
   margin-bottom: 16px;
 
   .balance-label {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--nx-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .balance-value {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--nx-emerald);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
   }
 }
 
 .sparkline-container {
-  height: 60px;
+  height: 50px;
   margin-bottom: 16px;
-  padding: 8px 0;
+  padding: 4px 0;
 
   .sparkline {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 4px var(--nx-emerald-glow));
   }
 }
 
@@ -133,6 +135,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--nx-border);
 
   .metric {
     display: flex;
@@ -141,24 +145,24 @@
   }
 
   .metric-label {
-    font-size: 0.72rem;
+    font-size: 0.6875rem;
     color: var(--nx-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .metric-value {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     font-weight: 600;
 
-    &.positive { color: var(--nx-emerald); }
-    &.negative { color: #ef4444; }
+    &.positive { color: var(--nx-success); }
+    &.negative { color: var(--nx-danger); }
   }
 }
 
 /* ── Audit Log Tile ── */
 .tile-audit {
-  border-color: rgba(168, 85, 247, 0.15);
+  border-top: 2px solid var(--nx-purple);
 }
 
 .audit-chain {
@@ -179,25 +183,24 @@
   flex-shrink: 0;
 
   .chain-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--nx-purple);
-    box-shadow: 0 0 6px var(--nx-purple-glow);
     flex-shrink: 0;
   }
 
   .chain-line {
-    width: 2px;
+    width: 1px;
     flex: 1;
-    background: rgba(168, 85, 247, 0.25);
+    background: var(--nx-border);
     margin: 2px 0;
   }
 }
 
 .entry-content {
   flex: 1;
-  padding-bottom: 16px;
+  padding-bottom: 14px;
 }
 
 .entry-header {
@@ -209,53 +212,53 @@
 
 .entry-hash {
   font-family: var(--nx-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.6875rem;
   color: var(--nx-purple);
   background: var(--nx-purple-dim);
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .verified-badge {
-  font-size: 0.68rem;
-  color: var(--nx-emerald);
-  font-weight: 600;
+  font-size: 0.6875rem;
+  color: var(--nx-success);
+  font-weight: 500;
 }
 
 .entry-action {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   color: var(--nx-text-primary);
 }
 
 .entry-time {
-  font-size: 0.72rem;
+  font-size: 0.6875rem;
   color: var(--nx-text-muted);
 }
 
 /* ── Ingestion Tile ── */
 .tile-ingestion {
-  border-color: rgba(0, 230, 138, 0.15);
+  border-top: 2px solid var(--nx-info);
 }
 
 .ingestion-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .ingestion-source {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  background: var(--nx-bg-surface);
   border: 1px solid var(--nx-border);
-  border-radius: var(--nx-radius-md);
-  transition: border-color var(--nx-transition-fast);
+  border-radius: var(--nx-radius-sm);
+  transition: background var(--nx-transition-fast);
 
   &:hover {
-    border-color: var(--nx-border-glow);
+    background: var(--nx-bg-card-hover);
   }
 
   &.syncing {
@@ -264,30 +267,31 @@
 }
 
 .source-icon {
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+  font-size: 1.3rem;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--nx-bg-surface);
+  background: var(--nx-bg-card);
   border-radius: var(--nx-radius-sm);
+  border: 1px solid var(--nx-border);
 }
 
 .source-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 
   .source-name {
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-size: 0.8125rem;
+    font-weight: 500;
     color: var(--nx-text-primary);
   }
 
   .source-records {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     color: var(--nx-text-muted);
   }
 }
@@ -298,24 +302,23 @@
   gap: 6px;
 
   .status-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--nx-text-muted);
 
     &.active {
-      background: var(--nx-emerald);
-      box-shadow: 0 0 6px var(--nx-emerald-glow);
+      background: var(--nx-success);
     }
 
     &.syncing {
-      background: var(--nx-amber);
+      background: var(--nx-warning);
       animation: nx-pulse-amber 1.5s ease-in-out infinite;
     }
   }
 
   .source-sync {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     color: var(--nx-text-muted);
   }
 }
@@ -323,13 +326,14 @@
 /* ── Quick Actions Tile ── */
 .tile-shortcuts {
   grid-column: 1 / -1;
+  border-top: 2px solid var(--nx-emerald);
 }
 
 .shortcut-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .shortcut-btn {
@@ -337,12 +341,12 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 16px 8px;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 14px 8px;
+  background: var(--nx-bg-surface);
   border: 1px solid var(--nx-border);
-  border-radius: var(--nx-radius-md);
+  border-radius: var(--nx-radius-sm);
   color: var(--nx-text-primary);
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--nx-transition-fast);
@@ -356,16 +360,16 @@
   }
 
   kbd {
-    font-size: 0.85rem;
+    font-size: 0.8125rem;
     padding: 2px 10px;
   }
 }
 
 .shortcut-hint {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--nx-text-muted);
   text-align: center;
-  padding-top: 8px;
+  padding-top: 10px;
   border-top: 1px solid var(--nx-border);
 }
 
