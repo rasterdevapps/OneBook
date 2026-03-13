@@ -1,20 +1,25 @@
 .anomaly-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  padding: 20px;
+  box-shadow: var(--nx-shadow-sm);
 
   h3 {
     margin: 0 0 16px;
-    font-size: 18px;
-    color: #1f2937;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--nx-border);
   }
 }
 
 .empty-state {
-  color: #9ca3af;
-  font-size: 14px;
+  color: var(--nx-text-muted);
+  font-size: 0.8125rem;
   text-align: center;
   padding: 24px 0;
 }
@@ -22,33 +27,34 @@
 .anomaly-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 0.8125rem;
 
   th, td {
     text-align: left;
     padding: 10px 12px;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--nx-border);
   }
 
   th {
     font-weight: 600;
-    color: #6b7280;
-    font-size: 12px;
+    color: var(--nx-text-muted);
+    font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    background: var(--nx-bg-surface);
   }
 
   td {
-    color: #374151;
+    color: var(--nx-text-primary);
   }
 }
 
 .severity-badge {
   display: inline-block;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: var(--nx-radius-sm);
   color: #fff;
-  font-size: 12px;
+  font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
 }

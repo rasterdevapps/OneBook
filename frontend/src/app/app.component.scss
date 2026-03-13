@@ -196,12 +196,6 @@
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--nx-text-secondary);
-
-    &::before {
-      content: '🏠';
-      margin-right: 6px;
-      font-size: 0.75rem;
-    }
   }
 }
 
