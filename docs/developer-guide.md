@@ -352,3 +352,4 @@ docs: update API documentation
 - [SQL Schema Documentation](sql-schema.md)
 - [API Documentation](api-documentation.md)
 - [Operational Runbook](operational-runbook.md)
+- [Sub-Agent Instructions](../.github/agents/README.md) - Design patterns for specialist agents

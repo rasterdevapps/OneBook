@@ -8,6 +8,8 @@ This document analyses all project requirements across Milestones 1–10 and pro
 
 Each sub-agent is a domain-expert role with a clear scope, a defined set of files/modules it owns, the milestones it serves, and the specific skills it brings. The goal is to ensure that no single context window needs to hold the entire codebase — instead, each agent operates within its bounded context and communicates via well-defined interfaces.
 
+**✅ Agent Instructions Available:** Detailed instruction files for all 10 sub-agents are available in [`.github/agents/`](.github/agents/). Each file contains scope, responsibilities, design patterns, best practices, and collaboration guidelines. See [Agent Instructions README](.github/agents/README.md) and [Design Requirements Index](.github/agents/INDEX.md) for quick reference.
+
 ---
 
 ## Why Sub-Agents?
@@ -18,6 +20,16 @@ Nexus Universal spans **7 backend packages**, **11 frontend modules**, **9 Flywa
 2. **Parallel Execution:** Independent agents can work simultaneously on different layers.
 3. **Quality Enforcement:** Each agent enforces its domain's specific conventions and standards.
 4. **Context Budget:** The main orchestrator stays under ~5,000 tokens by delegating raw code inspection to specialists.
+5. **Design Requirements:** Each agent has detailed instruction files in `.github/agents/` with patterns, conventions, and examples.
+
+---
+
+## Quick Reference
+
+For detailed design patterns and implementation guidelines, see:
+- [Agent Instructions Directory](.github/agents/README.md) - Overview of all 10 agents
+- [Design Requirements Index](.github/agents/INDEX.md) - Quick reference by category
+- Individual agent files in `.github/agents/` - Comprehensive patterns and conventions
 
 ---
 
