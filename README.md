@@ -32,6 +32,7 @@ OneBook/
 | [API Documentation](docs/api-documentation.md) | REST API reference for all endpoints |
 | [Developer Guide](docs/developer-guide.md) | Onboarding, setup, coding standards |
 | [Operational Runbook](docs/operational-runbook.md) | Deployment, monitoring, troubleshooting |
+| [Sub-Agent Instructions](.github/agents/README.md) | Design patterns and conventions for 10 specialist agents |
 
 ## Quick Start
 

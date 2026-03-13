@@ -8,6 +8,8 @@ This document analyses all project requirements across Milestones 1–10 and pro
 
 Each sub-agent is a domain-expert role with a clear scope, a defined set of files/modules it owns, the milestones it serves, and the specific skills it brings. The goal is to ensure that no single context window needs to hold the entire codebase — instead, each agent operates within its bounded context and communicates via well-defined interfaces.
 
+**✅ Agent Instructions Available:** Detailed instruction files for all 10 sub-agents are available in [`.github/agents/`](.github/agents/). Each file contains scope, responsibilities, design patterns, best practices, and collaboration guidelines. See [Agent Instructions README](.github/agents/README.md) and [Design Requirements Index](.github/agents/INDEX.md) for quick reference.
+
 ---
 
 ## Why Sub-Agents?
