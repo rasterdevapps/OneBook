@@ -1,20 +1,25 @@
 .forecast-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  padding: 20px;
+  box-shadow: var(--nx-shadow-sm);
 
   h3 {
     margin: 0 0 16px;
-    font-size: 18px;
-    color: #1f2937;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--nx-border);
   }
 }
 
 .current-position {
-  font-size: 16px;
-  color: #374151;
+  font-size: 0.875rem;
+  color: var(--nx-text-secondary);
   margin-bottom: 16px;
 }
 
@@ -28,13 +33,13 @@
 .forecast-item {
   text-align: center;
   padding: 12px;
-  background: #f9fafb;
-  border-radius: 8px;
+  background: var(--nx-bg-surface);
+  border-radius: var(--nx-radius-sm);
 
   .label {
     display: block;
-    font-size: 12px;
-    color: #6b7280;
+    font-size: 0.6875rem;
+    color: var(--nx-text-muted);
     margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -42,16 +47,16 @@
 
   .value {
     display: block;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 600;
-    color: #1f2937;
+    color: var(--nx-text-primary);
   }
 }
 
 .flow-summary {
   margin-bottom: 16px;
-  font-size: 14px;
-  color: #374151;
+  font-size: 0.8125rem;
+  color: var(--nx-text-secondary);
 
   p {
     margin: 4px 0;
@@ -60,16 +65,16 @@
 
 .risk-badge {
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 16px;
+  padding: 3px 10px;
+  border-radius: var(--nx-radius-sm);
   color: #fff;
-  font-size: 13px;
+  font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .generated-date {
   margin-top: 12px;
-  font-size: 12px;
-  color: #9ca3af;
+  font-size: 0.6875rem;
+  color: var(--nx-text-muted);
 }

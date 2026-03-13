@@ -1,82 +1,115 @@
-/* ─── Nexus Universal — Global Design System ─── */
+/* ─── Nexus Universal — Global Design System (Limitless-Inspired) ─── */
 
 /* ─── Design Tokens ─── */
 :root {
-  /* Dark Mode (Primary) */
-  --nx-bg-primary: #0f1419;
-  --nx-bg-secondary: #1a1f2e;
-  --nx-bg-card: rgba(26, 31, 46, 0.85);
-  --nx-bg-card-hover: rgba(32, 38, 56, 0.92);
-  --nx-bg-surface: #141925;
+  /* Core Backgrounds — Limitless Light Theme */
+  --nx-bg-primary: #eef0f2;
+  --nx-bg-secondary: #ffffff;
+  --nx-bg-card: #ffffff;
+  --nx-bg-card-hover: #f8f9fa;
+  --nx-bg-surface: #f5f6fa;
 
-  /* Neon Accents */
-  --nx-emerald: #00e68a;
-  --nx-emerald-glow: rgba(0, 230, 138, 0.25);
-  --nx-emerald-dim: rgba(0, 230, 138, 0.08);
-  --nx-purple: #a855f7;
-  --nx-purple-glow: rgba(168, 85, 247, 0.25);
-  --nx-purple-dim: rgba(168, 85, 247, 0.08);
-  --nx-amber: #f59e0b;
-  --nx-amber-glow: rgba(245, 158, 11, 0.25);
-  --nx-amber-dim: rgba(245, 158, 11, 0.08);
+  /* Sidebar — Limitless Dark Sidebar */
+  --nx-sidebar-bg: #263238;
+  --nx-sidebar-header-bg: #1a2226;
+  --nx-sidebar-text: rgba(255, 255, 255, 0.75);
+  --nx-sidebar-text-hover: #ffffff;
+  --nx-sidebar-icon: rgba(255, 255, 255, 0.6);
+  --nx-sidebar-active-bg: rgba(255, 255, 255, 0.1);
+  --nx-sidebar-section-text: rgba(255, 255, 255, 0.4);
+  --nx-sidebar-border: rgba(255, 255, 255, 0.1);
 
-  /* Text */
-  --nx-text-primary: #e8eaed;
-  --nx-text-secondary: #9ca3af;
-  --nx-text-muted: #6b7280;
+  /* Primary Accent — Limitless Teal */
+  --nx-emerald: #26a69a;
+  --nx-emerald-glow: rgba(38, 166, 154, 0.2);
+  --nx-emerald-dim: rgba(38, 166, 154, 0.08);
+
+  /* Secondary Accent — Indigo */
+  --nx-purple: #5c6bc0;
+  --nx-purple-glow: rgba(92, 107, 192, 0.2);
+  --nx-purple-dim: rgba(92, 107, 192, 0.08);
+
+  /* Warning Accent — Amber */
+  --nx-amber: #ff7043;
+  --nx-amber-glow: rgba(255, 112, 67, 0.2);
+  --nx-amber-dim: rgba(255, 112, 67, 0.08);
+
+  /* Text — Light Theme */
+  --nx-text-primary: #333333;
+  --nx-text-secondary: #666666;
+  --nx-text-muted: #999999;
 
   /* Borders */
-  --nx-border: rgba(255, 255, 255, 0.06);
-  --nx-border-glow: rgba(255, 255, 255, 0.12);
+  --nx-border: #e0e0e0;
+  --nx-border-glow: #d0d0d0;
 
-  /* Glassmorphism */
-  --nx-glass-bg: rgba(26, 31, 46, 0.65);
-  --nx-glass-border: rgba(255, 255, 255, 0.08);
-  --nx-glass-blur: 16px;
+  /* Card Backgrounds */
+  --nx-glass-bg: #ffffff;
+  --nx-glass-border: #e0e0e0;
+  --nx-glass-blur: 0px;
 
-  /* Shadows */
-  --nx-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --nx-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --nx-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  /* Shadows — Limitless Subtle Shadows */
+  --nx-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --nx-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --nx-shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
 
-  /* Typography */
-  --nx-font-primary: 'Mukta Malar', 'Noto Sans', sans-serif;
+  /* Typography — Clean Sans-Serif */
+  --nx-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --nx-font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 
   /* Transitions */
-  --nx-transition-fast: 0.12s ease;
-  --nx-transition-normal: 0.2s ease;
-  --nx-transition-slow: 0.35s ease;
+  --nx-transition-fast: 0.15s ease-in-out;
+  --nx-transition-normal: 0.2s ease-in-out;
+  --nx-transition-slow: 0.3s ease-in-out;
 
-  /* Border Radius */
-  --nx-radius-sm: 6px;
-  --nx-radius-md: 10px;
-  --nx-radius-lg: 16px;
-  --nx-radius-xl: 20px;
+  /* Border Radius — Clean, Subtle */
+  --nx-radius-sm: 4px;
+  --nx-radius-md: 6px;
+  --nx-radius-lg: 8px;
+  --nx-radius-xl: 12px;
 
   /* Spacing */
   --nx-gap-sm: 8px;
   --nx-gap-md: 16px;
-  --nx-gap-lg: 24px;
+  --nx-gap-lg: 20px;
+
+  /* Navbar */
+  --nx-navbar-bg: #ffffff;
+  --nx-navbar-border: #ddd;
+  --nx-navbar-height: 48px;
+
+  /* Page Header */
+  --nx-page-header-bg: #f5f5f5;
+
+  /* Status Colors */
+  --nx-success: #4caf50;
+  --nx-danger: #ef5350;
+  --nx-warning: #ff9800;
+  --nx-info: #42a5f5;
 }
 
-/* Light mode overrides */
-html:not(.dark-mode) {
-  --nx-bg-primary: #fafafa;
-  --nx-bg-secondary: #ffffff;
-  --nx-bg-card: rgba(255, 255, 255, 0.92);
-  --nx-bg-card-hover: rgba(245, 245, 245, 0.95);
-  --nx-bg-surface: #f5f6fa;
-  --nx-text-primary: #1f2937;
-  --nx-text-secondary: #4b5563;
-  --nx-text-muted: #9ca3af;
-  --nx-border: rgba(0, 0, 0, 0.08);
-  --nx-border-glow: rgba(0, 0, 0, 0.12);
-  --nx-glass-bg: rgba(255, 255, 255, 0.75);
-  --nx-glass-border: rgba(0, 0, 0, 0.06);
-  --nx-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --nx-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --nx-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+/* Dark mode overrides */
+html.dark-mode {
+  --nx-bg-primary: #1e272e;
+  --nx-bg-secondary: #263238;
+  --nx-bg-card: #2c3e50;
+  --nx-bg-card-hover: #34495e;
+  --nx-bg-surface: #1a2226;
+  --nx-sidebar-bg: #1a2226;
+  --nx-sidebar-header-bg: #141b1e;
+  --nx-text-primary: #e0e0e0;
+  --nx-text-secondary: #b0bec5;
+  --nx-text-muted: #78909c;
+  --nx-border: rgba(255, 255, 255, 0.1);
+  --nx-border-glow: rgba(255, 255, 255, 0.15);
+  --nx-glass-bg: #2c3e50;
+  --nx-glass-border: rgba(255, 255, 255, 0.08);
+  --nx-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --nx-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --nx-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --nx-navbar-bg: #263238;
+  --nx-navbar-border: rgba(255, 255, 255, 0.1);
+  --nx-page-header-bg: #1e272e;
 }
 
 /* ─── Reset & Base ─── */
@@ -88,7 +121,7 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: var(--nx-font-primary);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--nx-text-primary);
   background: var(--nx-bg-primary);
@@ -99,7 +132,7 @@ html, body {
 a {
   color: var(--nx-emerald);
   text-decoration: none;
-  &:hover { text-decoration: underline; }
+  &:hover { color: #1e8e83; text-decoration: none; }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -108,11 +141,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
 
-/* ─── Scrollbar ─── */
+/* ─── Scrollbar (Limitless-style thin scrollbar) ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.25); }
 
 /* ─── Focus ─── */
 *:focus-visible {
@@ -120,13 +153,12 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
-/* ─── Glassmorphism Utility ─── */
+/* ─── Card Utility (Limitless-style clean cards) ─── */
 .nx-glass {
-  background: var(--nx-glass-bg);
-  backdrop-filter: blur(var(--nx-glass-blur));
-  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
-  border: 1px solid var(--nx-glass-border);
-  border-radius: var(--nx-radius-lg);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  box-shadow: var(--nx-shadow-sm);
 }
 
 /* ─── Bento Grid ─── */
@@ -138,12 +170,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nx-bento-tile {
-  background: var(--nx-glass-bg);
-  backdrop-filter: blur(var(--nx-glass-blur));
-  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
-  border: 1px solid var(--nx-glass-border);
-  border-radius: var(--nx-radius-lg);
+  background: var(--nx-bg-card);
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
   padding: var(--nx-gap-lg);
+  box-shadow: var(--nx-shadow-sm);
   transition: border-color var(--nx-transition-normal), box-shadow var(--nx-transition-normal);
 
   &:hover {
@@ -160,25 +191,25 @@ h1, h2, h3, h4, h5, h6 {
   grid-column: 1 / -1;
 }
 
-/* ─── Neon Glow Keyframes ─── */
+/* ─── Status Animations ─── */
 @keyframes nx-pulse-emerald {
   0%, 100% { box-shadow: 0 0 0 0 var(--nx-emerald-glow); }
-  50% { box-shadow: 0 0 0 6px transparent; }
+  50% { box-shadow: 0 0 0 4px transparent; }
 }
 
 @keyframes nx-pulse-purple {
   0%, 100% { box-shadow: 0 0 0 0 var(--nx-purple-glow); }
-  50% { box-shadow: 0 0 0 6px transparent; }
+  50% { box-shadow: 0 0 0 4px transparent; }
 }
 
 @keyframes nx-pulse-amber {
   0%, 100% { box-shadow: 0 0 0 0 var(--nx-amber-glow); }
-  50% { box-shadow: 0 0 0 6px transparent; }
+  50% { box-shadow: 0 0 0 4px transparent; }
 }
 
 @keyframes nx-glow-success {
   0% { box-shadow: 0 0 0 0 var(--nx-emerald-glow); }
-  70% { box-shadow: 0 0 0 10px transparent; }
+  70% { box-shadow: 0 0 0 8px transparent; }
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 
@@ -190,74 +221,80 @@ h1, h2, h3, h4, h5, h6 {
   animation: nx-glow-success 0.6s ease forwards;
 }
 
-/* ─── Common Button Styles ─── */
+/* ─── Limitless-Style Buttons ─── */
 .nx-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  border: 1px solid var(--nx-border);
+  padding: 7px 14px;
+  border: 1px solid transparent;
   border-radius: var(--nx-radius-sm);
   font-family: var(--nx-font-primary);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--nx-transition-fast);
   background: var(--nx-bg-card);
   color: var(--nx-text-primary);
+  border-color: var(--nx-border);
 
   &:hover:not(:disabled) {
     background: var(--nx-bg-card-hover);
     border-color: var(--nx-border-glow);
+    box-shadow: var(--nx-shadow-sm);
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.65;
     cursor: not-allowed;
   }
 }
 
 .nx-btn--emerald {
-  background: var(--nx-emerald-dim);
+  background: var(--nx-emerald);
   border-color: var(--nx-emerald);
-  color: var(--nx-emerald);
+  color: #ffffff;
 
   &:hover:not(:disabled) {
-    background: var(--nx-emerald-glow);
+    background: #2bbbad;
+    border-color: #2bbbad;
   }
 }
 
 .nx-btn--purple {
-  background: var(--nx-purple-dim);
+  background: var(--nx-purple);
   border-color: var(--nx-purple);
-  color: var(--nx-purple);
+  color: #ffffff;
 
   &:hover:not(:disabled) {
-    background: var(--nx-purple-glow);
+    background: #7986cb;
+    border-color: #7986cb;
   }
 }
 
 .nx-btn--amber {
-  background: var(--nx-amber-dim);
+  background: var(--nx-amber);
   border-color: var(--nx-amber);
-  color: var(--nx-amber);
+  color: #ffffff;
 
   &:hover:not(:disabled) {
-    background: var(--nx-amber-glow);
+    background: #ff8a65;
+    border-color: #ff8a65;
   }
 }
 
-/* ─── Kbd Tag ─── */
+/* ─── Kbd Tag (Limitless-style) ─── */
 kbd {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 4px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
   padding: 1px 6px;
   font-family: var(--nx-font-primary);
   font-size: 0.72rem;
   color: var(--nx-text-secondary);
   line-height: 1.6;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
 }
 
 /* ─── Numbers (Accounting) ─── */
@@ -265,4 +302,35 @@ kbd {
   font-family: var(--nx-font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
+}
+
+/* ─── Limitless-Style Badge ─── */
+.nx-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  border-radius: var(--nx-radius-sm);
+  line-height: 1.5;
+}
+
+.nx-badge--success {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.nx-badge--info {
+  background: rgba(66, 165, 245, 0.1);
+  color: #42a5f5;
+}
+
+.nx-badge--warning {
+  background: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+}
+
+.nx-badge--danger {
+  background: rgba(239, 83, 80, 0.1);
+  color: #ef5350;
 }
