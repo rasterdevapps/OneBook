@@ -170,12 +170,12 @@ flowchart LR
 
 Multiple entry points for developers to find information:
 
-1. **[.github/AGENT_OWNERSHIP.md](.github/AGENT_OWNERSHIP.md)** - Quick 1-page reference
-2. **[.github/agents/MAINTENANCE.md](.github/agents/MAINTENANCE.md)** - Comprehensive guide
-3. **[.github/agents/README.md](.github/agents/README.md)** - Agent system overview
-4. **[.github/scripts/README.md](.github/scripts/README.md)** - Validation script docs
-5. **[CONTRIBUTING.md](CONTRIBUTING.md)** - Mentions ownership in PR workflow
-6. **[README.md](README.md)** - Links to maintenance guide
+1. **[AGENT_OWNERSHIP.md](./AGENT_OWNERSHIP.md)** - Quick 1-page reference
+2. **[agents/MAINTENANCE.md](./agents/MAINTENANCE.md)** - Comprehensive guide
+3. **[agents/README.md](./agents/README.md)** - Agent system overview
+4. **[scripts/README.md](./scripts/README.md)** - Validation script docs
+5. **[CONTRIBUTING.md](../CONTRIBUTING.md)** - Mentions ownership in PR workflow
+6. **[README.md](../README.md)** - Links to maintenance guide
 
 ## Future Enhancements
 

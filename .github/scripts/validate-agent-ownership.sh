@@ -26,10 +26,16 @@ check_ownership() {
     # Remove leading ./
     path=${path#./}
     
-    # Search in all agent .md files (excluding README, INDEX, IMPLEMENTATION_SUMMARY)
-    if grep -r --include="*-*.md" -q "$path" "$AGENTS_DIR" 2>/dev/null; then
-        found=1
-    fi
+    # Search in agent instruction files (must contain hyphen: architect-md, ledger-expert.md, etc.)
+    # This excludes README.md, INDEX.md, MAINTENANCE.md, IMPLEMENTATION_SUMMARY.md
+    for agent_file in "$AGENTS_DIR"/*-*.md; do
+        if [ -f "$agent_file" ]; then
+            if grep -q "$path" "$agent_file" 2>/dev/null; then
+                found=1
+                break
+            fi
+        fi
+    done
     
     if [ $found -eq 0 ]; then
         echo -e "${RED}✗${NC} Missing: $type - $path"
@@ -59,8 +65,17 @@ cd "$REPO_ROOT/backend/src/main/java/com/nexus/onebook/ledger/service"
 for file in *Service.java; do
     if [ -f "$file" ]; then
         service_name="${file%.java}"
-        # Check if service name is mentioned in agent files
-        if ! grep -r --include="*-*.md" -q "$service_name" "$AGENTS_DIR" 2>/dev/null; then
+        found=0
+        # Check if service name is mentioned in agent instruction files
+        for agent_file in "$AGENTS_DIR"/*-*.md; do
+            if [ -f "$agent_file" ]; then
+                if grep -q "$service_name" "$agent_file" 2>/dev/null; then
+                    found=1
+                    break
+                fi
+            fi
+        done
+        if [ $found -eq 0 ]; then
             echo -e "${RED}✗${NC} Missing: Backend Service - $service_name"
             EXIT_CODE=1
         fi
@@ -76,8 +91,17 @@ cd "$REPO_ROOT/backend/src/main/java/com/nexus/onebook/ledger/controller"
 for file in *Controller.java; do
     if [ -f "$file" ]; then
         controller_name="${file%.java}"
-        # Check if controller name is mentioned in agent files
-        if ! grep -r --include="*-*.md" -q "$controller_name" "$AGENTS_DIR" 2>/dev/null; then
+        found=0
+        # Check if controller name is mentioned in agent instruction files
+        for agent_file in "$AGENTS_DIR"/*-*.md; do
+            if [ -f "$agent_file" ]; then
+                if grep -q "$controller_name" "$agent_file" 2>/dev/null; then
+                    found=1
+                    break
+                fi
+            fi
+        done
+        if [ $found -eq 0 ]; then
             echo -e "${RED}✗${NC} Missing: Backend Controller - $controller_name"
             EXIT_CODE=1
         fi

@@ -60,7 +60,7 @@ The OneBook sub-agent architecture requires clear ownership boundaries. When age
 
 For comprehensive ownership rules, examples, and troubleshooting, see:
 
-📖 **[Agent Ownership Maintenance Guide](.github/agents/MAINTENANCE.md)**
+📖 **[Agent Ownership Maintenance Guide](agents/MAINTENANCE.md)**
 
 ## CI Validation
 
@@ -68,4 +68,4 @@ The validation script runs automatically on all PRs. If you forget to update age
 
 ---
 
-**Questions?** See [MAINTENANCE.md](.github/agents/MAINTENANCE.md) or [README.md](.github/agents/README.md)
+**Questions?** See [agents/MAINTENANCE.md](agents/MAINTENANCE.md) or [agents/README.md](agents/README.md)

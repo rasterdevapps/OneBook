@@ -292,9 +292,9 @@ Potential improvements to make ownership tracking even more automatic:
 ## Related Documentation
 
 - [Sub-Agent Architecture](../../sub-agents.md) - Overview of all 10 agents
-- [Agent Instructions README](.github/agents/README.md) - How to use agent instructions
-- [Design Requirements Index](.github/agents/INDEX.md) - Quick reference by category
-- [Validation Script](.github/scripts/validate-agent-ownership.sh) - Automated ownership checker
+- [Agent Instructions README](./README.md) - How to use agent instructions
+- [Design Requirements Index](./INDEX.md) - Quick reference by category
+- [Validation Script](../scripts/validate-agent-ownership.sh) - Automated ownership checker
 
 ---
 
