@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Core double-entry accounting service.
@@ -111,6 +112,65 @@ public class JournalService {
         warmCacheService.evictTrialBalance(request.tenantId());
 
         return saved;
+    }
+
+    /**
+     * Updates an existing journal transaction — replaces all entries.
+     */
+    @Transactional
+    public JournalTransaction updateTransaction(UUID uuid, JournalTransactionRequest request) {
+        JournalTransaction existing = transactionRepository.findByTransactionUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found: " + uuid));
+
+        validateBalance(request.entries());
+
+        // Update header fields
+        existing.setTransactionDate(request.transactionDate());
+        existing.setDescription(request.description());
+        if (request.metadata() != null) {
+            existing.setMetadata(request.metadata());
+        }
+        if (request.description() != null) {
+            existing.setDescriptionEncrypted(encryptionService.encrypt(request.description()));
+            existing.setDescriptionBlindIndex(blindIndexService.generateBlindIndex(request.description()));
+        }
+
+        // Replace entries (orphanRemoval will delete old ones)
+        existing.getEntries().clear();
+        for (JournalEntryRequest entryReq : request.entries()) {
+            LedgerAccount account = accountRepository.findById(entryReq.accountId())
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "Ledger account not found: " + entryReq.accountId()));
+            EntryType entryType = EntryType.valueOf(entryReq.entryType());
+            JournalEntry entry = new JournalEntry(
+                    request.tenantId(), account, entryType,
+                    entryReq.amount(), entryReq.description()
+            );
+            if (entryReq.metadata() != null) {
+                entry.setMetadata(entryReq.metadata());
+            }
+            existing.addEntry(entry);
+        }
+
+        JournalTransaction saved = transactionRepository.save(existing);
+        auditLogService.logInsert(request.tenantId(), "journal_transactions", saved.getId(),
+                "{\"action\":\"UPDATE\",\"transactionUuid\":\"" + saved.getTransactionUuid() + "\"}");
+        warmCacheService.evictTrialBalance(request.tenantId());
+        return saved;
+    }
+
+    /**
+     * Deletes a journal transaction by UUID.
+     */
+    @Transactional
+    public void deleteTransaction(UUID uuid) {
+        JournalTransaction existing = transactionRepository.findByTransactionUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found: " + uuid));
+        String tenantId = existing.getTenantId();
+        transactionRepository.delete(existing);
+        auditLogService.logInsert(tenantId, "journal_transactions", existing.getId(),
+                "{\"action\":\"DELETE\",\"transactionUuid\":\"" + uuid + "\"}");
+        warmCacheService.evictTrialBalance(tenantId);
     }
 
     /**

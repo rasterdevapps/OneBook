@@ -64,6 +64,10 @@
         <span class="nav-icon">💧</span>
         @if (!sidebarCollapsed()) { <span>Cash Flow</span> }
       </a>
+      <a routerLink="/reports/daybook" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📅</span>
+        @if (!sidebarCollapsed()) { <span>Day Book</span> }
+      </a>
 
       @if (!sidebarCollapsed()) { <div class="nav-section">Management</div> }
       <a routerLink="/inventory" routerLinkActive="active" class="nav-item">

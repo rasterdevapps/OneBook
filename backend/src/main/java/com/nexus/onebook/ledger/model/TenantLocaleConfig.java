@@ -1,6 +1,8 @@
 package com.nexus.onebook.ledger.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 
 @Entity
@@ -29,6 +31,7 @@ public class TenantLocaleConfig {
     @Column(name = "fiscal_year_start_month")
     private int fiscalYearStartMonth = 4;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 

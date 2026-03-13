@@ -94,3 +94,51 @@ export interface ContraVoucher {
   posted: boolean;
   createdAt: string;
 }
+
+/* ── Unified voucher view model (all voucher types) ── */
+export interface Voucher {
+  uuid: string;
+  voucherType: VoucherCategory;
+  voucherNumber: string;
+  date: string;
+  debitAccountId: number;
+  debitAccountName: string;
+  creditAccountId: number;
+  creditAccountName: string;
+  amount: number;
+  narration: string;
+  posted: boolean;
+  createdAt: string;
+}
+
+/* ── Voucher type configuration ── */
+export interface VoucherTypeConfig {
+  label: string;
+  fKey: string;
+  prefix: string;
+  /** Account group IDs allowed for debit side; empty = all */
+  debitGroupIds: number[];
+  /** Account group IDs allowed for credit side; empty = all */
+  creditGroupIds: number[];
+}
+
+/**
+ * Tally-compatible voucher type rules.
+ * Group IDs from AccountMasterService:
+ *   16 = Bank Accounts, 17 = Cash-in-Hand
+ *   20 = Sundry Debtors, 21 = Sundry Creditors
+ *   5 = Direct Expenses, 6 = Indirect Expenses
+ *   7 = Direct Incomes, 8 = Indirect Incomes
+ *   All other groups are fair game for Journal.
+ */
+export const VOUCHER_TYPE_CONFIG: Record<VoucherCategory, VoucherTypeConfig> = {
+  CONTRA:      { label: 'Contra',       fKey: 'F4', prefix: 'CTR', debitGroupIds: [16, 17],               creditGroupIds: [16, 17] },
+  PAYMENT:     { label: 'Payment',      fKey: 'F5', prefix: 'PMT', debitGroupIds: [],                     creditGroupIds: [16, 17] },
+  RECEIPT:     { label: 'Receipt',      fKey: 'F6', prefix: 'RCT', debitGroupIds: [16, 17],               creditGroupIds: [] },
+  JOURNAL:     { label: 'Journal',      fKey: 'F7', prefix: 'JRN', debitGroupIds: [],                     creditGroupIds: [] },
+  SALES:       { label: 'Sales',        fKey: 'F8', prefix: 'SLS', debitGroupIds: [16, 17, 20],           creditGroupIds: [] },
+  PURCHASE:    { label: 'Purchase',     fKey: 'F9', prefix: 'PUR', debitGroupIds: [],                     creditGroupIds: [16, 17, 21] },
+  CREDIT_NOTE: { label: 'Credit Note',  fKey: '',   prefix: 'CN',  debitGroupIds: [],                     creditGroupIds: [] },
+  DEBIT_NOTE:  { label: 'Debit Note',   fKey: '',   prefix: 'DN',  debitGroupIds: [],                     creditGroupIds: [] },
+};
+

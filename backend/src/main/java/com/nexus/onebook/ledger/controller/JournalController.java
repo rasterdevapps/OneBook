@@ -48,4 +48,18 @@ public class JournalController {
                         "Transaction not found: " + uuid));
         return ResponseEntity.ok(transaction);
     }
+
+    @PutMapping("/transactions/{uuid}")
+    public ResponseEntity<JournalTransaction> updateTransaction(
+            @PathVariable UUID uuid,
+            @Valid @RequestBody JournalTransactionRequest request) {
+        JournalTransaction updated = journalService.updateTransaction(uuid, request);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/transactions/{uuid}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable UUID uuid) {
+        journalService.deleteTransaction(uuid);
+        return ResponseEntity.noContent().build();
+    }
 }

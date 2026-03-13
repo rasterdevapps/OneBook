@@ -1,6 +1,8 @@
 package com.nexus.onebook.ledger.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 
 /**
@@ -42,6 +44,7 @@ public class DisasterRecoveryEvent {
     @Column(name = "error_message", columnDefinition = "text")
     private String errorMessage;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 

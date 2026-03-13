@@ -1,6 +1,8 @@
 package com.nexus.onebook.ledger.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 
 /**
@@ -44,6 +46,7 @@ public class VaultDocument {
     @Column(name = "uploaded_by")
     private String uploadedBy;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 

@@ -6,6 +6,9 @@ import {
   JournalTransactionRequest,
   JournalTransaction,
   ContraVoucher,
+  Voucher,
+  VoucherCategory,
+  VOUCHER_TYPE_CONFIG,
 } from '../models/voucher.models';
 import { AccountMasterService } from './account-master.service';
 
@@ -46,9 +49,14 @@ export class VoucherService {
     this.accounts().filter(a => a.active && (a.groupId === 16 || a.groupId === 17))
   );
 
-  /* ── Contra vouchers ── */
-  readonly contraVouchers = signal<ContraVoucher[]>([]);
-  private contraSeq = 0;
+  /* ── Generic voucher store ── */
+  readonly vouchers = signal<Voucher[]>([]);
+  private seqMap: Record<string, number> = {};
+
+  /* ── Legacy contra vouchers — computed from vouchers ── */
+  readonly contraVouchers = computed<ContraVoucher[]>(() =>
+    this.vouchers().filter(v => v.voucherType === 'CONTRA')
+  );
 
   /* ── Load ledger accounts from backend ── */
   loadAccounts(): Observable<LedgerAccount[]> {
@@ -56,37 +64,43 @@ export class VoucherService {
     return of(this.accounts());
   }
 
-  /* ── Load contra vouchers from backend ── */
-  loadContraVouchers(): void {
+  /* ── Load vouchers by type from backend ── */
+  loadVouchers(type: VoucherCategory): void {
     this.http.get<BackendJournalTransaction[]>('/api/journal/transactions', {
       params: { tenantId: TENANT_ID },
     }).pipe(
       map(txns => txns.filter(t => {
-        try { return JSON.parse(t.metadata || '{}').voucherType === 'CONTRA'; }
+        try { return JSON.parse(t.metadata || '{}').voucherType === type; }
         catch { return false; }
       })),
-      map(txns => txns.map(t => this.backendToContraVoucher(t))),
-      tap(cvs => {
-        this.contraVouchers.set(cvs);
-        this.contraSeq = cvs.length;
+      map(txns => txns.map(t => this.backendToVoucher(t, type))),
+      tap(vs => {
+        this.vouchers.set(vs);
+        this.seqMap[type] = vs.length;
       }),
-      catchError(() => of([])),
+      catchError(() => { this.vouchers.set([]); return of([]); }),
     ).subscribe();
   }
 
-  /* ── Create a contra voucher (POST to backend) ── */
-  createContraVoucher(
+  /* ── Legacy: load contra vouchers ── */
+  loadContraVouchers(): void {
+    this.loadVouchers('CONTRA');
+  }
+
+  /* ── Create a voucher (POST to backend) ── */
+  createVoucher(
+    type: VoucherCategory,
     date: string,
     debitAccountId: number,
     creditAccountId: number,
     amount: number,
     narration: string,
-  ): Observable<ContraVoucher> {
+  ): Observable<Voucher> {
     const req: JournalTransactionRequest = {
       tenantId: TENANT_ID,
       transactionDate: date,
       description: narration,
-      metadata: JSON.stringify({ voucherType: 'CONTRA' }),
+      metadata: JSON.stringify({ voucherType: type }),
       entries: [
         { accountId: debitAccountId, entryType: 'DEBIT', amount },
         { accountId: creditAccountId, entryType: 'CREDIT', amount },
@@ -94,43 +108,80 @@ export class VoucherService {
     };
 
     return this.http.post<BackendJournalTransaction>('/api/journal/transactions', req).pipe(
-      map(txn => this.backendToContraVoucher(txn)),
-      tap(cv => this.contraVouchers.update(list => [cv, ...list])),
+      map(txn => this.backendToVoucher(txn, type)),
+      tap(v => this.vouchers.update(list => [v, ...list])),
       catchError(() => {
-        const cv = this.offlineContraVoucher(date, debitAccountId, creditAccountId, amount, narration);
-        this.contraVouchers.update(list => [cv, ...list]);
-        return of(cv);
+        const v = this.offlineVoucher(type, date, debitAccountId, creditAccountId, amount, narration);
+        this.vouchers.update(list => [v, ...list]);
+        return of(v);
       }),
     );
   }
 
-  /* ── Update a voucher (replace in local list) ── */
-  updateContraVoucher(
+  /* ── Legacy create contra ── */
+  createContraVoucher(
+    date: string, drId: number, crId: number, amount: number, narration: string,
+  ): Observable<ContraVoucher> {
+    return this.createVoucher('CONTRA', date, drId, crId, amount, narration);
+  }
+
+  /* ── Update a voucher (PUT to backend) ── */
+  updateVoucher(
     uuid: string,
+    type: VoucherCategory,
     date: string,
     debitAccountId: number,
     creditAccountId: number,
     amount: number,
     narration: string,
-  ): Observable<ContraVoucher> {
-    const updated = this.buildContraVoucher(
-      uuid,
-      this.voucherNumberFor(uuid),
-      date, debitAccountId, creditAccountId, amount, narration,
+  ): Observable<Voucher> {
+    const req: JournalTransactionRequest = {
+      tenantId: TENANT_ID,
+      transactionDate: date,
+      description: narration,
+      metadata: JSON.stringify({ voucherType: type }),
+      entries: [
+        { accountId: debitAccountId, entryType: 'DEBIT', amount },
+        { accountId: creditAccountId, entryType: 'CREDIT', amount },
+      ],
+    };
+
+    return this.http.put<BackendJournalTransaction>(`/api/journal/transactions/${uuid}`, req).pipe(
+      map(txn => this.backendToVoucher(txn, type)),
+      tap(v => this.vouchers.update(list => list.map(x => x.uuid === uuid ? v : x))),
+      catchError(() => {
+        const updated = this.buildVoucher(
+          type, uuid, this.voucherNumberFor(uuid, type),
+          date, debitAccountId, creditAccountId, amount, narration,
+        );
+        this.vouchers.update(list => list.map(x => x.uuid === uuid ? updated : x));
+        return of(updated);
+      }),
     );
-    this.contraVouchers.update(list =>
-      list.map(v => v.uuid === uuid ? updated : v),
-    );
-    return of(updated);
   }
 
-  /* ── Delete ── */
+  /* ── Legacy update contra ── */
+  updateContraVoucher(
+    uuid: string, date: string, drId: number, crId: number, amount: number, narration: string,
+  ): Observable<ContraVoucher> {
+    return this.updateVoucher(uuid, 'CONTRA', date, drId, crId, amount, narration);
+  }
+
+  /* ── Delete a voucher (DELETE on backend) ── */
+  deleteVoucher(uuid: string): Observable<void> {
+    this.vouchers.update(list => list.filter(v => v.uuid !== uuid));
+    return this.http.delete<void>(`/api/journal/transactions/${uuid}`).pipe(
+      catchError(() => of(undefined)),
+    );
+  }
+
+  /* ── Legacy delete contra ── */
   deleteContraVoucher(uuid: string): void {
-    this.contraVouchers.update(list => list.filter(v => v.uuid !== uuid));
+    this.deleteVoucher(uuid).subscribe();
   }
 
   /* ── Helpers ── */
-  private backendToContraVoucher(txn: BackendJournalTransaction): ContraVoucher {
+  private backendToVoucher(txn: BackendJournalTransaction, type: VoucherCategory): Voucher {
     const dr = txn.entries.find(e => e.entryType === 'DEBIT');
     const cr = txn.entries.find(e => e.entryType === 'CREDIT');
     const accts = this.accounts();
@@ -138,7 +189,8 @@ export class VoucherService {
     const crId = cr?.account?.id ?? 0;
     return {
       uuid: txn.transactionUuid,
-      voucherNumber: this.nextVoucherNumber(),
+      voucherType: type,
+      voucherNumber: this.nextVoucherNumber(type),
       date: txn.transactionDate,
       debitAccountId: drId,
       debitAccountName: dr?.account?.accountName ?? accts.find(a => a.id === drId)?.accountName ?? `Account #${drId}`,
@@ -151,20 +203,21 @@ export class VoucherService {
     };
   }
 
-  private offlineContraVoucher(
-    date: string, drId: number, crId: number, amount: number, narration: string,
-  ): ContraVoucher {
+  private offlineVoucher(
+    type: VoucherCategory, date: string, drId: number, crId: number, amount: number, narration: string,
+  ): Voucher {
     const uuid = crypto.randomUUID();
-    return this.buildContraVoucher(uuid, this.nextVoucherNumber(), date, drId, crId, amount, narration);
+    return this.buildVoucher(type, uuid, this.nextVoucherNumber(type), date, drId, crId, amount, narration);
   }
 
-  private buildContraVoucher(
-    uuid: string, vNum: string, date: string,
+  private buildVoucher(
+    type: VoucherCategory, uuid: string, vNum: string, date: string,
     drId: number, crId: number, amount: number, narration: string,
-  ): ContraVoucher {
+  ): Voucher {
     const accts = this.accounts();
     return {
       uuid,
+      voucherType: type,
       voucherNumber: vNum,
       date,
       debitAccountId: drId,
@@ -178,12 +231,14 @@ export class VoucherService {
     };
   }
 
-  private nextVoucherNumber(): string {
-    this.contraSeq++;
-    return `CTR-${String(this.contraSeq).padStart(4, '0')}`;
+  private nextVoucherNumber(type: VoucherCategory): string {
+    const seq = (this.seqMap[type] ?? 0) + 1;
+    this.seqMap[type] = seq;
+    const prefix = VOUCHER_TYPE_CONFIG[type]?.prefix ?? 'VCH';
+    return `${prefix}-${String(seq).padStart(4, '0')}`;
   }
 
-  private voucherNumberFor(uuid: string): string {
-    return this.contraVouchers().find(v => v.uuid === uuid)?.voucherNumber ?? this.nextVoucherNumber();
+  private voucherNumberFor(uuid: string, type: VoucherCategory): string {
+    return this.vouchers().find(v => v.uuid === uuid)?.voucherNumber ?? this.nextVoucherNumber(type);
   }
 }

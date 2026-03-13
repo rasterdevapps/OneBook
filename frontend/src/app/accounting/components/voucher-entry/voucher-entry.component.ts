@@ -1,18 +1,31 @@
 import {
   Component, ChangeDetectionStrategy, OnInit, OnDestroy,
-  inject, signal, computed, HostListener,
+  inject, signal, computed, HostListener, effect,
 } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, LowerCasePipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { VoucherService } from '../../services/voucher.service';
 import { AccountMasterService } from '../../services/account-master.service';
-import { ContraVoucher } from '../../models/voucher.models';
+import { Voucher, VoucherCategory, VOUCHER_TYPE_CONFIG } from '../../models/voucher.models';
 
 type ViewMode = 'list' | 'form';
+
+/** Map URL slug to VoucherCategory */
+const SLUG_TO_CATEGORY: Record<string, VoucherCategory> = {
+  contra: 'CONTRA',
+  payment: 'PAYMENT',
+  receipt: 'RECEIPT',
+  journal: 'JOURNAL',
+  sales: 'SALES',
+  purchase: 'PURCHASE',
+};
 
 @Component({
   selector: 'app-voucher-entry',
   standalone: true,
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, LowerCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './voucher-entry.component.html',
   styleUrl: './voucher-entry.component.scss',
@@ -20,6 +33,16 @@ type ViewMode = 'list' | 'form';
 export class VoucherEntryComponent implements OnInit, OnDestroy {
   private readonly svc = inject(VoucherService);
   private readonly masterSvc = inject(AccountMasterService);
+  private readonly route = inject(ActivatedRoute);
+
+  /* ── Route-driven voucher type ── */
+  private readonly routeType = toSignal(
+    this.route.paramMap.pipe(map(p => p.get('type') ?? 'contra'))
+  );
+  readonly voucherCategory = computed<VoucherCategory>(
+    () => SLUG_TO_CATEGORY[this.routeType() ?? 'contra'] ?? 'CONTRA'
+  );
+  readonly typeConfig = computed(() => VOUCHER_TYPE_CONFIG[this.voucherCategory()]);
 
   /* ── View state ── */
   readonly mode = signal<ViewMode>('list');
@@ -30,12 +53,23 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
   readonly selectedUuid = signal('');
 
   /* ── Data from service ── */
-  readonly vouchers = this.svc.contraVouchers;
+  readonly vouchers = this.svc.vouchers;
 
-  /** Contra voucher: only Cash-in-Hand (group 17) + Bank Accounts (group 16) */
-  readonly cashBankAccounts = computed(() =>
-    this.masterSvc.accounts().filter(a => a.active && (a.groupId === 16 || a.groupId === 17))
-  );
+  /** Debit-side accounts filtered by voucher type config */
+  readonly debitAccounts = computed(() => {
+    const cfg = this.typeConfig();
+    const all = this.masterSvc.accounts().filter(a => a.active);
+    if (!cfg.debitGroupIds.length) return all;
+    return all.filter(a => cfg.debitGroupIds.includes(a.groupId));
+  });
+
+  /** Credit-side accounts filtered by voucher type config */
+  readonly creditAccounts = computed(() => {
+    const cfg = this.typeConfig();
+    const all = this.masterSvc.accounts().filter(a => a.active);
+    if (!cfg.creditGroupIds.length) return all;
+    return all.filter(a => cfg.creditGroupIds.includes(a.groupId));
+  });
 
   readonly totalAmount = computed(() =>
     this.vouchers().reduce((sum, v) => sum + v.amount, 0)
@@ -49,11 +83,19 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
   readonly formNarration = signal('');
   readonly formError = signal('');
 
+  constructor() {
+    // Reactively reload vouchers when the route type changes
+    effect(() => {
+      const cat = this.voucherCategory();
+      this.masterSvc.initialize();
+      this.svc.loadVouchers(cat);
+      this.mode.set('list');
+      this.selectedUuid.set('');
+    });
+  }
+
   ngOnInit(): void {
-    // Initialize master accounts (loads from backend API, fallback to seeds)
-    this.masterSvc.initialize();
-    // Load existing contra vouchers from backend
-    this.svc.loadContraVouchers();
+    // Initial load handled by effect above
   }
 
   ngOnDestroy(): void { /* cleanup if needed */ }
@@ -61,7 +103,6 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
   /* ── Keyboard shortcuts ── */
   @HostListener('window:keydown', ['$event'])
   onKey(e: KeyboardEvent): void {
-    // Ctrl+S or Ctrl+Enter → save
     if ((e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'Enter')) {
       if (this.mode() === 'form') {
         e.preventDefault();
@@ -70,7 +111,6 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Don't intercept when typing in inputs
     const tag = (e.target as HTMLElement)?.tagName;
     if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
 
@@ -99,7 +139,7 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
     this.mode.set('form');
   }
 
-  startEdit(v: ContraVoucher): void {
+  startEdit(v: Voucher): void {
     this.formDate.set(v.date);
     this.formDebitAccountId.set(v.debitAccountId);
     this.formCreditAccountId.set(v.creditAccountId);
@@ -121,18 +161,18 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
   }
 
   deleteVoucher(uuid: string): void {
-    this.svc.deleteContraVoucher(uuid);
+    this.svc.deleteVoucher(uuid).subscribe();
     if (this.selectedUuid() === uuid) this.selectedUuid.set('');
   }
 
   save(): void {
-    // Validate
     const err = this.validate();
     if (err) { this.formError.set(err); return; }
 
     this.saving.set(true);
     this.formError.set('');
 
+    const type = this.voucherCategory();
     const date = this.formDate();
     const drId = this.formDebitAccountId();
     const crId = this.formCreditAccountId();
@@ -140,8 +180,8 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
     const narr = this.formNarration();
 
     const obs$ = this.editing()
-      ? this.svc.updateContraVoucher(this.editingUuid(), date, drId, crId, amt, narr)
-      : this.svc.createContraVoucher(date, drId, crId, amt, narr);
+      ? this.svc.updateVoucher(this.editingUuid(), type, date, drId, crId, amt, narr)
+      : this.svc.createVoucher(type, date, drId, crId, amt, narr);
 
     obs$.subscribe({
       next: () => {

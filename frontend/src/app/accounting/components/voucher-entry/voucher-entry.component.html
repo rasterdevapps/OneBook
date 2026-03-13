@@ -1,8 +1,8 @@
 <div class="voucher-shell">
   <!-- ─── Header bar (Tally-style) ─── -->
   <div class="voucher-header">
-    <span class="voucher-type-badge">F4</span>
-    <h2>Contra Voucher</h2>
+    <span class="voucher-type-badge">{{ typeConfig().fKey }}</span>
+    <h2>{{ typeConfig().label }} Voucher</h2>
     <div class="header-actions">
       @if (mode() === 'list') {
         <button class="btn btn-primary" (click)="startCreate()">
@@ -23,8 +23,8 @@
       @if (vouchers().length === 0) {
         <div class="empty-state">
           <div class="empty-icon">📒</div>
-          <p>No contra vouchers yet.</p>
-          <p class="hint">Press <kbd>C</kbd> to create your first contra voucher.</p>
+          <p>No {{ typeConfig().label | lowercase }} vouchers yet.</p>
+          <p class="hint">Press <kbd>C</kbd> to create your first {{ typeConfig().label | lowercase }} voucher.</p>
         </div>
       } @else {
         <table class="voucher-table">
@@ -72,7 +72,7 @@
   @if (mode() === 'form') {
     <div class="voucher-form">
       <div class="form-title-bar">
-        {{ editing() ? 'Edit' : 'Create' }} Contra Voucher
+        {{ editing() ? 'Edit' : 'Create' }} {{ typeConfig().label }} Voucher
         @if (editing()) {
           <span class="edit-badge">{{ editingVoucherNumber() }}</span>
         }
@@ -94,7 +94,7 @@
                   (change)="formDebitAccountId.set(+drSelect.value)"
                   class="input">
             <option value="0" disabled>— Select account —</option>
-            @for (a of cashBankAccounts(); track a.id) {
+            @for (a of debitAccounts(); track a.id) {
               <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
             }
           </select>
@@ -107,7 +107,7 @@
                   (change)="formCreditAccountId.set(+crSelect.value)"
                   class="input">
             <option value="0" disabled>— Select account —</option>
-            @for (a of cashBankAccounts(); track a.id) {
+            @for (a of creditAccounts(); track a.id) {
               <option [value]="a.id">{{ a.accountCode }} — {{ a.accountName }}</option>
             }
           </select>
@@ -128,7 +128,7 @@
           <textarea #narrInput rows="2"
                     [value]="formNarration()"
                     (input)="formNarration.set(narrInput.value)"
-                    class="input" placeholder="e.g. Cash deposited to bank"></textarea>
+                    class="input" placeholder="e.g. {{ typeConfig().label }} transaction narration"></textarea>
         </div>
 
         @if (formError()) {

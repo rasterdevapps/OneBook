@@ -32,6 +32,9 @@ dependencies {
     // PostgreSQL Driver — pinned to 42.7.7+ to fix CVE in channelBinding
     runtimeOnly 'org.postgresql:postgresql:42.7.7'
 
+    // Jackson Hibernate module for lazy-loading support
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6'
+
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

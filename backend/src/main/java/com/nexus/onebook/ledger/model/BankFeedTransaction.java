@@ -1,6 +1,8 @@
 package com.nexus.onebook.ledger.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,6 +45,7 @@ public class BankFeedTransaction {
     @Column(name = "source", length = 20)
     private BankFeedSource source = BankFeedSource.MANUAL;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 

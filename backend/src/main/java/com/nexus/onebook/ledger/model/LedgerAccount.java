@@ -1,6 +1,9 @@
 package com.nexus.onebook.ledger.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 
 /**
@@ -20,6 +23,7 @@ public class LedgerAccount {
     @Column(name = "tenant_id", nullable = false)
     private String tenantId;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cost_center_id", nullable = false)
     private CostCenter costCenter;
@@ -40,6 +44,7 @@ public class LedgerAccount {
     @Column(name = "account_type", nullable = false, length = 20)
     private AccountType accountType;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_account_id")
     private LedgerAccount parentAccount;
@@ -47,6 +52,7 @@ public class LedgerAccount {
     @Column(name = "is_active", nullable = false)
     private boolean active = true;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "metadata", columnDefinition = "jsonb")
     private String metadata = "{}";
 

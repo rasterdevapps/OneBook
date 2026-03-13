@@ -7,6 +7,7 @@ import com.nexus.onebook.ledger.model.AccountType;
 import com.nexus.onebook.ledger.model.LedgerAccount;
 import com.nexus.onebook.ledger.service.LedgerAccountService;
 import com.nexus.onebook.ledger.service.TrialBalanceService;
+import com.nexus.onebook.ledger.repository.CostCenterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,6 +37,9 @@ class LedgerControllerTest {
 
     @MockitoBean
     private TrialBalanceService trialBalanceService;
+
+    @MockitoBean
+    private CostCenterRepository costCenterRepository;
 
     @Test
     void createAccount_validRequest_returns201() throws Exception {
