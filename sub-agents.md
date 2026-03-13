@@ -20,6 +20,16 @@ Nexus Universal spans **7 backend packages**, **11 frontend modules**, **9 Flywa
 2. **Parallel Execution:** Independent agents can work simultaneously on different layers.
 3. **Quality Enforcement:** Each agent enforces its domain's specific conventions and standards.
 4. **Context Budget:** The main orchestrator stays under ~5,000 tokens by delegating raw code inspection to specialists.
+5. **Design Requirements:** Each agent has detailed instruction files in `.github/agents/` with patterns, conventions, and examples.
+
+---
+
+## Quick Reference
+
+For detailed design patterns and implementation guidelines, see:
+- [Agent Instructions Directory](.github/agents/README.md) - Overview of all 10 agents
+- [Design Requirements Index](.github/agents/INDEX.md) - Quick reference by category
+- Individual agent files in `.github/agents/` - Comprehensive patterns and conventions
 
 ---
 
