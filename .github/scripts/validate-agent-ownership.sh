@@ -123,6 +123,10 @@ else
     echo "   2. Update the appropriate agent .md file in .github/agents/"
     echo "   3. Add the component to the 'Files Owned' section"
     echo "   4. Update INDEX.md if needed for cross-references"
+    echo ""
+    echo "📖 For detailed guidance, see:"
+    echo "   .github/agents/MAINTENANCE.md - Complete ownership rules and examples"
+    echo "   .github/AGENT_OWNERSHIP.md - Quick reference guide"
 fi
 echo ""
 
