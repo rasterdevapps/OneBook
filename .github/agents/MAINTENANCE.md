@@ -13,6 +13,28 @@ The sub-agent architecture relies on clear ownership boundaries. Each agent inst
 3. **Collaboration breaks** - Cross-cutting concerns become unclear
 4. **Onboarding suffers** - New developers can't easily understand system boundaries
 
+## Workflow Diagram
+
+```mermaid
+flowchart TD
+    A[Developer adds new code] --> B{Is it a new<br/>module/service/controller?}
+    B -->|Yes| C[Identify domain<br/>Use ownership tables below]
+    B -->|No| Z[Done]
+    C --> D[Open appropriate<br/>agent .md file]
+    D --> E[Add to Files Owned section<br/>with brief description]
+    E --> F[Run validation script<br/>.github/scripts/validate-agent-ownership.sh]
+    F --> G{Validation<br/>passed?}
+    G -->|Yes| H[Commit code + updated agent file]
+    G -->|No| I[Review missing components<br/>Fix agent files]
+    I --> F
+    H --> J[Open PR]
+    J --> K[CI runs validation automatically]
+    K --> L{CI<br/>passed?}
+    L -->|Yes| M[PR ready for review]
+    L -->|No| N[Check CI logs<br/>Fix ownership issues]
+    N --> F
+```
+
 ## Ownership Rules
 
 ### Backend Services (`backend/src/main/java/com/nexus/onebook/ledger/service/`)
