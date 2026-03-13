@@ -477,5 +477,18 @@ Quick reference for which agents work together on common tasks:
 
 ---
 
+## Maintaining Agent Ownership
+
+**⚠️ CRITICAL**: Agent ownership must be kept up-to-date when adding new code.
+
+When you add new files, modules, services, controllers, or migrations:
+1. **Identify the owner agent** using the Quick Navigation above
+2. **Update the agent instruction file** - Add to the `Files Owned` section
+3. **Run validation**: `./.github/scripts/validate-agent-ownership.sh`
+
+See **[MAINTENANCE.md](MAINTENANCE.md)** for detailed guidance, ownership rules, examples, and troubleshooting.
+
+---
+
 **Last Updated:** 2026-03-13  
 **Maintained By:** @DocAgent

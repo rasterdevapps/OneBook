@@ -33,6 +33,7 @@ OneBook/
 | [Developer Guide](docs/developer-guide.md) | Onboarding, setup, coding standards |
 | [Operational Runbook](docs/operational-runbook.md) | Deployment, monitoring, troubleshooting |
 | [Sub-Agent Instructions](.github/agents/README.md) | Design patterns and conventions for 10 specialist agents |
+| [Agent Ownership Maintenance](.github/agents/MAINTENANCE.md) | **⚠️ How to update agent ownership when adding new code** |
 
 ## Quick Start
 

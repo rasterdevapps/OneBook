@@ -12,11 +12,16 @@ You are responsible for tax compliance, regulatory reporting, and locale-specifi
 
 #### Backend - Compliance Services
 - `backend/src/main/java/com/nexus/onebook/ledger/controller/ComplianceController.java`
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/ComplianceCertificationController.java`
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/TdsTcsController.java`
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/FeatureEntitlementController.java`
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/TenantLocaleController.java`
 - `backend/src/main/java/com/nexus/onebook/ledger/service/` (Compliance services)
-  - e-Invoice generation service
-  - e-Way Bill generation service
-  - Feature entitlement service
-  - Tenant locale configuration service
+  - `ComplianceService.java` - e-Invoice generation service
+  - `ComplianceCertificationService.java` - Compliance certification and validation
+  - `TdsTcsService.java` - TDS/TCS tax calculations and deductions
+  - `FeatureEntitlementService.java` - Feature entitlement based on locale
+  - `TenantLocaleService.java` - Tenant locale configuration service
 
 #### Backend - Reconciliation
 - `backend/src/main/java/com/nexus/onebook/ledger/controller/ReconciliationController.java`

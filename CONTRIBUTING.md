@@ -27,10 +27,12 @@ We follow a **trunk-based development** model with short-lived feature branches:
 
 1. Create a branch from `main` using the naming convention above.
 2. Make your changes and ensure all tests pass locally.
-3. Open a PR against `main` with a clear title and description.
-4. At least **one approving review** is required before merging.
-5. CI must pass (build, test) before the PR can be merged.
-6. Use **Squash and Merge** to keep a clean commit history on `main`.
+3. **Update agent ownership** - If you added new files, modules, services, or controllers, update the appropriate agent instruction file in `.github/agents/`. See [Agent Ownership Maintenance Guide](.github/agents/MAINTENANCE.md).
+4. **Run validation** - Execute `./.github/scripts/validate-agent-ownership.sh` to ensure ownership is documented.
+5. Open a PR against `main` with a clear title and description.
+6. At least **one approving review** is required before merging.
+7. CI must pass (build, test, agent ownership validation) before the PR can be merged.
+8. Use **Squash and Merge** to keep a clean commit history on `main`.
 
 ---
 

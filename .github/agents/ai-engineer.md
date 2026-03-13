@@ -12,13 +12,20 @@ You are responsible for AI-powered features that transform OneBook from a bookke
 
 #### Backend - AI Services
 - `backend/src/main/java/com/nexus/onebook/ledger/service/` (AI-specific services)
-  - Predictive Cash Flow Forecasting service
-  - Scenario Modeling ("What-If" analysis) service
-  - Mark-to-Market (MTM) Valuation engine
-  - Corporate Actions automation service
-  - Market Sentiment Overlay service
-  - Anomaly Detection service
-  - Digital Asset/Crypto Ledger tracking service
+  - `ForecastingService.java` - Predictive Cash Flow Forecasting (30/60/90-day horizons)
+  - `ScenarioModelingService.java` - "What-If" analysis and sensitivity modeling
+  - `MarkToMarketService.java` - MTM Valuation engine for investment portfolios
+  - `CorporateActionService.java` - Automated accounting for stock splits, dividends, bonus issues
+  - `MarketSentimentService.java` - Market sentiment overlay and news aggregation
+  - `AnomalyDetectionService.java` - Fraud detection and unusual transaction flagging
+  - `DigitalAssetService.java` - Digital Asset & Crypto Ledger tracking
+
+#### Backend - AI Controllers
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/` (AI-specific controllers)
+  - `ForecastController.java` - Cash flow forecasting endpoints
+  - `MarketController.java` - MTM valuation and market data endpoints
+  - `AnomalyController.java` - Anomaly detection and fraud alert endpoints
+  - `DigitalAssetController.java` - Crypto and digital asset endpoints
 
 #### Frontend - AI Module
 - `frontend/src/app/ai/` - AI dashboard and components
@@ -26,8 +33,12 @@ You are responsible for AI-powered features that transform OneBook from a bookke
   - `components/` - Forecasting, MTM, anomaly visualizations
   - `models/` - AI-related interfaces
 
+#### Frontend - Market Valuation Module
+- `frontend/src/app/market/` - Mark-to-Market valuation UI
+  - `components/market-valuation/` - Real-time portfolio valuation, MTM adjustments, AI-powered investment suggestions
+
 #### Database Migrations
-- `backend/src/main/resources/db/migration/V8__ai_features.sql` - Investment holdings, corporate actions, digital assets
+- `backend/src/main/resources/db/migration/V8__ai_intelligence_features.sql` - Investment holdings, corporate actions, digital assets
 
 ---
 

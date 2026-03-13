@@ -20,9 +20,19 @@ You are responsible for the core accounting engine — the double-entry ledger s
   - `JournalService`, `LedgerAccountService`, `TrialBalanceService`
   - `VoucherTypeService`, `CostCenterService`, `LedgerGroupService`
   - `FixedAssetService`, `ProfitAndLossService`, `BalanceSheetService`, `CashFlowService`
+  - `ExportService` - Export financial data
+  - `MultiCurrencyService` - Multi-currency transaction handling
+  - `CreditManagementService` - Credit terms and customer credit management
+  - `ChequeManagementService` - Cheque printing and tracking
+  - `ConnectedPaymentService` - Payment gateway integration
 - `backend/src/main/java/com/nexus/onebook/ledger/controller/` - REST controllers
   - `LedgerController`, `JournalController`, `VoucherTypeController`
   - `CostCenterController`, `LedgerGroupController`, `ReportController`, `FixedAssetController`
+  - `CurrencyController` - Multi-currency management
+  - `ChequeController` - Cheque management endpoints
+  - `PaymentController` - Payment processing endpoints
+  - `ExportController` - Data export endpoints
+  - `CreditManagementController` - Credit management endpoints
 - `backend/src/main/java/com/nexus/onebook/ledger/dto/` - All request/response records
 - `backend/src/main/java/com/nexus/onebook/ledger/exception/` - Custom exceptions and `GlobalExceptionHandler`
 
@@ -32,6 +42,7 @@ You are responsible for the core accounting engine — the double-entry ledger s
 - `backend/src/main/resources/db/migration/V3__ledger_and_journal.sql`
 - `backend/src/main/resources/db/migration/V4__seed_data.sql`
 - `backend/src/main/resources/db/migration/V7__reporting_compliance_far.sql`
+- `backend/src/main/resources/db/migration/V10__tally_features.sql` - Extended voucher types, credit management, multi-currency, inventory/stock tables
 
 #### Documentation
 - `docs/sql-schema.md` - Complete database schema documentation
@@ -40,6 +51,7 @@ You are responsible for the core accounting engine — the double-entry ledger s
 #### Frontend (Data Contracts)
 - `frontend/src/app/accounting/` - Ledger and voucher components
 - `frontend/src/app/reports/` - Financial reports components
+- `frontend/src/app/receivable/` - Accounts Receivable dashboard (UI owned by @UXSpecialist)
 
 ---
 

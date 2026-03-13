@@ -410,7 +410,9 @@ frontend/src/app/
 ├── i18n/                            → @UXSpecialist
 ├── inventory/                       → @UXSpecialist
 ├── keyboard/                        → @UXSpecialist
+├── market/                          → @UXSpecialist + @AIEngineer (MTM valuation)
 ├── master/                          → @UXSpecialist
+├── receivable/                      → @UXSpecialist + @LedgerExpert (AR data)
 └── reports/                         → @UXSpecialist + @LedgerExpert (report logic)
 ```
 

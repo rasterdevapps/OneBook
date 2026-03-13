@@ -32,6 +32,26 @@ You are responsible for the Universal Ingestion Layer that connects external sys
     - `InventoryEventListener.java` - Inventory movement events
   - `model/`, `dto/`, `controller/`, `repository/` - Ingestion-specific data structures
 
+#### Backend - Inventory & Manufacturing
+- `backend/src/main/java/com/nexus/onebook/ledger/service/` (Inventory & Manufacturing services)
+  - `StockManagementService.java` - Stock tracking and valuation
+  - `BatchTrackingService.java` - Batch/lot tracking for expiry and serial numbers
+  - `BomService.java` - Bill of Materials and manufacturing integration
+  - `ReorderLevelService.java` - Automatic reorder level alerts
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/` (Inventory controllers)
+  - `InventoryController.java` - Inventory management endpoints
+  - `BatchTrackingController.java` - Batch tracking endpoints
+  - `BomController.java` - BOM management endpoints
+  - `ReorderLevelController.java` - Reorder level alerts
+
+#### Backend - Payroll Integration
+- `backend/src/main/java/com/nexus/onebook/ledger/service/PayrollService.java` - Payroll ledger integration
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/PayrollController.java` - Payroll endpoints
+
+#### Backend - Communication Integration
+- `backend/src/main/java/com/nexus/onebook/ledger/service/WhatsAppService.java` - WhatsApp notifications integration
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/DocumentVaultController.java` - Document storage integration
+
 #### Database Migrations
 - `backend/src/main/resources/db/migration/V6__ingestion_layer.sql` - Financial events, 3-way matching tables
 
