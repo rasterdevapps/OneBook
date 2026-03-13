@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -45,6 +46,32 @@ public class JournalService {
         this.blindIndexService = blindIndexService;
         this.auditLogService = auditLogService;
         this.warmCacheService = warmCacheService;
+    }
+
+    /**
+     * Fetches all transactions for a tenant with entries eagerly initialized.
+     */
+    @Transactional(readOnly = true)
+    public List<JournalTransaction> getTransactionsByTenant(String tenantId) {
+        List<JournalTransaction> transactions = transactionRepository.findByTenantId(tenantId);
+        for (JournalTransaction tx : transactions) {
+            tx.getEntries().forEach(e -> {
+                e.getAccount().getAccountName(); // force initialize account
+            });
+        }
+        return transactions;
+    }
+
+    /**
+     * Fetches a single transaction by UUID with entries eagerly initialized.
+     */
+    @Transactional(readOnly = true)
+    public Optional<JournalTransaction> getTransactionByUuid(UUID uuid) {
+        Optional<JournalTransaction> opt = transactionRepository.findByTransactionUuid(uuid);
+        opt.ifPresent(tx -> tx.getEntries().forEach(e -> {
+            e.getAccount().getAccountName(); // force initialize account
+        }));
+        return opt;
     }
 
     /**

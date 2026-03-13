@@ -41,7 +41,7 @@ describe('AccountsReceivableComponent', () => {
     expect(component.receivables().find(r => r.id === firstId)?.paymentPrediction).toBeTruthy();
   });
 
-  it('should toggle block (Mudakkam)', () => {
+  it('should toggle block (Block)', () => {
     const firstId = component.receivables()[0].id;
     const wasBefore = component.receivables()[0].blocked;
     component.toggleBlock(firstId);

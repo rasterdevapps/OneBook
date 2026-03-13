@@ -79,7 +79,7 @@
               </button>
               <button class="nx-btn action-btn" [class.nx-btn--amber]="!r.blocked" [class.nx-btn--purple]="r.blocked"
                       (click)="toggleBlock(r.id)" [title]="r.blocked ? 'Unblock Payment' : 'Block Payment'">
-                🔒 {{ r.blocked ? 'Unblock' : 'Mudakkam' }}
+                🔒 {{ r.blocked ? 'Unblock' : 'Block' }}
               </button>
             </td>
           </tr>
@@ -111,7 +111,7 @@
 
                     @if (r.blocked) {
                       <div class="detail-section blocked-section">
-                        <h4>🔒 Payment Blocked (Mudakkam)</h4>
+                        <h4>🔒 Payment Blocked (Blocked)</h4>
                         <p class="blocked-text">This receivable is currently blocked for in-place payment hold.</p>
                       </div>
                     }

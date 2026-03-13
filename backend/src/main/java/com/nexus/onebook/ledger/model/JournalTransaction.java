@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -55,7 +56,8 @@ public class JournalTransaction {
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JournalEntry> entries = new ArrayList<>();
 
-    public JournalTransaction() {}
+    public JournalTransaction() {
+    }
 
     public JournalTransaction(String tenantId, LocalDate transactionDate, String description) {
         this.tenantId = tenantId;
@@ -79,35 +81,93 @@ public class JournalTransaction {
 
     // --- Getters and Setters ---
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getTenantId() { return tenantId; }
-    public void setTenantId(String tenantId) { this.tenantId = tenantId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public UUID getTransactionUuid() { return transactionUuid; }
-    public void setTransactionUuid(UUID transactionUuid) { this.transactionUuid = transactionUuid; }
+    public String getTenantId() {
+        return tenantId;
+    }
 
-    public LocalDate getTransactionDate() { return transactionDate; }
-    public void setTransactionDate(LocalDate transactionDate) { this.transactionDate = transactionDate; }
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public UUID getTransactionUuid() {
+        return transactionUuid;
+    }
 
-    public String getDescriptionEncrypted() { return descriptionEncrypted; }
-    public void setDescriptionEncrypted(String descriptionEncrypted) { this.descriptionEncrypted = descriptionEncrypted; }
+    public void setTransactionUuid(UUID transactionUuid) {
+        this.transactionUuid = transactionUuid;
+    }
 
-    public String getDescriptionBlindIndex() { return descriptionBlindIndex; }
-    public void setDescriptionBlindIndex(String descriptionBlindIndex) { this.descriptionBlindIndex = descriptionBlindIndex; }
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
 
-    public boolean isPosted() { return posted; }
-    public void setPosted(boolean posted) { this.posted = posted; }
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
 
-    public String getMetadata() { return metadata; }
-    public void setMetadata(String metadata) { this.metadata = metadata; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Instant getCreatedAt() { return createdAt; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public List<JournalEntry> getEntries() { return entries; }
-    public void setEntries(List<JournalEntry> entries) { this.entries = entries; }
+    public String getDescriptionEncrypted() {
+        return descriptionEncrypted;
+    }
+
+    public void setDescriptionEncrypted(String descriptionEncrypted) {
+        this.descriptionEncrypted = descriptionEncrypted;
+    }
+
+    public String getDescriptionBlindIndex() {
+        return descriptionBlindIndex;
+    }
+
+    public void setDescriptionBlindIndex(String descriptionBlindIndex) {
+        this.descriptionBlindIndex = descriptionBlindIndex;
+    }
+
+    public boolean isPosted() {
+        return posted;
+    }
+
+    public void setPosted(boolean posted) {
+        this.posted = posted;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<JournalEntry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<JournalEntry> entries) {
+        this.entries.clear();
+        if (entries != null) {
+            for (JournalEntry entry : entries) {
+                entry.setTransaction(this);
+                this.entries.add(entry);
+            }
+        }
+    }
 }

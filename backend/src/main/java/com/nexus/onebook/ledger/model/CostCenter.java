@@ -21,7 +21,7 @@ public class CostCenter {
     @Column(name = "tenant_id", nullable = false)
     private String tenantId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
