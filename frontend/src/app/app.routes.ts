@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // Home / Dashboard
+  // Home / Dashboard (Omni-Command Center)
   { path: '', loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
 
   // Voucher Entry (F4-F9 shortcuts)
@@ -10,6 +10,9 @@ export const routes: Routes = [
   // Ledger
   { path: 'ledger', loadComponent: () => import('./accounting/components/ledger/ledger.component').then(m => m.LedgerComponent) },
   { path: 'ledger/:name', loadComponent: () => import('./accounting/components/ledger/ledger.component').then(m => m.LedgerComponent) },
+
+  // Universal Accounts Receivable
+  { path: 'receivable', loadComponent: () => import('./receivable/components/accounts-receivable/accounts-receivable.component').then(m => m.AccountsReceivableComponent) },
 
   // Reports (Alt+F2, F3, F5, F7)
   { path: 'reports/:type', loadComponent: () => import('./reports/components/reports/reports.component').then(m => m.ReportsComponent) },
@@ -28,6 +31,9 @@ export const routes: Routes = [
 
   // AI Insights
   { path: 'ai', loadComponent: () => import('./ai/components/ai-dashboard/ai-dashboard.component').then(m => m.AiDashboardComponent) },
+
+  // Share Market Valuation Center
+  { path: 'market', loadComponent: () => import('./market/components/market-valuation/market-valuation.component').then(m => m.MarketValuationComponent) },
 
   // Auditor Portal
   { path: 'auditor', loadComponent: () => import('./auditor/components/auditor-dashboard/auditor-dashboard.component').then(m => m.AuditorDashboardComponent) },

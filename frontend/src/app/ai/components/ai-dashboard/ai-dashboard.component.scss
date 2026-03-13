@@ -1,26 +1,55 @@
+/* ─── Nexus Universal — AI Insights Dashboard ─── */
+
 .ai-dashboard {
-  padding: 24px;
+  padding: var(--nx-gap-lg);
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--nx-gap-lg);
+}
+
+.ai-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .ai-icon { font-size: 1.4rem; }
 
   h2 {
-    font-size: 24px;
-    color: #1f2937;
-    margin-bottom: 24px;
+    font-size: 1.15rem;
+    color: var(--nx-text-primary);
+    margin: 0;
   }
 }
 
+.ai-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--nx-emerald-dim);
+  color: var(--nx-emerald);
+  border: 1px solid var(--nx-emerald);
+}
+
 .error-banner {
-  background: #fef2f2;
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--nx-radius-md);
   margin-bottom: 16px;
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .loading {
-  color: #6b7280;
+  color: var(--nx-text-muted);
   font-size: 14px;
   text-align: center;
   padding: 32px 0;
@@ -29,26 +58,20 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 24px;
+  gap: var(--nx-gap-lg);
 }
 
 .sentiment-card,
 .valuation-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
   h3 {
     margin: 0 0 16px;
-    font-size: 18px;
-    color: #1f2937;
+    font-size: 1rem;
+    color: var(--nx-text-primary);
   }
 }
 
 .empty-state {
-  color: #9ca3af;
+  color: var(--nx-text-muted);
   font-size: 14px;
   text-align: center;
   padding: 24px 0;
@@ -62,7 +85,7 @@
 
 .sentiment-item {
   padding: 12px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--nx-border);
 
   &:last-child {
     border-bottom: none;
@@ -78,7 +101,7 @@
 
 .symbol {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--nx-text-primary);
 }
 
 .score-badge {
@@ -93,13 +116,13 @@
 
 .headline {
   font-size: 14px;
-  color: #374151;
+  color: var(--nx-text-secondary);
   margin: 4px 0;
 }
 
 .source {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--nx-text-muted);
   margin: 0;
 }
 
@@ -113,7 +136,7 @@
   .label {
     display: block;
     font-size: 12px;
-    color: #6b7280;
+    color: var(--nx-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 4px;
@@ -123,10 +146,10 @@
     display: block;
     font-size: 18px;
     font-weight: 600;
-    color: #1f2937;
+    color: var(--nx-text-primary);
 
     &.positive {
-      color: #22c55e;
+      color: var(--nx-emerald);
     }
 
     &.negative {
@@ -138,5 +161,5 @@
 .valuation-date {
   margin-top: 12px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--nx-text-muted);
 }

@@ -229,4 +229,11 @@ export class VoucherEntryComponent implements OnInit, OnDestroy {
     const next = Math.max(0, Math.min(list.length - 1, idx + dir));
     this.selectedUuid.set(list[next].uuid);
   }
+
+  /** Resolve account ID to display name for live preview */
+  getAccountName(id: number, side: 'debit' | 'credit'): string {
+    const accounts = side === 'debit' ? this.debitAccounts() : this.creditAccounts();
+    const account = accounts.find(a => a.id === id);
+    return account ? `${account.accountCode} — ${account.accountName}` : `Account #${id}`;
+  }
 }

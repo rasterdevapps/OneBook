@@ -1,0 +1,127 @@
+<div class="ar-screen">
+  <!-- Header -->
+  <div class="ar-header">
+    <div class="ar-title">
+      <span class="ar-icon">📥</span>
+      <h2>Universal Accounts Receivable</h2>
+    </div>
+    <div class="ar-summary">
+      <div class="summary-item">
+        <span class="summary-label">Outstanding</span>
+        <span class="summary-value nx-number">₹{{ totalOutstanding() | number:'1.0-0' }}</span>
+      </div>
+      <div class="summary-item overdue">
+        <span class="summary-label">Overdue</span>
+        <span class="summary-value nx-number">₹{{ totalOverdue() | number:'1.0-0' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="ar-filters">
+    <input #searchInput type="text" class="search-input" placeholder="Search customer or invoice..."
+           [value]="searchQuery()"
+           (input)="updateSearch(searchInput.value)" />
+    <div class="filter-buttons">
+      <button class="filter-btn" [class.active]="filterStatus() === 'all'" (click)="setFilter('all')">All</button>
+      <button class="filter-btn" [class.active]="filterStatus() === 'overdue'" (click)="setFilter('overdue')">Overdue</button>
+      <button class="filter-btn" [class.active]="filterStatus() === 'pending'" (click)="setFilter('pending')">Pending</button>
+      <button class="filter-btn" [class.active]="filterStatus() === 'partial'" (click)="setFilter('partial')">Partial</button>
+      <button class="filter-btn" [class.active]="filterStatus() === 'paid'" (click)="setFilter('paid')">Paid</button>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  <div class="ar-table-wrap">
+    <table class="ar-table">
+      <thead>
+        <tr>
+          <th class="col-expand"></th>
+          <th class="col-sector"></th>
+          <th>Customer</th>
+          <th>Invoice</th>
+          <th>Due Date</th>
+          <th class="col-amount">Amount</th>
+          <th class="col-amount">Paid</th>
+          <th class="col-amount">Balance</th>
+          <th class="col-status">Status</th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of filteredReceivables(); track r.id) {
+          <!-- Main Row -->
+          <tr class="main-row" [class.expanded]="r.expanded" [class.blocked]="r.blocked" (click)="toggleExpand(r.id)">
+            <td class="col-expand">
+              <span class="expand-arrow" [class.open]="r.expanded">▶</span>
+            </td>
+            <td class="col-sector">
+              <span class="sector-icon">{{ r.sectorIcon }}</span>
+            </td>
+            <td>
+              <span class="customer-name">{{ r.customerName }}</span>
+            </td>
+            <td>
+              <code class="invoice-code">{{ r.invoiceNumber }}</code>
+            </td>
+            <td class="col-date">{{ r.dueDate }}</td>
+            <td class="col-amount nx-number">₹{{ r.amount | number:'1.0-0' }}</td>
+            <td class="col-amount nx-number paid">₹{{ r.paidAmount | number:'1.0-0' }}</td>
+            <td class="col-amount nx-number balance">₹{{ r.amount - r.paidAmount | number:'1.0-0' }}</td>
+            <td class="col-status">
+              <span class="status-badge" [style.color]="statusColor(r.status)" [style.border-color]="statusColor(r.status)">
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="col-actions" (click)="$event.stopPropagation()">
+              <button class="nx-btn nx-btn--emerald action-btn" (click)="generatePrediction(r.id)" title="AI Payment Prediction">
+                ✨ AI Insights
+              </button>
+              <button class="nx-btn action-btn" [class.nx-btn--amber]="!r.blocked" [class.nx-btn--purple]="r.blocked"
+                      (click)="toggleBlock(r.id)" [title]="r.blocked ? 'Unblock Payment' : 'Block Payment'">
+                🔒 {{ r.blocked ? 'Unblock' : 'Mudakkam' }}
+              </button>
+            </td>
+          </tr>
+
+          <!-- Expanded Detail Row -->
+          @if (r.expanded) {
+            <tr class="detail-row">
+              <td colspan="10">
+                <div class="detail-panel nx-glass">
+                  <div class="detail-grid">
+                    <div class="detail-section">
+                      <h4>{{ r.sector === 'healthcare' ? '🏥 Healthcare Details' : r.sector === 'auto' ? '🚗 Auto Details' : '🏢 Business Details' }}</h4>
+                      <div class="detail-fields">
+                        @for (entry of detailEntries(r.details); track entry[0]) {
+                          <div class="detail-field">
+                            <span class="field-label">{{ entry[0] }}</span>
+                            <span class="field-value">{{ entry[1] }}</span>
+                          </div>
+                        }
+                      </div>
+                    </div>
+
+                    @if (r.paymentPrediction) {
+                      <div class="detail-section prediction-section">
+                        <h4>✨ AI Payment Prediction</h4>
+                        <p class="prediction-text">{{ r.paymentPrediction }}</p>
+                      </div>
+                    }
+
+                    @if (r.blocked) {
+                      <div class="detail-section blocked-section">
+                        <h4>🔒 Payment Blocked (Mudakkam)</h4>
+                        <p class="blocked-text">This receivable is currently blocked for in-place payment hold.</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

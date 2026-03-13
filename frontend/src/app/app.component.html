@@ -3,7 +3,7 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="logo">
-        <span class="logo-icon">📒</span>
+        <span class="logo-icon">⚡</span>
         @if (!sidebarCollapsed()) {
           <span class="logo-text">{{ title() }}</span>
         }
@@ -45,6 +45,10 @@
       <a routerLink="/ledger" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">📖</span>
         @if (!sidebarCollapsed()) { <span>Ledger</span> }
+      </a>
+      <a routerLink="/receivable" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📥</span>
+        @if (!sidebarCollapsed()) { <span>Receivables</span> }
       </a>
 
       @if (!sidebarCollapsed()) { <div class="nav-section">Reports</div> }
@@ -92,6 +96,10 @@
         <span class="nav-icon">🤖</span>
         @if (!sidebarCollapsed()) { <span>AI Insights</span> }
       </a>
+      <a routerLink="/market" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        @if (!sidebarCollapsed()) { <span>Market Valuation</span> }
+      </a>
       <a routerLink="/auditor" routerLinkActive="active" class="nav-item">
         <span class="nav-icon">🔍</span>
         @if (!sidebarCollapsed()) { <span>Auditor Portal</span> }
@@ -112,7 +120,7 @@
   <main class="main-content">
     <header class="top-bar">
       <div class="top-bar-left">
-        <span class="breadcrumb">OneBook Enterprise</span>
+        <span class="breadcrumb">Nexus Universal</span>
       </div>
       <div class="top-bar-right">
         <app-language-switcher />

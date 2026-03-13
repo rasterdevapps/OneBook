@@ -1,20 +1,10 @@
-/* ─── OneBook — Tally-style Contra Voucher ─── */
-
-$primary: #0d1b3e;
-$accent: #1565c0;
-$danger: #c62828;
-$success: #2e7d32;
-$bg: #f5f6fa;
-$card: #fff;
-$border: #dce1e8;
-$text: #333;
-$muted: #7b8794;
+/* ─── Nexus Universal — Voucher Entry ─── */
 
 .voucher-shell {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 80px);
-  background: $bg;
+  height: calc(100vh - 56px);
+  background: var(--nx-bg-primary);
 }
 
 /* ─── Header ─── */
@@ -23,14 +13,14 @@ $muted: #7b8794;
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  background: $primary;
-  color: #fff;
+  background: var(--nx-bg-secondary);
+  border-bottom: 1px solid var(--nx-border);
 
   h2 {
     margin: 0;
     font-size: 1.15rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--nx-text-primary);
   }
 
   .header-actions {
@@ -41,7 +31,9 @@ $muted: #7b8794;
 }
 
 .voucher-type-badge {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--nx-emerald-dim);
+  color: var(--nx-emerald);
+  border: 1px solid var(--nx-emerald);
   padding: 3px 10px;
   border-radius: 4px;
   font-size: 0.82rem;
@@ -50,44 +42,6 @@ $muted: #7b8794;
 }
 
 /* ─── Buttons ─── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s;
-
-  kbd {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 0.72rem;
-    font-family: inherit;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-.btn-primary {
-  background: $accent;
-  color: #fff;
-  &:hover:not(:disabled) { background: #0e4da4; }
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  &:hover:not(:disabled) { background: rgba(255, 255, 255, 0.25); }
-}
-
 .btn-icon {
   background: none;
   border: none;
@@ -95,7 +49,7 @@ $muted: #7b8794;
   font-size: 1rem;
   padding: 2px 6px;
   border-radius: 3px;
-  &:hover { background: rgba(0, 0, 0, 0.06); }
+  &:hover { background: rgba(255, 255, 255, 0.06); }
 }
 
 /* ─── Empty state ─── */
@@ -105,23 +59,11 @@ $muted: #7b8794;
   align-items: center;
   justify-content: center;
   padding: 80px 20px;
-  color: $muted;
+  color: var(--nx-text-muted);
 
   .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-
   p { margin: 4px 0; font-size: 1rem; }
-
-  .hint {
-    font-size: 0.85rem;
-    margin-top: 12px;
-    kbd {
-      background: #e0e0e0;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-size: 0.78rem;
-      font-family: inherit;
-    }
-  }
+  .hint { font-size: 0.85rem; margin-top: 12px; }
 }
 
 /* ─── Voucher List ─── */
@@ -134,10 +76,10 @@ $muted: #7b8794;
 .voucher-table {
   width: 100%;
   border-collapse: collapse;
-  background: $card;
-  border-radius: 6px;
+  background: var(--nx-bg-card);
+  border-radius: var(--nx-radius-md);
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--nx-border);
 
   th, td {
     padding: 10px 14px;
@@ -146,50 +88,58 @@ $muted: #7b8794;
   }
 
   thead th {
-    background: #eef1f7;
-    color: $primary;
+    background: var(--nx-bg-surface);
+    color: var(--nx-text-secondary);
     font-weight: 600;
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid $border;
+    border-bottom: 1px solid var(--nx-border);
   }
 
   tbody tr {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--nx-border);
     cursor: pointer;
-    transition: background 0.1s;
+    transition: background var(--nx-transition-fast);
+    color: var(--nx-text-primary);
 
-    &:hover { background: #f8faff; }
-    &.selected { background: #e3f2fd; }
+    &:hover { background: rgba(255, 255, 255, 0.03); }
+    &.selected {
+      background: var(--nx-emerald-dim);
+      border-left: 3px solid var(--nx-emerald);
+    }
   }
 
-  .col-vno { width: 100px; font-weight: 600; color: $accent; }
+  .col-vno { width: 100px; font-weight: 600; color: var(--nx-emerald); }
   .col-date { width: 110px; }
-  .col-amount { text-align: right; font-family: 'Consolas', 'Courier New', monospace; font-weight: 600; }
-  .col-narration { color: $muted; font-size: 0.82rem; }
+  .col-amount { text-align: right; font-weight: 600; }
+  .col-narration { color: var(--nx-text-muted); font-size: 0.82rem; }
   .col-actions { width: 80px; text-align: center; }
 
   tfoot td {
-    background: #f8f9fb;
-    border-top: 2px solid $border;
+    background: var(--nx-bg-surface);
+    border-top: 1px solid var(--nx-border);
     font-weight: 600;
   }
 
-  .total-label { text-align: right; color: $muted; text-transform: uppercase; font-size: 0.78rem; }
-  .total-value { color: $primary; }
+  .total-label { text-align: right; color: var(--nx-text-muted); text-transform: uppercase; font-size: 0.78rem; }
+  .total-value { color: var(--nx-emerald); }
 }
 
-/* ─── Voucher Form ─── */
-.voucher-form {
+/* ─── Split-Screen Form Layout ─── */
+.voucher-split {
   flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+}
+
+.voucher-form {
   display: flex;
   flex-direction: column;
-  margin: 16px 20px;
-  background: $card;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
+  border-right: 1px solid var(--nx-border);
+  overflow-y: auto;
 }
 
 .form-title-bar {
@@ -197,19 +147,20 @@ $muted: #7b8794;
   align-items: center;
   gap: 10px;
   padding: 12px 20px;
-  background: #eef1f7;
+  background: var(--nx-bg-surface);
   font-weight: 600;
-  color: $primary;
+  color: var(--nx-text-primary);
   font-size: 0.95rem;
-  border-bottom: 1px solid $border;
+  border-bottom: 1px solid var(--nx-border);
 }
 
 .edit-badge {
-  background: $accent;
-  color: #fff;
+  background: var(--nx-emerald-dim);
+  color: var(--nx-emerald);
   padding: 2px 10px;
   border-radius: 4px;
   font-size: 0.78rem;
+  border: 1px solid var(--nx-emerald);
 }
 
 .form-body {
@@ -218,7 +169,6 @@ $muted: #7b8794;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 600px;
 }
 
 .form-row {
@@ -229,13 +179,13 @@ $muted: #7b8794;
   label {
     font-size: 0.82rem;
     font-weight: 600;
-    color: $primary;
+    color: var(--nx-text-secondary);
   }
 }
 
 .dr-tag {
-  background: #e8f5e9;
-  color: $success;
+  background: var(--nx-emerald-dim);
+  color: var(--nx-emerald);
   padding: 1px 6px;
   border-radius: 3px;
   font-size: 0.72rem;
@@ -244,8 +194,8 @@ $muted: #7b8794;
 }
 
 .cr-tag {
-  background: #fce4ec;
-  color: $danger;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
   padding: 1px 6px;
   border-radius: 3px;
   font-size: 0.72rem;
@@ -255,22 +205,23 @@ $muted: #7b8794;
 
 .input {
   padding: 9px 12px;
-  border: 1px solid $border;
-  border-radius: 4px;
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-sm);
   font-size: 0.92rem;
-  font-family: inherit;
-  background: #fff;
-  transition: border-color 0.15s;
+  font-family: var(--nx-font-primary);
+  background: var(--nx-bg-surface);
+  color: var(--nx-text-primary);
+  transition: border-color var(--nx-transition-fast), box-shadow var(--nx-transition-fast);
 
   &:focus {
     outline: none;
-    border-color: $accent;
-    box-shadow: 0 0 0 3px rgba($accent, 0.1);
+    border-color: var(--nx-emerald);
+    box-shadow: 0 0 0 3px var(--nx-emerald-glow);
   }
 }
 
 .amount-input {
-  font-family: 'Consolas', 'Courier New', monospace;
+  font-family: var(--nx-font-mono);
   font-size: 1.1rem;
   font-weight: 600;
   text-align: right;
@@ -282,11 +233,12 @@ textarea.input {
 }
 
 .form-error {
-  color: $danger;
+  color: #ef4444;
   font-size: 0.88rem;
   padding: 8px 12px;
-  background: #fce4ec;
-  border-radius: 4px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--nx-radius-sm);
 }
 
 .form-footer {
@@ -294,31 +246,124 @@ textarea.input {
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  border-top: 1px solid $border;
-  background: #f8f9fb;
+  border-top: 1px solid var(--nx-border);
+  background: var(--nx-bg-surface);
 }
 
 .form-hint {
   font-size: 0.82rem;
-  color: $muted;
-
-  kbd {
-    background: #e0e0e0;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 0.72rem;
-    font-family: inherit;
-  }
+  color: var(--nx-text-muted);
 }
 
 .form-buttons {
   display: flex;
   gap: 8px;
+}
 
-  .btn-secondary {
-    background: #e0e0e0;
-    color: $text;
-    &:hover { background: #d0d0d0; }
+/* ─── Live Ledger Preview ─── */
+.ledger-preview {
+  display: flex;
+  flex-direction: column;
+  padding: var(--nx-gap-lg);
+  overflow-y: auto;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  .preview-icon { font-size: 1.2rem; }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--nx-text-primary);
+  }
+}
+
+.preview-table-wrap {
+  border: 1px solid var(--nx-border);
+  border-radius: var(--nx-radius-md);
+  overflow: hidden;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    text-align: left;
+    color: var(--nx-text-primary);
+  }
+
+  thead th {
+    background: var(--nx-bg-surface);
+    color: var(--nx-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--nx-border);
+  }
+
+  .col-dr, .col-cr {
+    text-align: right;
+    width: 150px;
+  }
+
+  .dr-row td { color: var(--nx-emerald); }
+  .cr-row td { color: var(--nx-text-primary); }
+
+  .preview-account { font-weight: 500; }
+  .preview-placeholder { color: var(--nx-text-muted); font-style: italic; }
+
+  tfoot td {
+    border-top: 2px solid var(--nx-border);
+    font-weight: 700;
+  }
+
+  .preview-total-label {
+    text-align: right;
+    color: var(--nx-text-muted);
+    text-transform: uppercase;
+    font-size: 0.78rem;
+  }
+
+  .preview-total {
+    color: var(--nx-emerald);
+  }
+}
+
+.preview-narration {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--nx-radius-sm);
+  font-size: 0.85rem;
+  color: var(--nx-text-secondary);
+
+  .narr-label {
+    font-weight: 600;
+    color: var(--nx-text-muted);
+  }
+}
+
+.preview-status {
+  margin-top: 16px;
+  font-size: 0.82rem;
+
+  .status-balanced {
+    color: var(--nx-emerald);
+    font-weight: 600;
+  }
+
+  .status-incomplete {
+    color: var(--nx-text-muted);
   }
 }
 
@@ -328,19 +373,23 @@ textarea.input {
   align-items: center;
   gap: 16px;
   padding: 8px 20px;
-  background: $primary;
-  color: #c8d6e5;
+  background: var(--nx-bg-secondary);
+  border-top: 1px solid var(--nx-border);
+  color: var(--nx-text-secondary);
   font-size: 0.78rem;
 
-  kbd {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    margin-right: 3px;
-    font-family: inherit;
+  .spacer { flex: 1; }
+  .voucher-count { color: var(--nx-text-muted); }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .voucher-split {
+    grid-template-columns: 1fr;
   }
 
-  .spacer { flex: 1; }
-  .voucher-count { color: #8395a7; }
+  .voucher-form {
+    border-right: none;
+    border-bottom: 1px solid var(--nx-border);
+  }
 }
