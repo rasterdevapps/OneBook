@@ -63,7 +63,7 @@ export class MarketValuationComponent implements OnInit {
 
     this.aiService.getMarketSentiment(this.tenantId).subscribe({
       next: (data) => this.sentiments.set(data),
-      error: () => {}
+      error: (err) => console.warn('Failed to load market sentiment:', err)
     });
   }
 
