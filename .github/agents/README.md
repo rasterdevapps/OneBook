@@ -43,3 +43,15 @@ These instruction files should be kept in sync with:
 - Code examples in the repository
 
 When adding new patterns or conventions, update the relevant agent instruction file(s).
+
+## Maintaining Agent Ownership
+
+**⚠️ IMPORTANT**: When you add new files, modules, services, controllers, or migrations to the codebase, you MUST update the appropriate agent instruction files to declare ownership.
+
+See **[MAINTENANCE.md](MAINTENANCE.md)** for:
+- Step-by-step guide on updating agent ownership
+- Ownership rules for different component types
+- Validation script usage (`.github/scripts/validate-agent-ownership.sh`)
+- Examples and troubleshooting
+
+**Quick validation**: Run `./.github/scripts/validate-agent-ownership.sh` to check for missing ownership declarations.

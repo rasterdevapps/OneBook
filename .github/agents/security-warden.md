@@ -18,6 +18,10 @@ You are responsible for the "Blind DBA" security model where even database admin
   - `AuditLogService.java` - Hash-chained tamper-proof audit trail
   - `EncryptedStringConverter.java` - JPA attribute converter for transparent encryption
 
+#### Backend - Document Vault (Encrypted Storage)
+- `backend/src/main/java/com/nexus/onebook/ledger/service/DocumentVaultService.java` - Encrypted document storage
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/DocumentVaultController.java` - Document vault endpoints
+
 #### Security Models & Repositories
 - `backend/src/main/java/com/nexus/onebook/ledger/security/model/`
 - `backend/src/main/java/com/nexus/onebook/ledger/security/repository/`
@@ -34,7 +38,7 @@ You are responsible for the "Blind DBA" security model where even database admin
 
 #### Database Migrations
 - `backend/src/main/resources/db/migration/V1__rls_infrastructure.sql` - RLS functions and roles
-- `backend/src/main/resources/db/migration/V5__zero_knowledge_security.sql` - Encrypted fields, blind indexes, audit log
+- `backend/src/main/resources/db/migration/V5__blind_dba_infrastructure.sql` - Encrypted fields, blind indexes, audit log
 
 ---
 

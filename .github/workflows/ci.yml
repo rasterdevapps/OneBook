@@ -10,6 +10,16 @@ permissions:
   contents: read
 
 jobs:
+  validate-ownership:
+    name: Validate Agent Ownership
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate agent ownership declarations
+        run: ./.github/scripts/validate-agent-ownership.sh
+
   backend:
     name: Backend — Build & Test
     runs-on: ubuntu-latest

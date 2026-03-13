@@ -11,10 +11,17 @@ You are responsible for the Auditor Portal, production readiness, observability,
 ### Files Owned
 
 #### Backend - Auditor Services
-- Auditor Portal backend services (sample requests, comments, approval workflows)
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/AuditorPortalController.java` - Auditor access endpoints
+- `backend/src/main/java/com/nexus/onebook/ledger/service/AuditorPortalService.java` - Read-only audit queries
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/SecurityAuditController.java` - Security audit endpoints
+- `backend/src/main/java/com/nexus/onebook/ledger/service/SecurityAuditService.java` - 5 automated security checks
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/ObservabilityController.java` - Monitoring endpoints
+- `backend/src/main/java/com/nexus/onebook/ledger/service/ObservabilityService.java` - Observability configuration
 - Auditor-related models and repositories
-- Security audit service (5 automated checks)
-- Observability configuration (structured logging, distributed tracing)
+
+#### Backend - Disaster Recovery
+- `backend/src/main/java/com/nexus/onebook/ledger/controller/DisasterRecoveryController.java` - DR endpoints
+- `backend/src/main/java/com/nexus/onebook/ledger/service/DisasterRecoveryService.java` - Backup and recovery automation
 
 #### Frontend - Auditor Module
 - `frontend/src/app/auditor/` - Auditor dashboard and components
@@ -32,6 +39,9 @@ You are responsible for the Auditor Portal, production readiness, observability,
 - Point-in-time recovery testing
 - Failover configuration
 - Load/stress test configurations
+
+#### Database Migrations
+- `backend/src/main/resources/db/migration/V9__hardening_audit_production.sql` - Production hardening, audit tables, observability
 
 ---
 

@@ -1,0 +1,129 @@
+#!/bin/bash
+# Script to validate that all modules, services, and controllers are documented in agent instruction files
+# Usage: ./validate-agent-ownership.sh
+
+set -e
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+AGENTS_DIR="$REPO_ROOT/.github/agents"
+EXIT_CODE=0
+
+echo "🔍 Validating agent ownership documentation..."
+echo ""
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Function to check if a path is mentioned in agent files
+check_ownership() {
+    local path=$1
+    local type=$2
+    local found=0
+    
+    # Remove leading ./
+    path=${path#./}
+    
+    # Search in all agent .md files (excluding README, INDEX, IMPLEMENTATION_SUMMARY)
+    if grep -r --include="*-*.md" -q "$path" "$AGENTS_DIR" 2>/dev/null; then
+        found=1
+    fi
+    
+    if [ $found -eq 0 ]; then
+        echo -e "${RED}✗${NC} Missing: $type - $path"
+        EXIT_CODE=1
+    fi
+}
+
+# Check Frontend Modules
+echo "📁 Checking Frontend Modules..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd "$REPO_ROOT/frontend/src/app"
+for dir in */; do
+    dir=${dir%/}
+    # Skip common non-business directories
+    if [[ "$dir" != "shared" && "$dir" != "core" && "$dir" != "utils" ]]; then
+        check_ownership "frontend/src/app/$dir" "Frontend Module"
+    fi
+done
+
+# Check Backend Services
+echo ""
+echo "⚙️  Checking Backend Services..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd "$REPO_ROOT/backend/src/main/java/com/nexus/onebook/ledger/service"
+for file in *Service.java; do
+    if [ -f "$file" ]; then
+        service_name="${file%.java}"
+        # Check if service name is mentioned in agent files
+        if ! grep -r --include="*-*.md" -q "$service_name" "$AGENTS_DIR" 2>/dev/null; then
+            echo -e "${RED}✗${NC} Missing: Backend Service - $service_name"
+            EXIT_CODE=1
+        fi
+    fi
+done
+
+# Check Backend Controllers
+echo ""
+echo "🎮 Checking Backend Controllers..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd "$REPO_ROOT/backend/src/main/java/com/nexus/onebook/ledger/controller"
+for file in *Controller.java; do
+    if [ -f "$file" ]; then
+        controller_name="${file%.java}"
+        # Check if controller name is mentioned in agent files
+        if ! grep -r --include="*-*.md" -q "$controller_name" "$AGENTS_DIR" 2>/dev/null; then
+            echo -e "${RED}✗${NC} Missing: Backend Controller - $controller_name"
+            EXIT_CODE=1
+        fi
+    fi
+done
+
+# Check Backend Packages
+echo ""
+echo "📦 Checking Backend Packages..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd "$REPO_ROOT/backend/src/main/java/com/nexus/onebook/ledger"
+for dir in */; do
+    dir=${dir%/}
+    check_ownership "ledger/$dir" "Backend Package"
+done
+
+# Check Database Migrations
+echo ""
+echo "🗄️  Checking Database Migrations..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd "$REPO_ROOT/backend/src/main/resources/db/migration"
+for file in V*.sql; do
+    if [ -f "$file" ]; then
+        # Check if migration file is mentioned in agent files
+        if ! grep -r --include="*.md" -q "$file" "$AGENTS_DIR" 2>/dev/null; then
+            echo -e "${YELLOW}⚠${NC}  Warning: Migration not documented - $file"
+            # Don't fail for migrations, just warn
+        fi
+    fi
+done
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ $EXIT_CODE -eq 0 ]; then
+    echo -e "${GREEN}✓${NC} All modules, services, and controllers are documented in agent files"
+else
+    echo -e "${RED}✗${NC} Some components are missing from agent documentation"
+    echo ""
+    echo "📝 To fix this:"
+    echo "   1. Identify which agent should own the missing component"
+    echo "   2. Update the appropriate agent .md file in .github/agents/"
+    echo "   3. Add the component to the 'Files Owned' section"
+    echo "   4. Update INDEX.md if needed for cross-references"
+fi
+echo ""
+
+exit $EXIT_CODE

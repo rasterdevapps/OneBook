@@ -27,7 +27,10 @@ You are responsible for the frontend user experience, including keyboard-first n
 - `frontend/src/app/inventory/` - Inventory management
 - `frontend/src/app/master/` - Master data management
 - `frontend/src/app/reports/` - Financial reports
-- `frontend/src/app/ai/` - AI dashboard components
+- `frontend/src/app/receivable/` - Accounts Receivable dashboard (collaborates with @LedgerExpert for data contracts)
+- `frontend/src/app/market/` - Market Valuation UI (collaborates with @AIEngineer for data contracts)
+- `frontend/src/app/ai/` - AI dashboard components (collaborates with @AIEngineer for data contracts)
+- `frontend/src/app/auditor/` - Auditor portal UI (collaborates with @AuditAgent for workflows)
 
 #### Frontend - i18n
 - `frontend/src/app/i18n/` - Transloco configuration
